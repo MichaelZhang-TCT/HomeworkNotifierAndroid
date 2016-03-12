@@ -12,13 +12,17 @@
     tools:context="edu.byu.dtaylor.homeworknotifier.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Todo list is here"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
+    <FrameLayout
+        android:id="@+id/scheduleFragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="113dp" />
+        android:layout_alignParentTop="true">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView"
+            android:layout_gravity="center" />
+    </FrameLayout>
 </RelativeLayout>
