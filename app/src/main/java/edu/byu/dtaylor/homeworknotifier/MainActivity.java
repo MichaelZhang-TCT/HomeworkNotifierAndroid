@@ -7,8 +7,10 @@ import android.os.Bundle;
 //import android.support.design.widget.FloatingActionButton;
 //import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,9 @@ import java.util.Date;
 import java.util.List;
 
 import edu.byu.dtaylor.homeworknotifier.schedule.*;
+import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem;
+import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListHeader;
+import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListItem;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -90,7 +95,13 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setHasFixedSize(true);
         // use a linear layout manager
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
+
+        recyclerView.setLayoutManager(manager);
+
+        //Item decoration
+        //SpacesItemDecoration itemDecoration = new SpacesItemDecoration(-400);
+        //recyclerView.addItemDecoration(itemDecoration);
 
         //schedule fragment
 //        FragmentManager fragmentManager = getFragmentManager();
@@ -109,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
     class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         List<AbstractScheduleListItem> itemsShown;
-
         ScheduleRVAdapter(List<AbstractScheduleListItem> items){
             this.itemsShown = items;
         }
@@ -145,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 ScheduleListItem item = (ScheduleListItem) recyclerListItems.get(position);
                 ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
+                holder.itemName.setText(item.getName());
                 // your logic here
             }
 /*
@@ -163,13 +174,11 @@ public class MainActivity extends AppCompatActivity {
 
         public class ScheduleItemViewHolder extends RecyclerView.ViewHolder {
 
-            /*CardView item_cv;
+            CardView item_cv;
             TextView itemName;
-            TextView itemPrice;
             //TextView itemLocation;
-            RelativeLayout itemImage;
             public int currentItem;
-            public String itemId;*/
+            public String itemId;
 
             ScheduleItemViewHolder(final View itemView) {
                 super(itemView);
@@ -183,11 +192,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                /*
                 item_cv = (CardView)itemView.findViewById(R.id.cv);
                 itemName = (TextView)itemView.findViewById(R.id.item_name);
-                itemPrice = (TextView)itemView.findViewById(R.id.item_cost);
-                itemImage = (RelativeLayout)itemView.findViewById(R.id.item_image);*/
             }
         }
 
@@ -214,11 +220,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void getItemOffsets(Rect outRect, View view,
                                    RecyclerView parent, RecyclerView.State state) {
-            outRect.left = space;
-            outRect.right = space;
-            outRect.bottom = space;
-            outRect.top = space;
 
+            outRect.bottom = space;
         }
     }
 }

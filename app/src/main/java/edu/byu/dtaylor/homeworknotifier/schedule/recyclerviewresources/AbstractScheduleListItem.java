@@ -1,4 +1,4 @@
-package edu.byu.dtaylor.homeworknotifier.schedule;
+package edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources;
 
 import java.util.Date;
 

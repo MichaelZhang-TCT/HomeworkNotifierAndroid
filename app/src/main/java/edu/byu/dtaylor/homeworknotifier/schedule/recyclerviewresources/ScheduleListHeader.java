@@ -1,4 +1,4 @@
-package edu.byu.dtaylor.homeworknotifier.schedule;
+package edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources;
 
 import java.util.Date;
 
@@ -14,7 +14,7 @@ public class ScheduleListHeader extends AbstractScheduleListItem {
 
     @Override
     public int getType() {
-        return AbstractScheduleListItem.TYPE_HEADER;
+        return TYPE_HEADER;
     }
 
     public void setDate(Date date) {

@@ -1,4 +1,6 @@
-package edu.byu.dtaylor.homeworknotifier.schedule;
+package edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources;
+
+import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItem;
 
 /**
  * Created by liukaichi on 3/23/2016.
@@ -18,6 +20,10 @@ public class ScheduleListItem extends AbstractScheduleListItem {
 
     @Override
     public int getType() {
-        return AbstractScheduleListItem.TYPE_ASSIGNMENT;
+        return TYPE_ASSIGNMENT;
+    }
+
+    public String getName(){
+        return scheduleItem.getDescription();
     }
 }
