@@ -36,6 +36,10 @@ public class Schedule {
         return days.size();
     }
 
+    public void remove(int position) {
+
+    }
+
 
     public class ScheduleDay implements Comparable{
 

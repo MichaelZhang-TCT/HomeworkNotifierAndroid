@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         OnClickSettingsButtonListener();
-        Schedule userSchedule = ScheduleFactory.create(assignments);
+        final Schedule userSchedule = ScheduleFactory.create(assignments);
 
 // ...
         recyclerListItems = new ArrayList<>();
@@ -97,6 +97,50 @@ public class MainActivity extends AppCompatActivity {
         // use a linear layout manager
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
 
+        final ScheduleRVAdapter adapter = new ScheduleRVAdapter(recyclerListItems);
+        recyclerView.setAdapter(adapter);
+
+        SwipeableRecyclerViewTouchListener swipeTouchListener =
+                new SwipeableRecyclerViewTouchListener(recyclerView,
+                        new SwipeableRecyclerViewTouchListener.SwipeListener() {
+
+                            @Override
+                            public boolean canSwipeLeft(int position) {
+                                if (recyclerListItems.get(position).getType() == AbstractScheduleListItem.TYPE_HEADER)
+                                {
+                                    return false;
+                                }else return true;
+                            }
+
+                            @Override
+                            public boolean canSwipeRight(int position) {
+                                if (recyclerListItems.get(position).getType() == AbstractScheduleListItem.TYPE_HEADER)
+                                {
+                                    return false;
+                                } else return true;
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    recyclerListItems.remove(position);
+                                    adapter.notifyItemRemoved(position);
+                                }
+                                adapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    recyclerListItems.remove(position);
+                                    adapter.notifyItemRemoved(position);
+                                }
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+
+        recyclerView.addOnItemTouchListener(swipeTouchListener);
+
         recyclerView.setLayoutManager(manager);
 
         //Item decoration
@@ -108,15 +152,9 @@ public class MainActivity extends AppCompatActivity {
 //        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //        fragmentTransaction.add(R.id.scheduleFragmentContainer,new ScheduleFragment());
 //        fragmentTransaction.commit();
-        initializeAdapter();
+
     }
 
-
-
-    private void initializeAdapter(){
-        ScheduleRVAdapter adapter = new ScheduleRVAdapter(recyclerListItems);
-        recyclerView.setAdapter(adapter);
-    }
     class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         List<AbstractScheduleListItem> itemsShown;
