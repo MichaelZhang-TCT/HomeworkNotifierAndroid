@@ -44,7 +44,7 @@ import java.util.List;
  * A {@link View.OnTouchListener} that makes the list items in a {@link android.support.v7.widget.RecyclerView}
  * dismissable by swiping.
  * <p/>
- * <p>Example usage:</p>
+ * <p>GsonDatabase usage:</p>
  * <p/>
  * <pre>
  * SwipeDismissRecyclerViewTouchListener touchListener =

@@ -3,21 +3,33 @@ package edu.byu.dtaylor.homeworknotifier;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.os.AsyncTask;
 import android.os.Bundle;
-//import android.support.design.widget.FloatingActionButton;
-//import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
+import edu.byu.dtaylor.homeworknotifier.schedule.Schedule;
+import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleFactory;
+import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItem;
+import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem;
+import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListHeader;
+import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListItem;
+
+//import android.support.design.widget.FloatingActionButton;
+//import android.support.design.widget.Snackbar;
 //import android.support.v7.widget.Toolbar;
 //import android.text.format.DateFormat;
 //import android.view.View;
@@ -25,17 +37,8 @@ import android.widget.TextView;
 //import org.json.JSONException;
 //import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import edu.byu.dtaylor.homeworknotifier.schedule.*;
-import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem;
-import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListHeader;
-import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListItem;
-
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TaskListener {
 
     private static ImageButton settingsButton;
     private RecyclerView recyclerView;
@@ -43,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     //This will be replaced by what we pull from the server - ie real data
-    private String assignments = "[{\"Description\":\"Assignment One\",\"Date\":\"2016-03-05\"}," +
-            "{\"Description\":\"Assignment Two\",\"Date\":\"2016-03-06\"}]";
+    private String assignments = "[{\"Description\":\"GsonAssignment One\",\"Date\":\"2016-03-05\"}," +
+            "{\"Description\":\"GsonAssignment Two\",\"Date\":\"2016-03-06\"}]";
 
     private int offset = 0;
     private Date startDate = new Date();
@@ -75,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        AsyncTask task = new GetDatabaseTask(this);
+        task.execute(new String[]{"daviddt2","davidpaseo3"});
         OnClickSettingsButtonListener();
         final Schedule userSchedule = ScheduleFactory.create(assignments);
 
@@ -153,6 +158,11 @@ public class MainActivity extends AppCompatActivity {
 //        fragmentTransaction.add(R.id.scheduleFragmentContainer,new ScheduleFragment());
 //        fragmentTransaction.commit();
 
+    }
+
+    @Override
+    public void onTaskCompleted(GsonDatabase database) {
+        ((TextView)findViewById(R.id.page_title)).setText(database.getUser().getId());
     }
 
     class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
