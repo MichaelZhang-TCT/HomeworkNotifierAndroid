@@ -1,7 +1,6 @@
 package edu.byu.dtaylor.homeworknotifier;
 
 import android.app.Fragment;
-import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -240,17 +239,17 @@ public class MainActivity extends AppCompatActivity implements TaskListener, Nav
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.drawable.ic_menu_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.drawable.ic_menu_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.drawable.ic_menu_slideshow) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.drawable.ic_menu_manage) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.drawable.ic_menu_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.drawable.ic_menu_send) {
 
         }
 
