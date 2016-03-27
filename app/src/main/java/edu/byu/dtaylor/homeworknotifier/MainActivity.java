@@ -1,22 +1,30 @@
 package edu.byu.dtaylor.homeworknotifier;
 
 import android.app.Fragment;
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Rect;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +33,7 @@ import edu.byu.dtaylor.homeworknotifier.schedule.Schedule;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleFactory;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItem;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem;
+import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem.ItemType;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListHeader;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListItem;
 
@@ -38,16 +47,20 @@ import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleL
 //import org.json.JSONObject;
 
 
-public class MainActivity extends AppCompatActivity implements TaskListener {
+public class MainActivity extends AppCompatActivity implements TaskListener, NavigationView.OnNavigationItemSelectedListener {
 
     private static ImageButton settingsButton;
-    private RecyclerView recyclerView;
-    List<AbstractScheduleListItem> recyclerListItems;
-
+    private RecyclerView assignmentsRecyclerView;
+    private RecyclerView taskRecyclerView;
+    List<AbstractScheduleListItem> assignmentsRecyclerListItems;
+    List<AbstractScheduleListItem> taskRecyclerListItems;
+    Date dateBeingViewed = Calendar.getInstance().getTime(); //gets the current time.
+    GsonDatabase database;
 
     //This will be replaced by what we pull from the server - ie real data
     private String assignments = "[{\"Description\":\"GsonAssignment One\",\"Date\":\"2016-03-05\"}," +
-            "{\"Description\":\"GsonAssignment Two\",\"Date\":\"2016-03-06\"}]";
+            "{\"Description\":\"GsonAssignment Two\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}]";
 
     private int offset = 0;
     private Date startDate = new Date();
@@ -74,44 +87,63 @@ public class MainActivity extends AppCompatActivity implements TaskListener {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
 
-        AsyncTask task = new GetDatabaseTask(this);
-        task.execute(new String[]{"daviddt2","davidpaseo3"});
-        OnClickSettingsButtonListener();
+            GetDatabaseTask task = new GetDatabaseTask(this);
+            task.execute(new String[]{"daviddt2", "davidpaseo3"});
+            OnClickSettingsButtonListener();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         final Schedule userSchedule = ScheduleFactory.create(assignments);
 
-// ...
-        recyclerListItems = new ArrayList<>();
+        //initialize task list
+        taskRecyclerListItems = new ArrayList<>();
+        //add tasks that are already planned.
+
+        //initialize allAssignments List
+        assignmentsRecyclerListItems = new ArrayList<>();
         for (Date date : userSchedule.getDates()) {
             ScheduleListHeader header = new ScheduleListHeader();
             header.setDate(date);
-            recyclerListItems.add(header);
+            assignmentsRecyclerListItems.add(header);
             for (ScheduleItem assignment : userSchedule.getItemsByDate(date)) {
-                ScheduleListItem item = new ScheduleListItem();
-                item.setScheduleItem(assignment);
-                recyclerListItems.add(item);
+                ScheduleListItem item = new ScheduleListItem(assignment, ItemType.ASSIGNMENT);
+                assignmentsRecyclerListItems.add(item);
             }
         }
 
-        recyclerView = (RecyclerView) findViewById(R.id.assignment_RV);
+        assignmentsRecyclerView = (RecyclerView) findViewById(R.id.assignment_RV);
+        taskRecyclerView = (RecyclerView) findViewById(R.id.task_RV);
 
-        recyclerView.setHasFixedSize(true);
-        // use a linear layout manager
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
+        assignmentsRecyclerView.setHasFixedSize(true);
+        taskRecyclerView.setHasFixedSize(true);
 
-        final ScheduleRVAdapter adapter = new ScheduleRVAdapter(recyclerListItems);
-        recyclerView.setAdapter(adapter);
+
+        final ScheduleRVAdapter assignmentAdapter = new ScheduleRVAdapter(assignmentsRecyclerListItems);
+        final ScheduleRVAdapter taskAdapter = new ScheduleRVAdapter(taskRecyclerListItems);
+        assignmentsRecyclerView.setAdapter(assignmentAdapter);
+        taskRecyclerView.setAdapter(taskAdapter);
 
         SwipeableRecyclerViewTouchListener swipeTouchListener =
-                new SwipeableRecyclerViewTouchListener(recyclerView,
+                new SwipeableRecyclerViewTouchListener(assignmentsRecyclerView,
                         new SwipeableRecyclerViewTouchListener.SwipeListener() {
 
                             @Override
                             public boolean canSwipeLeft(int position) {
-                                if (recyclerListItems.get(position).getType() == AbstractScheduleListItem.TYPE_HEADER)
+                                if (assignmentsRecyclerListItems.get(position).getItemType() == ItemType.HEADER)
                                 {
                                     return false;
                                 }else return true;
@@ -119,38 +151,42 @@ public class MainActivity extends AppCompatActivity implements TaskListener {
 
                             @Override
                             public boolean canSwipeRight(int position) {
-                                if (recyclerListItems.get(position).getType() == AbstractScheduleListItem.TYPE_HEADER)
-                                {
-                                    return false;
-                                } else return true;
+                                return false;
                             }
 
                             @Override
                             public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
-                                    recyclerListItems.remove(position);
-                                    adapter.notifyItemRemoved(position);
+                                    assignmentsRecyclerListItems.get(position).plan(dateBeingViewed);
+                                    ScheduleListItem newTask =  new ScheduleListItem(
+                                            assignmentsRecyclerListItems.get(position),
+                                            ItemType.TASK);
+                                    taskRecyclerListItems.add(newTask);
+                                    assignmentAdapter.notifyItemRemoved(position);
+                                    taskAdapter.notifyItemInserted(taskRecyclerListItems.size() - 1);
                                 }
-                                adapter.notifyDataSetChanged();
+                                assignmentAdapter.notifyDataSetChanged();
+                                taskAdapter.notifyDataSetChanged();
                             }
 
                             @Override
                             public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                for (int position : reverseSortedPositions) {
-                                    recyclerListItems.remove(position);
-                                    adapter.notifyItemRemoved(position);
-                                }
-                                adapter.notifyDataSetChanged();
+                                return;
                             }
                         });
 
-        recyclerView.addOnItemTouchListener(swipeTouchListener);
+        assignmentsRecyclerView.addOnItemTouchListener(swipeTouchListener);
 
-        recyclerView.setLayoutManager(manager);
+        // use a linear layout manager
+        RecyclerView.LayoutManager assignmentsLayoutManager = new LinearLayoutManager(this);
+        assignmentsRecyclerView.setLayoutManager(assignmentsLayoutManager);
+
+        RecyclerView.LayoutManager taskLayoutManager = new LinearLayoutManager(this);
+        taskRecyclerView.setLayoutManager(taskLayoutManager);
 
         //Item decoration
         //SpacesItemDecoration itemDecoration = new SpacesItemDecoration(-400);
-        //recyclerView.addItemDecoration(itemDecoration);
+        //assignmentsRecyclerView.addItemDecoration(itemDecoration);
 
         //schedule fragment
 //        FragmentManager fragmentManager = getFragmentManager();
@@ -163,6 +199,64 @@ public class MainActivity extends AppCompatActivity implements TaskListener {
     @Override
     public void onTaskCompleted(GsonDatabase database) {
         ((TextView)findViewById(R.id.page_title)).setText(database.getUser().getId());
+        this.database = database;
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.to_do_view, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -173,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements TaskListener {
         }
         @Override
         public int getItemViewType(int position) {
-            return itemsShown.get(position).getType();
+            return itemsShown.get(position).getItemType().ordinal();
         }
 
         @Override
@@ -183,11 +277,15 @@ public class MainActivity extends AppCompatActivity implements TaskListener {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-
-            if (viewType == AbstractScheduleListItem.TYPE_HEADER) {
+            ItemType itemType = ItemType.values()[viewType];
+            if (itemType == ItemType.HEADER) {
                 View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_list_header, viewGroup, false);//$$$
                 return new ScheduleHeaderViewHolder(v);
-            } else {
+            } else if (itemType == ItemType.ASSIGNMENT){
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_list_item, viewGroup, false);//$$$
+                return new ScheduleItemViewHolder(v);
+            } else
+            {
                 View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_list_item, viewGroup, false);//$$$
                 return new ScheduleItemViewHolder(v);
             }
@@ -195,16 +293,21 @@ public class MainActivity extends AppCompatActivity implements TaskListener {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-            int type = getItemViewType(position);
-            if (type == AbstractScheduleListItem.TYPE_HEADER) {
-                ScheduleListHeader header = (ScheduleListHeader) recyclerListItems.get(position);
+            ItemType type = ItemType.values()[getItemViewType(position)];
+            if (type == ItemType.HEADER) {
+                ScheduleListHeader header = (ScheduleListHeader) assignmentsRecyclerListItems.get(position);
                 ScheduleHeaderViewHolder holder = (ScheduleHeaderViewHolder) viewHolder;
                 holder.date.setText(header.getDate().toString());
-            } else {
-                ScheduleListItem item = (ScheduleListItem) recyclerListItems.get(position);
+            } else if (type == ItemType.ASSIGNMENT){
+                 ScheduleListItem item = (ScheduleListItem) assignmentsRecyclerListItems.get(position);
                 ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
                 holder.itemName.setText(item.getName());
                 // your logic here
+            }
+            else {
+                ScheduleListItem item = (ScheduleListItem) taskRecyclerListItems.get(position);
+                ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
+                holder.itemName.setText(item.getName());
             }
 /*
             itemViewHolder.itemName.setText(itemsShown.get(i).getName());

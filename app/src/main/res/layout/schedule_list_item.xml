@@ -7,10 +7,11 @@
     android:baselineAligned="false"
     android:orientation="horizontal"
     android:weightSum="2"
+    android:layout_marginBottom="8dp"
     >
 
     <View android:layout_width="0dp"
-        android:layout_height="35sp"
+        android:layout_height="50dp"
         android:layout_weight="1" />
 
     <android.support.v7.widget.CardView
@@ -18,27 +19,37 @@
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        card_view:cardCornerRadius="7dp"
+        card_view:cardCornerRadius="3dp"
         card_view:cardBackgroundColor="@color/blue"
-
         >
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:padding="8dp"
             >
 
         <TextView
             android:id="@+id/item_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:fontFamily="sans-serif-light"
-            android:text="@+id/assignment_name"
+
             android:textColor="#FFFFFF"
-            android:textSize="30sp" />
+            android:textSize="16sp"
+             android:text="@+id/assignment_name"
+            android:layout_alignParentTop="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Some more text. Probably a description"
+                android:id="@+id/textView"
+                android:layout_below="@+id/item_name"
+                android:layout_alignParentStart="true" />
+
+
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

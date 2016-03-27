@@ -6,9 +6,11 @@ import java.util.Date;
  * Created by liukaichi on 3/23/2016.
  */
 public abstract class AbstractScheduleListItem {
-    public static final int TYPE_HEADER = 0;
-    public static final int TYPE_ASSIGNMENT = 1;
+    public enum ItemType {HEADER, ASSIGNMENT, TASK};
 
-    abstract public int getType();
+    abstract public ItemType getItemType();
+
+
+    public abstract void plan(Date dateBeingViewed);
 }
 
