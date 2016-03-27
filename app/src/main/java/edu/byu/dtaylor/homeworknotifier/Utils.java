@@ -1,5 +1,6 @@
 package edu.byu.dtaylor.homeworknotifier;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
@@ -25,7 +26,7 @@ import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
  * Created by dtaylor on 3/26/2016.
  */
 public class Utils {
-    public static GsonDatabase getAllInfo(String netID, String password)
+    public static GsonDatabase getAllInfo(final Context context, String netID, String password)
     {
         HttpResponse response = null;
         try {
@@ -53,25 +54,38 @@ public class Utils {
         }
         return null;
     }
+
 }
-class GetDatabaseTask extends AsyncTask<String,GsonDatabase,GsonDatabase>
+class CustomAsyncTask extends AsyncTask<Object,Object,Object>
 {
-    TaskListener listener;
-    GetDatabaseTask(TaskListener listener)
+    CustomTaskListener listener;
+    CustomAsyncTask(CustomTaskListener listener)
     {
         this.listener = listener;
     }
     @Override
-    protected GsonDatabase doInBackground(String... params) {
-        GsonDatabase database = Utils.getAllInfo(params[0], params[1]);
-        return database;
+    protected Object doInBackground(Object... params) {
+        return listener.doInBackground(params);
     }
 
     @Override
-    protected void onPostExecute(GsonDatabase gsonDatabase) {
-        listener.onTaskCompleted(gsonDatabase);
+    protected void onPreExecute() {
+        listener.onPreExecute();
+    }
+
+    @Override
+    protected void onPostExecute(Object o) {
+        listener.onPostExecute(o);
+    }
+
+    @Override
+    protected void onProgressUpdate(Object... values) {
+        listener.onProgressUpdate(values);
     }
 }
-interface TaskListener {
-    void onTaskCompleted(GsonDatabase database);
+interface CustomTaskListener {
+    void onPostExecute(Object object);
+    Object doInBackground(Object[] params);
+    void onPreExecute();
+    void onProgressUpdate(Object[] values);
 }

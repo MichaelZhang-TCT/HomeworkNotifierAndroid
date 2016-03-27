@@ -46,7 +46,7 @@ import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleL
 //import org.json.JSONObject;
 
 
-public class MainActivity extends AppCompatActivity implements TaskListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static ImageButton settingsButton;
     private RecyclerView assignmentsRecyclerView;
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements TaskListener, Nav
     List<AbstractScheduleListItem> assignmentsRecyclerListItems;
     List<AbstractScheduleListItem> taskRecyclerListItems;
     Date dateBeingViewed = Calendar.getInstance().getTime(); //gets the current time.
-    GsonDatabase database;
+    public static GsonDatabase database;
 
     //This will be replaced by what we pull from the server - ie real data
     private String assignments = "[{\"Description\":\"GsonAssignment One\",\"Date\":\"2016-03-05\"}," +
@@ -89,9 +89,6 @@ public class MainActivity extends AppCompatActivity implements TaskListener, Nav
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
-
-            GetDatabaseTask task = new GetDatabaseTask(this);
-            task.execute(new String[]{"daviddt2", "davidpaseo3"});
             OnClickSettingsButtonListener();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -193,12 +190,6 @@ public class MainActivity extends AppCompatActivity implements TaskListener, Nav
 //        fragmentTransaction.add(R.id.scheduleFragmentContainer,new ScheduleFragment());
 //        fragmentTransaction.commit();
 
-    }
-
-    @Override
-    public void onTaskCompleted(GsonDatabase database) {
-        ((TextView)findViewById(R.id.page_title)).setText(database.getUser().getId());
-        this.database = database;
     }
 
     @Override
