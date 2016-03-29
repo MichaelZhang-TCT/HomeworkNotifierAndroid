@@ -3,6 +3,7 @@ package edu.byu.dtaylor.homeworknotifier.schedule;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -24,10 +25,21 @@ public class Schedule {
         }
         sd.addItem(item);
     }
+    public Set<Date> getDates(){
+        return days.keySet();
+    }
+    public List<ScheduleItem> getItemsByDate(Date date){
+        return days.get(date).getItems();
+    }
 
     public int size() {
         return days.size();
     }
+
+    public void remove(int position) {
+
+    }
+
 
     public class ScheduleDay implements Comparable{
 
