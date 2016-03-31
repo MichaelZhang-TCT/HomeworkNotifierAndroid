@@ -56,11 +56,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Date dateBeingViewed = Calendar.getInstance().getTime(); //gets the current time.
     public static GsonDatabase database;
 
-    //This will be replaced by what we pull from the server - ie real data
-    private String assignments = "[{\"Description\":\"GsonAssignment One\",\"Date\":\"2016-03-05\"}," +
-            "{\"Description\":\"GsonAssignment Two\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}]";
-
     private int offset = 0;
     private Date startDate = new Date();
     private Fragment list;
@@ -103,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        final Schedule userSchedule = ScheduleFactory.create(assignments);
+        final Schedule userSchedule = ScheduleFactory.create(database);
 
         //initialize task list
         taskRecyclerListItems = new ArrayList<>();
@@ -292,6 +287,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                  ScheduleListItem item = (ScheduleListItem) assignmentsRecyclerListItems.get(position);
                 ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
                 holder.itemName.setText(item.getName());
+                holder.item_cv.setBackgroundColor(item.getColor());
                 // your logic here
             }
             else {

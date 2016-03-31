@@ -11,6 +11,7 @@ public class ScheduleListItem extends AbstractScheduleListItem {
 
     ScheduleItem scheduleItem;
     ItemType itemType = ItemType.ASSIGNMENT;
+    private int color;
 
     public ScheduleListItem(AbstractScheduleListItem abstractScheduleListItem, ItemType itemType) {
         this.scheduleItem = ((ScheduleListItem) abstractScheduleListItem).scheduleItem;
@@ -51,5 +52,9 @@ public class ScheduleListItem extends AbstractScheduleListItem {
 
     public String getName(){
         return scheduleItem.getDescription();
+    }
+
+    public int getColor() {
+        return scheduleItem.getColor();
     }
 }

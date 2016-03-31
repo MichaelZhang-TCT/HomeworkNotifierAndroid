@@ -38,7 +38,6 @@
             android:ems="10"
             android:hint="@string/netID"
             android:id="@+id/netID" />
-
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

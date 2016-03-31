@@ -25,7 +25,10 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomTas
 
     @Override
     public Object doInBackground(Object[] params) {
-        return Utils.getAllInfo(this, "daviddt2", "davidpaseo3");
+        String netID = getIntent().getStringExtra("netID");
+        String password = getIntent().getStringExtra("password");
+        //return Utils.getAllInfo(this, "daviddt2", "davidpaseo3");
+        return Utils.getAllInfo(this, netID, password);
     }
 
     @Override
