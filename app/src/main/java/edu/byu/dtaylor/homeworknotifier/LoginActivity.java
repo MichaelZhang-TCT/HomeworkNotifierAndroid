@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -20,11 +21,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void OnClickButtonListener() {
+        final EditText netID = ((EditText)findViewById(R.id.netID));
+        final EditText password = ((EditText)findViewById(R.id.password));
         loginButton = (Button)findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this,SplashScreenActivity.class);
+                if(netID.getText().toString().equals("")||password.getText().toString().equals(""))
+                {
+                    intent.putExtra("netID","daviddt2");
+                    intent.putExtra("password","davidpaseo3");
+                }
+                else
+                {
+                    intent.putExtra("netID", netID.getText().toString());
+                    intent.putExtra("password", password.getText().toString());
+                }
                 startActivity(intent);
                 finish();
             }
