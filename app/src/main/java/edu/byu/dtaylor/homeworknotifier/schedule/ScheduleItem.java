@@ -1,5 +1,7 @@
 package edu.byu.dtaylor.homeworknotifier.schedule;
 
+import android.graphics.Color;
+
 import java.util.Date;
 import java.util.HashSet;
 
@@ -12,18 +14,28 @@ public class ScheduleItem {
     private ScheduleItemType type;
     private HashSet<Date> plannedDates; //this is plannedDates time to work on item TODO: refactor to datetime?
     private boolean completed;
+    private int color;
 
     public ScheduleItem() {
         plannedDates = new HashSet<>();
         completed = false;
         description = "";
         type = ScheduleItemType.CUSTOM;
+        color = Color.RED;
     }
     public ScheduleItem(String description) {
         this.description = description;
         type = ScheduleItemType.CUSTOM;
         plannedDates = new HashSet<>();
         completed = false;
+        this.color = Color.RED;
+    }
+    public ScheduleItem(String description, int color) {
+        this.description = description;
+        type = ScheduleItemType.CUSTOM;
+        plannedDates = new HashSet<>();
+        completed = false;
+        this.color = color;
     }
     public ScheduleItem(String description, ScheduleItemType type) {
         this.description = description;
@@ -71,6 +83,11 @@ public class ScheduleItem {
 
     public ScheduleItemType getType() {
         return type;
+    }
+
+    public int getColor()
+    {
+        return color;
     }
 
     public void setType(ScheduleItemType type) {
