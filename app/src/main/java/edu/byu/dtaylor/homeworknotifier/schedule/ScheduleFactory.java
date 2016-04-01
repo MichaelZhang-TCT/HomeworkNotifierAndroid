@@ -60,8 +60,9 @@ public class ScheduleFactory {
             for(Assignment assignment : course.getAssignments())
             {
                 String description = assignment.getDescription();
+                String name = assignment.getName();
                 Date date = new Date(assignment.getDueDate());
-                ScheduleItem item = new ScheduleItem(description, color);
+                ScheduleItem item = new ScheduleItem(name, description, color);
                 s.add(item,date);
             }
         }
