@@ -45,15 +45,15 @@ public class ScheduleFactory {
     }
     public static Schedule create(GsonDatabase database) {
         Schedule s = new Schedule();
-        DateFormat formater = new SimpleDateFormat("y-M-d");
+        DateFormat formatter = new SimpleDateFormat("y-M-d");
         //TODO
         int colors[] = new int[6];
-        colors[0] = Color.RED;
-        colors[1] = Color.GREEN;
-        colors[2] = Color.BLUE;
-        colors[3] = Color.YELLOW;
-        colors[4] = Color.MAGENTA;
-        colors[5] = Color.DKGRAY;
+        colors[0] = Color.parseColor("#425C8C");
+        colors[1] = Color.parseColor("#EE573B");
+        colors[2] = Color.parseColor("#44A85E");
+        colors[3] = Color.parseColor("#E0C754");
+        colors[4] = Color.parseColor("#2D8986");
+        colors[5] = Color.parseColor("#B44392");
         int current = 0;
         for(Course course : database.getUser().getCourses()){
             int color = colors[current++];

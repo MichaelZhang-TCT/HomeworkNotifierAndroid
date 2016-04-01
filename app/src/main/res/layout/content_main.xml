@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageButton"
-        android:src="@android:drawable/ic_menu_preferences"
+        android:src="@drawable/ic_menu_manage"
         android:layout_alignRight="@+id/scheduleFragmentContainer"
         android:layout_alignEnd="@+id/scheduleFragmentContainer" />
 </RelativeLayout>

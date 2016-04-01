@@ -56,6 +56,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Date dateBeingViewed = Calendar.getInstance().getTime(); //gets the current time.
     public static GsonDatabase database;
 
+    //This will be replaced by what we pull from the server - ie real data
+    /*private String assignments = "[{\"Description\":\"GsonAssignment One\",\"Date\":\"2016-03-05\"}," +
+            "{\"Description\":\"GsonAssignment Two\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}]";*/
+
+    private String assignments = "[{\"Description\":\"GsonAssignment One\",\"Date\":\"2016-03-05\"}," +
+            "{\"Description\":\"GsonAssignment Two\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}]";
+
+
     private int offset = 0;
     private Date startDate = new Date();
     private Fragment list;
@@ -118,9 +135,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         assignmentsRecyclerView = (RecyclerView) findViewById(R.id.assignment_RV);
         taskRecyclerView = (RecyclerView) findViewById(R.id.task_RV);
-
+/*
         assignmentsRecyclerView.setHasFixedSize(true);
-        taskRecyclerView.setHasFixedSize(true);
+        taskRecyclerView.setHasFixedSize(true);*/
 
 
         final ScheduleRVAdapter assignmentAdapter = new ScheduleRVAdapter(assignmentsRecyclerListItems);
@@ -294,6 +311,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ScheduleListItem item = (ScheduleListItem) taskRecyclerListItems.get(position);
                 ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
                 holder.itemName.setText(item.getName());
+                holder.item_cv.setBackgroundColor(item.getColor());
             }
 /*
             itemViewHolder.itemName.setText(itemsShown.get(i).getName());
