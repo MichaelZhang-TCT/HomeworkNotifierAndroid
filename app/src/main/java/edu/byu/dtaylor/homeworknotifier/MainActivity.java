@@ -311,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else
             {
-                strdate = Utils.stringifyDate(currentDay.getTime(), false, true);
+                strdate = Utils.stringifyDate(currentDay.getTime(), false, false);
             }
         }
         setTitle(strdate);

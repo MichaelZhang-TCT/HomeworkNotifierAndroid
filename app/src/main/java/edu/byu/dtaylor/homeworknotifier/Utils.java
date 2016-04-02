@@ -79,7 +79,7 @@ public class Utils {
     {
         if (convertToEpoch) date = new Date(date.getTime() * 1000);
         String year = "";
-        if (displayYear) year = ", yyyy" ;
+        if (displayYear) year = " yyyy" ;
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         String dayNumberSuffix = getDayNumberSuffix(calendar.get(Calendar.DAY_OF_MONTH));
