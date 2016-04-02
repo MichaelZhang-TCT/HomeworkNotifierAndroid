@@ -20,12 +20,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
 import edu.byu.dtaylor.homeworknotifier.schedule.Schedule;
@@ -288,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return new ScheduleItemViewHolder(v);
             } else
             {
-                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_list_item, viewGroup, false);//$$$
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.todo_list_item, viewGroup, false);//$$$
                 return new ScheduleItemViewHolder(v);
             }
         }
@@ -305,6 +307,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
                 holder.itemName.setText(item.getName());
                 holder.item_cv.setBackgroundColor(item.getColor());
+                holder.itemTypeImage.setAlpha(30);
+                switch ((new Random()).nextInt() % 3){
+                    case 0:
+                        holder.itemTypeImage.setImageResource(R.drawable.ic_book_minus_white_48dp);
+                        break;
+                    case 1:
+                        holder.itemTypeImage.setImageResource(R.drawable.ic_flask_white_48dp);
+                        break;
+                    case 2:
+                        holder.itemTypeImage.setImageResource(R.drawable.ic_pen_white_48dp);
+                        break;
+                    default:
+                        break;
+                }
+
+
                 // your logic here
             }
             else {
@@ -312,6 +330,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
                 holder.itemName.setText(item.getName());
                 holder.item_cv.setBackgroundColor(item.getColor());
+                holder.itemTypeImage.setAlpha(30);
+
             }
 /*
             itemViewHolder.itemName.setText(itemsShown.get(i).getName());
@@ -331,6 +351,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             CardView item_cv;
             TextView itemName;
+            ImageView itemTypeImage;
             //TextView itemLocation;
             public int currentItem;
             public String itemId;
@@ -349,6 +370,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 item_cv = (CardView)itemView.findViewById(R.id.cv);
                 itemName = (TextView)itemView.findViewById(R.id.item_name);
+                itemTypeImage = (ImageView) itemView.findViewById(R.id.assignment_type_image);
             }
         }
 
