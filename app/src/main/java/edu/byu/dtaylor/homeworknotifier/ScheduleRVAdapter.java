@@ -34,7 +34,6 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     ScheduleRVAdapter(List<AbstractScheduleListItem> items, Context context){
         this.itemsShown = items;
         this.context = context;
-        currentDayIndex = ((MainActivity) context).getCurrentDayIndex();
     }
     @Override
     public int getItemViewType(int position) {
@@ -64,6 +63,7 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        currentDayIndex = ((MainActivity) context).getCurrentDayIndex();
         AbstractScheduleListItem.ItemType type = AbstractScheduleListItem.ItemType.values()[getItemViewType(position)];
         if (type == AbstractScheduleListItem.ItemType.HEADER) {
             ScheduleListHeader header = (ScheduleListHeader) itemsShown.get(position);

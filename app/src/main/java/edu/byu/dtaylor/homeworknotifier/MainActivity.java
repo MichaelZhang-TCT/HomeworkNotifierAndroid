@@ -19,6 +19,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -195,9 +197,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         assignmentsRecyclerView.addOnItemTouchListener(swipeTouchListener);
 
         // use a linear layout manager
-        RecyclerView.LayoutManager assignmentsLayoutManager = new LinearLayoutManager(this);
-        assignmentsLayoutManager.scrollToPosition(getCurrentDayIndex());
+        final LinearLayoutManager assignmentsLayoutManager = new LinearLayoutManager(this);
+        // scroll to the right day right away
+        assignmentsLayoutManager.scrollToPositionWithOffset(
+                getCurrentDayIndex(),
+                assignmentsLayoutManager.getPaddingTop());
+
+        //assignmentsLayoutManager.scrollToPosition(getCurrentDayIndex());
         assignmentsRecyclerView.setLayoutManager(assignmentsLayoutManager);
+
+        //go-to-today button
+        ImageView goToToday = (ImageView) findViewById(R.id.go_to_today_image);
+        goToToday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //assignmentsLayoutManager.scrollToPosition(getCurrentDayIndex());
+                assignmentsLayoutManager.scrollToPositionWithOffset(
+                        getCurrentDayIndex(),
+                        assignmentsLayoutManager.getPaddingTop());
+            }
+        });
 
 
         //Item decoration
@@ -354,16 +373,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public int getCurrentDayIndex() {
+        int result = assignmentsRecyclerListItems.size() - 1;
+        double minDifference = Double.MAX_VALUE;
         for (AbstractScheduleListItem item : assignmentsRecyclerListItems)
         {
             if (item.getItemType() == ItemType.HEADER)
             {
                 ScheduleListHeader header = (ScheduleListHeader) item;
-
-                    return assignmentsRecyclerListItems.indexOf(item);
+                double difference = (header.getDate().getTime() * 1000) - currentDay.getTime().getTime();
+                if (difference > 0) {
+                    if (difference < minDifference)
+                    {
+                        minDifference = difference;
+                        result = assignmentsRecyclerListItems.indexOf(item);
+                    }
+                }
             }
         }
-        return assignmentsRecyclerListItems.size() - 1;
+        return result;
     }
 
 
