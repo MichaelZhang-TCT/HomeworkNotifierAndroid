@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -122,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -149,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         assignmentsRecyclerView.setHasFixedSize(true);
 
 
-        final ScheduleRVAdapter assignmentAdapter = new ScheduleRVAdapter(assignmentsRecyclerListItems);
+        final ScheduleRVAdapter assignmentAdapter = new ScheduleRVAdapter(assignmentsRecyclerListItems, this);
         assignmentsRecyclerView.setAdapter(assignmentAdapter);
 
         SwipeableRecyclerViewTouchListener swipeTouchListener =
@@ -233,12 +235,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+                Snackbar.make(findViewById(R.id.calendar_view_pager),"page scrolled",Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
             public void onPageSelected(int position) {
                 // TODO Auto-generated method stub
                 focusPage = position;
+                Snackbar.make(findViewById(R.id.calendar_view_pager),"page selected",Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
@@ -254,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     dayPage.setCurrentItem(1, false);
                     updateTitle();
                 }
+                Snackbar.make(findViewById(R.id.calendar_view_pager),"state changed",Snackbar.LENGTH_SHORT).show();
             }
         });
         dayPage.setCurrentItem(1, false);
@@ -284,6 +289,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         setTitle(strdate);
+        TextView mainPageTitle = (TextView) findViewById(R.id.page_title);
+        if(mainPageTitle != null)
+            mainPageTitle.setText(strdate);
     }
     //END CALENDAR STUFF
 
