@@ -14,6 +14,7 @@
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:text="page_title"
     android:id="@+id/page_title"/>
     <FrameLayout
         android:id="@+id/scheduleFragmentContainer"

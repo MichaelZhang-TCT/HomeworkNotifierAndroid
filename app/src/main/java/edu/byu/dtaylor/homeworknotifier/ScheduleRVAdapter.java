@@ -131,6 +131,7 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+
     public class ScheduleHeaderViewHolder extends RecyclerView.ViewHolder {
 
         TextView date;
