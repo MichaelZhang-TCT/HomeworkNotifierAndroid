@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         assignmentsRecyclerView.setHasFixedSize(true);
 
 
-        final ScheduleRVAdapter assignmentAdapter = new ScheduleRVAdapter(assignmentsRecyclerListItems);
+        final ScheduleRVAdapter assignmentAdapter = new ScheduleRVAdapter(assignmentsRecyclerListItems, this);
         assignmentsRecyclerView.setAdapter(assignmentAdapter);
 
         SwipeableRecyclerViewTouchListener swipeTouchListener =

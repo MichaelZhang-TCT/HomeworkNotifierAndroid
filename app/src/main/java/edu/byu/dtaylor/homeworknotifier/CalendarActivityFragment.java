@@ -55,7 +55,7 @@ public class CalendarActivityFragment extends Fragment {
         //add tasks that are already planned.
         taskRecyclerView = (RecyclerView) view.findViewById(R.id.task_RV);
         taskRecyclerView.setHasFixedSize(true);
-        taskAdapter = new ScheduleRVAdapter(taskRecyclerListItems);
+        taskAdapter = new ScheduleRVAdapter(taskRecyclerListItems, getActivity());
         SwipeableRecyclerViewTouchListener swipeTouchListener =
                 new SwipeableRecyclerViewTouchListener(taskRecyclerView,
                         new SwipeableRecyclerViewTouchListener.SwipeListener() {

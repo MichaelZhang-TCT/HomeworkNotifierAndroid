@@ -1,6 +1,10 @@
 package edu.byu.dtaylor.homeworknotifier;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,10 +25,11 @@ import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleL
  */
 class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final Context context;
     List<AbstractScheduleListItem> itemsShown;
-    Context context;
-    ScheduleRVAdapter(List<AbstractScheduleListItem> items){
+    ScheduleRVAdapter(List<AbstractScheduleListItem> items, Context context){
         this.itemsShown = items;
+        this.context = context;
     }
     @Override
     public int getItemViewType(int position) {
@@ -64,7 +69,8 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
             holder.itemName.setText(item.getName());
             holder.item_cv.setBackgroundColor(item.getColor());
-            holder.itemTypeImage.setAlpha(30);
+            holder.itemTypeImage.setImageAlpha(30);
+            holder.description = item.getDescription();
             switch ((new Random()).nextInt() % 3){
                 case 0:
                     holder.itemTypeImage.setImageResource(R.drawable.ic_book_minus_white_48dp);
@@ -87,7 +93,8 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
             holder.itemName.setText(item.getName());
             holder.item_cv.setBackgroundColor(item.getColor());
-            holder.itemTypeImage.setAlpha(30);
+            holder.itemTypeImage.setImageAlpha(30);
+            holder.description = item.getDescription();
 
         }
 /*
@@ -112,9 +119,13 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         //TextView itemLocation;
         public int currentItem;
         public String itemId;
+        public String description;
 
         ScheduleItemViewHolder(final View itemView) {
             super(itemView);
+            item_cv = (CardView)itemView.findViewById(R.id.cv);
+            itemName = (TextView)itemView.findViewById(R.id.item_name);
+            itemTypeImage = (ImageView) itemView.findViewById(R.id.assignment_type_image);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -122,12 +133,17 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         /*Intent intent = new Intent(EventInfoActivity.this, ItemInfoActivity.class);
                         intent.putExtra("itemId", itemId);
                         EventInfoActivity.this.startActivity(intent);*/
+                        // Create an instance of the dialog fragment and show it
+                        DialogFragment dialog = new AssignmentDialogFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("name",itemName.getText().toString());
+                    bundle.putString("description",description);
+                    bundle.putString("dueDate","dueDate");
+                    dialog.setArguments(bundle);
+                    dialog.show(((MainActivity)context).getSupportFragmentManager(), "AssignmentDialogFragment");
                 }
             });
 
-            item_cv = (CardView)itemView.findViewById(R.id.cv);
-            itemName = (TextView)itemView.findViewById(R.id.item_name);
-            itemTypeImage = (ImageView) itemView.findViewById(R.id.assignment_type_image);
         }
     }
 
