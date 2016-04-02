@@ -43,6 +43,12 @@ public class ScheduleFactory {
         }
         return s;
     }
+
+    /**
+     * returns null if the database isn't running
+     * @param database
+     * @return
+     */
     public static Schedule create(GsonDatabase database) {
         Schedule s = new Schedule();
         DateFormat formatter = new SimpleDateFormat("y-M-d");
@@ -55,6 +61,10 @@ public class ScheduleFactory {
         colors[4] = Color.parseColor("#2D8986");
         colors[5] = Color.parseColor("#B44392");
         int current = 0;
+        if (database == null || database.getUser() == null || database.getUser().getCourses() == null)
+        {
+            return null;
+        }
         for(Course course : database.getUser().getCourses()){
             int color = colors[current++];
             for(Assignment assignment : course.getAssignments())

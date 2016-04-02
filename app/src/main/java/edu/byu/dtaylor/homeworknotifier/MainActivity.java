@@ -132,8 +132,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        final Schedule userSchedule = ScheduleFactory.create(database);
 
+        final Schedule userSchedule = ScheduleFactory.create(database);
+        if (userSchedule == null)
+        {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("error", "server not initialized");
+            intent.putExtras(bundle);
+            startActivity(intent);
+            finish();
+            return;
+        }
         //add tasks that are already planned.
 
         //initialize allAssignments List
@@ -199,9 +209,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // use a linear layout manager
         final LinearLayoutManager assignmentsLayoutManager = new LinearLayoutManager(this);
         // scroll to the right day right away
-        assignmentsLayoutManager.scrollToPositionWithOffset(
-                getCurrentDayIndex(),
-                assignmentsLayoutManager.getPaddingTop());
+        assignmentsLayoutManager.scrollToPositionWithOffset(getCurrentDayIndex(), 0);
 
         //assignmentsLayoutManager.scrollToPosition(getCurrentDayIndex());
         assignmentsRecyclerView.setLayoutManager(assignmentsLayoutManager);
@@ -211,10 +219,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         goToToday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //assignmentsLayoutManager.scrollToPosition(getCurrentDayIndex());
-                assignmentsLayoutManager.scrollToPositionWithOffset(
-                        getCurrentDayIndex(),
-                        assignmentsLayoutManager.getPaddingTop());
+                // scroll to the right day
+                assignmentsLayoutManager.scrollToPositionWithOffset(getCurrentDayIndex(),0);
             }
         });
 

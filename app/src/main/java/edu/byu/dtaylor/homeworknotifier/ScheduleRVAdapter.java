@@ -94,7 +94,7 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
             holder.itemName.setText(item.getName());
             holder.item_cv.setBackgroundColor(item.getColor());
-            holder.itemTypeImage.setImageAlpha(30);
+            holder.itemTypeImage.setImageAlpha(60);
             holder.description = item.getDescription();
             switch ((new Random()).nextInt() % 3){
                 case 0:

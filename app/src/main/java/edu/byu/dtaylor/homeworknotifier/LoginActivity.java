@@ -1,8 +1,11 @@
 package edu.byu.dtaylor.homeworknotifier;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.widget.EditText;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "LoginActivity";
     private static Button loginButton;
 
     @Override
@@ -18,6 +22,21 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         OnClickButtonListener();
+
+        if (getIntent().getStringExtra("error") != null)
+        {
+            Log.e(TAG, "We started with an error!");
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Sorry, the server isn't running right now. Try again in a few minutes");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            AlertDialog error = builder.create();
+            error.show();
+        }
     }
 
     public void OnClickButtonListener() {
