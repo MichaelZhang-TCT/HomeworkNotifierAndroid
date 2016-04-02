@@ -1,9 +1,11 @@
 package edu.byu.dtaylor.homeworknotifier;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -78,15 +80,22 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
                 else holder.date.setText(Utils.stringifyDate(header.getDate(), true, false));
                 holder.date.setTypeface(null, Typeface.BOLD);
+                holder.date.setTextColor(Color.parseColor("#A7A7A7"));
+
                 holder.line.requestLayout();
                 holder.line.getLayoutParams().height = Utils.pxFromDp(2, context);
+                holder.line.setBackgroundColor(Color.parseColor("#A7A7A7"));
+
             }
             else
             {
                 holder.date.setText(Utils.stringifyDate(header.getDate(), true, false));
                 holder.date.setTypeface(null, Typeface.NORMAL);
+                holder.date.setTextColor(Color.parseColor("#B6B6B6"));
                 holder.line.requestLayout();
                 holder.line.getLayoutParams().height = Utils.pxFromDp(1, context);
+
+                holder.line.setBackgroundColor(Color.parseColor("#B6B6B6"));
             }
             Log.d(TAG, Utils.stringifyDate(header.getDate(), true, false));
         } else if (type == AbstractScheduleListItem.ItemType.ASSIGNMENT){

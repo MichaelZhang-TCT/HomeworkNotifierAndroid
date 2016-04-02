@@ -51,7 +51,7 @@ import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleL
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
-    private static ImageButton settingsButton;
+    private static ImageView settingsButton;
     private RecyclerView assignmentsRecyclerView;
     private RecyclerView taskRecyclerView;
     List<AbstractScheduleListItem> assignmentsRecyclerListItems;
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void OnClickSettingsButtonListener() {
 
-        settingsButton = (ImageButton)findViewById(R.id.imageButton);
+        settingsButton = (ImageView)findViewById(R.id.imageButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
