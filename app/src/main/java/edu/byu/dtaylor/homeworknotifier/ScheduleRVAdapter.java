@@ -67,13 +67,13 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.itemTypeImage.setAlpha(30);
             switch ((new Random()).nextInt() % 3){
                 case 0:
-                    holder.itemTypeImage.setImageResource(R.drawable.ic_book_minus_white_48dp);
+                    holder.itemTypeImage.setImageResource(R.drawable.ic_book_minus_white_24dp);
                     break;
                 case 1:
-                    holder.itemTypeImage.setImageResource(R.drawable.ic_flask_white_48dp);
+                    holder.itemTypeImage.setImageResource(R.drawable.ic_flask_white_24dp);
                     break;
                 case 2:
-                    holder.itemTypeImage.setImageResource(R.drawable.ic_pen_white_48dp);
+                    holder.itemTypeImage.setImageResource(R.drawable.ic_pen_white_24dp);
                     break;
                 default:
                     break;
