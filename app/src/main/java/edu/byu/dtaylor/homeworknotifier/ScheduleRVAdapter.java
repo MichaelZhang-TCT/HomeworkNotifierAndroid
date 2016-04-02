@@ -3,12 +3,14 @@ package edu.byu.dtaylor.homeworknotifier;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -21,6 +23,7 @@ import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleL
  */
 class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final String TAG = "ScheduleRVAdapter";
     List<AbstractScheduleListItem> itemsShown;
     Context context;
     ScheduleRVAdapter(List<AbstractScheduleListItem> items){
@@ -58,7 +61,8 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (type == AbstractScheduleListItem.ItemType.HEADER) {
             ScheduleListHeader header = (ScheduleListHeader) itemsShown.get(position);
             ScheduleHeaderViewHolder holder = (ScheduleHeaderViewHolder) viewHolder;
-            holder.date.setText(header.getDate().toString());
+            holder.date.setText(Utils.stringifyDate(header.getDate(), false));
+            Log.d(TAG, Utils.stringifyDate(header.getDate(), false));
         } else if (type == AbstractScheduleListItem.ItemType.ASSIGNMENT){
             ScheduleListItem item = (ScheduleListItem) itemsShown.get(position);
             ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;

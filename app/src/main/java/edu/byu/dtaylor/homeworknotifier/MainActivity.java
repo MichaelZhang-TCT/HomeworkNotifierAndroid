@@ -46,6 +46,7 @@ import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleL
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "MainActivity";
     private static ImageButton settingsButton;
     private RecyclerView assignmentsRecyclerView;
     private RecyclerView taskRecyclerView;
@@ -261,7 +262,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     //CALENDAR STUFF
     private void updateTitle() {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         String strdate = "";
         if (currentDay != null) {
             int today = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else
             {
-                strdate = sdf.format(currentDay.getTime());
+                strdate = Utils.stringifyDate(currentDay.getTime(), true);
             }
         }
         setTitle(strdate);

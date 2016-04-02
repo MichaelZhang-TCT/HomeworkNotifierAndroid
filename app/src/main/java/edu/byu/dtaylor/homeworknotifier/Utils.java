@@ -18,7 +18,10 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
 
@@ -53,6 +56,51 @@ public class Utils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static String stringifyDate(Calendar calendar, boolean displayYear)
+    {
+        calendar.setTime(new Date(calendar.getTime().getTime() * 1000));
+        String dayNumberSuffix = getDayNumberSuffix(calendar.get(Calendar.DAY_OF_MONTH));
+        String year = "";
+        if (displayYear) year = " yyyy" ;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d'" + dayNumberSuffix + "'" + year);
+        return dateFormat.format(calendar.getTime());
+    }
+
+    /**
+     * converts
+     * @param date
+     * @param displayYear
+     * @return
+     */
+    public static String stringifyDate(Date date, boolean displayYear)
+    {
+        date = new Date(date.getTime() * 1000);
+        String year = "";
+        if (displayYear) year = " yyyy" ;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        String dayNumberSuffix = getDayNumberSuffix(calendar.get(Calendar.DAY_OF_MONTH));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d'" + dayNumberSuffix + "'" + year);
+        return dateFormat.format(calendar.getTime());
+    }
+
+
+    public static String getDayNumberSuffix(int day) {
+        if (day >= 11 && day <= 13) {
+            return "th";
+        }
+        switch (day % 10) {
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
+        }
     }
 
 }
