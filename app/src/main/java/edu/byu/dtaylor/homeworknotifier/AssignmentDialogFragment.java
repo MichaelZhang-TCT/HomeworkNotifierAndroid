@@ -41,26 +41,27 @@ public class AssignmentDialogFragment extends DialogFragment {
         builder.setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        //do things
+                        if(mListener != null)
+                            mListener.onDialogPositiveClick(AssignmentDialogFragment.this);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(mListener != null)
+                            mListener.onDialogNegativeClick(AssignmentDialogFragment.this);
                     }
                 });
         // Create the AlertDialog object and return it
         return builder.create();
     }
     //Listener for callback on clicking to respond to activity on dialog complete
-    /*@Override
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        // Verify that the host activity implements the callback interface
-        try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
+        if( activity instanceof NoticeDialogListener)
             mListener = (NoticeDialogListener) activity;
-        } catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
-            throw new ClassCastException(activity.toString()
-                    + " must implement NoticeDialogListener");
-        }
-    }*/
+    }
     public interface NoticeDialogListener {
         public void onDialogPositiveClick(DialogFragment dialog);
         public void onDialogNegativeClick(DialogFragment dialog);
