@@ -196,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // use a linear layout manager
         RecyclerView.LayoutManager assignmentsLayoutManager = new LinearLayoutManager(this);
+        assignmentsLayoutManager.scrollToPosition(getCurrentDayIndex());
         assignmentsRecyclerView.setLayoutManager(assignmentsLayoutManager);
 
 
@@ -285,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else
             {
-                strdate = Utils.stringifyDate(currentDay.getTime(), true);
+                strdate = Utils.stringifyDate(currentDay.getTime(), false, true);
             }
         }
         setTitle(strdate);
@@ -350,6 +351,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public int getCurrentDayIndex() {
+        for (AbstractScheduleListItem item : assignmentsRecyclerListItems)
+        {
+            if (item.getItemType() == ItemType.HEADER)
+            {
+                ScheduleListHeader header = (ScheduleListHeader) item;
+
+                    return assignmentsRecyclerListItems.indexOf(item);
+            }
+        }
+        return assignmentsRecyclerListItems.size() - 1;
     }
 
 

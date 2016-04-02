@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:text="@+id/header_date"
         android:paddingTop="15dp"
+        android:paddingLeft="8dp"
         android:paddingBottom="15dp"/>
 
     <View

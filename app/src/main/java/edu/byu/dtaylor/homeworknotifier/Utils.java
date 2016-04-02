@@ -58,9 +58,9 @@ public class Utils {
         return null;
     }
 
-    public static String stringifyDate(Calendar calendar, boolean displayYear)
+    public static String stringifyDate(Calendar calendar, boolean convertToEpoch, boolean displayYear)
     {
-        calendar.setTime(new Date(calendar.getTime().getTime() * 1000));
+        if (convertToEpoch) calendar.setTime(new Date(calendar.getTime().getTime() * 1000));
         String dayNumberSuffix = getDayNumberSuffix(calendar.get(Calendar.DAY_OF_MONTH));
         String year = "";
         if (displayYear) year = " yyyy" ;
@@ -69,14 +69,15 @@ public class Utils {
     }
 
     /**
-     * converts
-     * @param date
-     * @param displayYear
+     *
+     * @param date the date to stringify
+     * @param convertToEpoch needs conversion if it comes directly from java code.
+     * @param displayYear true to display year, false to not.
      * @return
      */
-    public static String stringifyDate(Date date, boolean displayYear)
+    public static String stringifyDate(Date date, boolean convertToEpoch, boolean displayYear)
     {
-        date = new Date(date.getTime() * 1000);
+        if (convertToEpoch) date = new Date(date.getTime() * 1000);
         String year = "";
         if (displayYear) year = " yyyy" ;
         Calendar calendar = Calendar.getInstance();
@@ -103,6 +104,12 @@ public class Utils {
         }
     }
 
+    public static int dpFromPx(int px, Context context) {
+        return Math.round(px / context.getResources().getDisplayMetrics().density);
+    }
+    public static int pxFromDp(final float dp, final Context context) {
+        return Math.round(dp * context.getResources().getDisplayMetrics().density);
+    }
 }
 class CustomAsyncTask extends AsyncTask<Object,Object,Object>
 {
