@@ -26,13 +26,14 @@ import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
  * Created by dtaylor on 3/26/2016.
  */
 public class Utils {
+    private static String BASE_URL = "http://ec2-54-187-234-170.us-west-2.compute.amazonaws.com:3000/";
     public static GsonDatabase getAllInfo(final Context context, String netID, String password)
     {
         HttpResponse response = null;
         try {
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost();
-            post.setURI(new URI("http://ec2-54-187-234-170.us-west-2.compute.amazonaws.com:3000/GetAllInfo"));
+            post.setURI(new URI(BASE_URL + "GetAllInfo"));
 
             ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
             postParameters.add(new BasicNameValuePair("netID", netID));
