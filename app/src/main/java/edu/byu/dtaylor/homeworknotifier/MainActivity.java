@@ -5,23 +5,25 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -48,7 +50,8 @@ import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleL
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static ImageButton settingsButton;
+    private static final String TAG = "MainActivity";
+    private static ImageView settingsButton;
     private RecyclerView assignmentsRecyclerView;
     private RecyclerView taskRecyclerView;
     List<AbstractScheduleListItem> assignmentsRecyclerListItems;
@@ -56,9 +59,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Date dateBeingViewed = Calendar.getInstance().getTime(); //gets the current time.
     public static GsonDatabase database;
 
+    //This will be replaced by what we pull from the server - ie real data
+    /*private String assignments = "[{\"Description\":\"GsonAssignment One\",\"Date\":\"2016-03-05\"}," +
+            "{\"Description\":\"GsonAssignment Two\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}]";*/
+
+    private String assignments = "[{\"Description\":\"GsonAssignment One\",\"Date\":\"2016-03-05\"}," +
+            "{\"Description\":\"GsonAssignment Two\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
+            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}]";
+
+
     private int offset = 0;
     private Date startDate = new Date();
     private Fragment list;
+
+    //CALENDAR STUFF
+    private static final int PAGE_CENTER = 1;
+    private int focusPage;
+    private Calendar currentDay;
+    private Calendar prevDay;
+    private Calendar nextDay;
+    private CalendarPageAdapter calendarPageAdapter;
+    private ViewPager dayPage;
+    //END CALENDAR STUFF
 
     protected Fragment loadSchedule() {
         //TODO
@@ -68,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void OnClickSettingsButtonListener() {
 
-        settingsButton = (ImageButton)findViewById(R.id.imageButton);
+        settingsButton = (ImageView)findViewById(R.id.imageButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,22 +116,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setContentView(R.layout.activity_main);
             OnClickSettingsButtonListener();
 
+        //CALENDAR STUFF
+        initializeCalendar();
+        //END CALENDAR STUFF
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        final Schedule userSchedule = ScheduleFactory.create(database);
 
-        //initialize task list
-        taskRecyclerListItems = new ArrayList<>();
+        final Schedule userSchedule = ScheduleFactory.create(database);
+        if (userSchedule == null)
+        {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("error", "server not initialized");
+            intent.putExtras(bundle);
+            startActivity(intent);
+            finish();
+            return;
+        }
         //add tasks that are already planned.
 
         //initialize allAssignments List
@@ -117,16 +159,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         assignmentsRecyclerView = (RecyclerView) findViewById(R.id.assignment_RV);
-        taskRecyclerView = (RecyclerView) findViewById(R.id.task_RV);
 
         assignmentsRecyclerView.setHasFixedSize(true);
-        taskRecyclerView.setHasFixedSize(true);
 
 
-        final ScheduleRVAdapter assignmentAdapter = new ScheduleRVAdapter(assignmentsRecyclerListItems);
-        final ScheduleRVAdapter taskAdapter = new ScheduleRVAdapter(taskRecyclerListItems);
+        final ScheduleRVAdapter assignmentAdapter = new ScheduleRVAdapter(assignmentsRecyclerListItems, this);
         assignmentsRecyclerView.setAdapter(assignmentAdapter);
-        taskRecyclerView.setAdapter(taskAdapter);
 
         SwipeableRecyclerViewTouchListener swipeTouchListener =
                 new SwipeableRecyclerViewTouchListener(assignmentsRecyclerView,
@@ -152,12 +190,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     ScheduleListItem newTask =  new ScheduleListItem(
                                             assignmentsRecyclerListItems.get(position),
                                             ItemType.TASK);
-                                    taskRecyclerListItems.add(newTask);
+                                    ((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).taskRecyclerListItems.add(newTask);
                                     assignmentAdapter.notifyItemRemoved(position);
-                                    taskAdapter.notifyItemInserted(taskRecyclerListItems.size() - 1);
+                                    ((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).taskAdapter.notifyItemInserted(((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).taskRecyclerListItems.size() - 1);
                                 }
                                 assignmentAdapter.notifyDataSetChanged();
-                                taskAdapter.notifyDataSetChanged();
+                                ((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).taskAdapter.notifyDataSetChanged();
                             }
 
                             @Override
@@ -169,11 +207,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         assignmentsRecyclerView.addOnItemTouchListener(swipeTouchListener);
 
         // use a linear layout manager
-        RecyclerView.LayoutManager assignmentsLayoutManager = new LinearLayoutManager(this);
+        final LinearLayoutManager assignmentsLayoutManager = new LinearLayoutManager(this);
+        // scroll to the right day right away
+        assignmentsLayoutManager.scrollToPositionWithOffset(getCurrentDayIndex(), 0);
+
+        //assignmentsLayoutManager.scrollToPosition(getCurrentDayIndex());
         assignmentsRecyclerView.setLayoutManager(assignmentsLayoutManager);
 
-        RecyclerView.LayoutManager taskLayoutManager = new LinearLayoutManager(this);
-        taskRecyclerView.setLayoutManager(taskLayoutManager);
+        //go-to-today button
+        ImageView goToToday = (ImageView) findViewById(R.id.go_to_today_image);
+        goToToday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // scroll to the right day
+                assignmentsLayoutManager.scrollToPositionWithOffset(getCurrentDayIndex(),0);
+            }
+        });
+
 
         //Item decoration
         //SpacesItemDecoration itemDecoration = new SpacesItemDecoration(-400);
@@ -186,6 +236,90 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        fragmentTransaction.commit();
 
     }
+
+    private void initializeCalendar() {
+        currentDay = Calendar.getInstance();
+        nextDay = Calendar.getInstance();
+
+        prevDay = Calendar.getInstance();
+        prevDay.setTime(currentDay.getTime());
+        prevDay.add(Calendar.DAY_OF_MONTH, -1);
+
+        nextDay = Calendar.getInstance();
+        nextDay.setTime(currentDay.getTime());
+
+
+        CalendarActivityFragment[] fragList = new CalendarActivityFragment[3];
+        fragList[0] = new CalendarActivityFragment(this, prevDay);
+        fragList[1] = new CalendarActivityFragment(this, currentDay);
+        fragList[2] = new CalendarActivityFragment(this, nextDay);
+
+        dayPage = (ViewPager) findViewById(R.id.calendar_view_pager);
+        calendarPageAdapter = new CalendarPageAdapter(getSupportFragmentManager(), fragList);
+        dayPage.setAdapter(calendarPageAdapter);
+        dayPage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                Snackbar.make(findViewById(R.id.calendar_view_pager),"page scrolled",Snackbar.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                // TODO Auto-generated method stub
+                focusPage = position;
+                Snackbar.make(findViewById(R.id.calendar_view_pager),"page selected",Snackbar.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+
+                    if (focusPage < PAGE_CENTER) {
+                        currentDay.add(Calendar.DAY_OF_MONTH, -1);
+                    } else if (focusPage > PAGE_CENTER) {
+                        currentDay.add(Calendar.DAY_OF_MONTH, 1);
+                    }
+                    calendarPageAdapter.setCalendar(currentDay);
+                    dayPage.setCurrentItem(1, false);
+                    updateTitle();
+                }
+                Snackbar.make(findViewById(R.id.calendar_view_pager),"state changed",Snackbar.LENGTH_SHORT).show();
+            }
+        });
+        dayPage.setCurrentItem(1, false);
+        updateTitle();
+        //END CALENDAR STUFF
+    }
+    //CALENDAR STUFF
+    private void updateTitle() {
+        String strdate = "";
+        if (currentDay != null) {
+            int today = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
+            int currentday = currentDay.get(Calendar.DAY_OF_YEAR);
+            if(currentday == today)
+            {
+                strdate = "Today";
+            }
+            else if(currentday == today +1)
+            {
+                strdate = "Tomorrow";
+            }
+            else if(currentday == today -1)
+            {
+                strdate = "Yesterday";
+            }
+            else
+            {
+                strdate = Utils.stringifyDate(currentDay.getTime(), false, false);
+            }
+        }
+        setTitle(strdate);
+        TextView mainPageTitle = (TextView) findViewById(R.id.page_title);
+        if(mainPageTitle != null)
+            mainPageTitle.setText(strdate);
+    }
+    //END CALENDAR STUFF
 
     @Override
     public void onBackPressed() {
@@ -244,109 +378,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-        List<AbstractScheduleListItem> itemsShown;
-        ScheduleRVAdapter(List<AbstractScheduleListItem> items){
-            this.itemsShown = items;
-        }
-        @Override
-        public int getItemViewType(int position) {
-            return itemsShown.get(position).getItemType().ordinal();
-        }
-
-        @Override
-        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-            super.onAttachedToRecyclerView(recyclerView);
-        }
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-            ItemType itemType = ItemType.values()[viewType];
-            if (itemType == ItemType.HEADER) {
-                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_list_header, viewGroup, false);//$$$
-                return new ScheduleHeaderViewHolder(v);
-            } else if (itemType == ItemType.ASSIGNMENT){
-                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_list_item, viewGroup, false);//$$$
-                return new ScheduleItemViewHolder(v);
-            } else
+    public int getCurrentDayIndex() {
+        int result = assignmentsRecyclerListItems.size() - 1;
+        double minDifference = Double.MAX_VALUE;
+        for (AbstractScheduleListItem item : assignmentsRecyclerListItems)
+        {
+            if (item.getItemType() == ItemType.HEADER)
             {
-                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_list_item, viewGroup, false);//$$$
-                return new ScheduleItemViewHolder(v);
-            }
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-            ItemType type = ItemType.values()[getItemViewType(position)];
-            if (type == ItemType.HEADER) {
-                ScheduleListHeader header = (ScheduleListHeader) assignmentsRecyclerListItems.get(position);
-                ScheduleHeaderViewHolder holder = (ScheduleHeaderViewHolder) viewHolder;
-                holder.date.setText(header.getDate().toString());
-            } else if (type == ItemType.ASSIGNMENT){
-                 ScheduleListItem item = (ScheduleListItem) assignmentsRecyclerListItems.get(position);
-                ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
-                holder.itemName.setText(item.getName());
-                holder.item_cv.setBackgroundColor(item.getColor());
-                // your logic here
-            }
-            else {
-                ScheduleListItem item = (ScheduleListItem) taskRecyclerListItems.get(position);
-                ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
-                holder.itemName.setText(item.getName());
-            }
-/*
-            itemViewHolder.itemName.setText(itemsShown.get(i).getName());
-            itemViewHolder.itemPrice.setText("$"+String.valueOf(itemsShown.get(i).getCost()));
-            //itemViewHolder.itemLocation.setText(itemsShown.get(i).getStore());
-            itemViewHolder.itemImage.setBackgroundResource(itemsShown.get(i).getImageId());
-            itemViewHolder.currentItem = i;
-            itemViewHolder.itemId = itemsShown.get(i).getId();*/
-        }
-
-        @Override
-        public int getItemCount() {
-            return itemsShown.size();
-        }
-
-        public class ScheduleItemViewHolder extends RecyclerView.ViewHolder {
-
-            CardView item_cv;
-            TextView itemName;
-            //TextView itemLocation;
-            public int currentItem;
-            public String itemId;
-
-            ScheduleItemViewHolder(final View itemView) {
-                super(itemView);
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //add activity if you want.
-                        /*Intent intent = new Intent(EventInfoActivity.this, ItemInfoActivity.class);
-                        intent.putExtra("itemId", itemId);
-                        EventInfoActivity.this.startActivity(intent);*/
+                ScheduleListHeader header = (ScheduleListHeader) item;
+                double difference = (header.getDate().getTime() * 1000) - currentDay.getTime().getTime();
+                if (difference > 0) {
+                    if (difference < minDifference)
+                    {
+                        minDifference = difference;
+                        result = assignmentsRecyclerListItems.indexOf(item);
                     }
-                });
-
-                item_cv = (CardView)itemView.findViewById(R.id.cv);
-                itemName = (TextView)itemView.findViewById(R.id.item_name);
+                }
             }
         }
-
-        public class ScheduleHeaderViewHolder extends RecyclerView.ViewHolder {
-
-            TextView date;
-            View line;
-
-            ScheduleHeaderViewHolder(final View itemView) {
-                super(itemView);
-
-                date = (TextView)itemView.findViewById(R.id.header_date_textview);
-                line = itemView.findViewById(R.id.line);
-            }
-        }
+        return result;
     }
+
+
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 

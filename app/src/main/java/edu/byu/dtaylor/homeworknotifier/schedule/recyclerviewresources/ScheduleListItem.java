@@ -51,6 +51,10 @@ public class ScheduleListItem extends AbstractScheduleListItem {
 
 
     public String getName(){
+        return scheduleItem.getName();
+    }
+
+    public String getDescription() {
         return scheduleItem.getDescription();
     }
 

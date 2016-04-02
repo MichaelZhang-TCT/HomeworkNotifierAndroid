@@ -43,25 +43,36 @@ public class ScheduleFactory {
         }
         return s;
     }
+
+    /**
+     * returns null if the database isn't running
+     * @param database
+     * @return
+     */
     public static Schedule create(GsonDatabase database) {
         Schedule s = new Schedule();
-        DateFormat formater = new SimpleDateFormat("y-M-d");
+        DateFormat formatter = new SimpleDateFormat("y-M-d");
         //TODO
         int colors[] = new int[6];
-        colors[0] = Color.RED;
-        colors[1] = Color.GREEN;
-        colors[2] = Color.BLUE;
-        colors[3] = Color.YELLOW;
-        colors[4] = Color.MAGENTA;
-        colors[5] = Color.DKGRAY;
+        colors[0] = Color.parseColor("#425C8C");
+        colors[1] = Color.parseColor("#EE573B");
+        colors[2] = Color.parseColor("#44A85E");
+        colors[3] = Color.parseColor("#E0C754");
+        colors[4] = Color.parseColor("#2D8986");
+        colors[5] = Color.parseColor("#B44392");
         int current = 0;
+        if (database == null || database.getUser() == null || database.getUser().getCourses() == null)
+        {
+            return null;
+        }
         for(Course course : database.getUser().getCourses()){
             int color = colors[current++];
             for(Assignment assignment : course.getAssignments())
             {
                 String description = assignment.getDescription();
+                String name = assignment.getName();
                 Date date = new Date(assignment.getDueDate());
-                ScheduleItem item = new ScheduleItem(description, color);
+                ScheduleItem item = new ScheduleItem(name, description, color);
                 s.add(item,date);
             }
         }

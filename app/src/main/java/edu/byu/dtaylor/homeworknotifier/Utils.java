@@ -18,7 +18,10 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
 
@@ -56,6 +59,58 @@ public class Utils {
         return null;
     }
 
+    public static String stringifyDate(Calendar calendar, boolean convertToEpoch, boolean displayYear)
+    {
+        if (convertToEpoch) calendar.setTime(new Date(calendar.getTime().getTime() * 1000));
+        String dayNumberSuffix = getDayNumberSuffix(calendar.get(Calendar.DAY_OF_MONTH));
+        String year = "";
+        if (displayYear) year = " yyyy" ;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d'" + dayNumberSuffix + "'" + year);
+        return dateFormat.format(calendar.getTime());
+    }
+
+    /**
+     *
+     * @param date the date to stringify
+     * @param convertToEpoch needs conversion if it comes directly from java code.
+     * @param displayYear true to display year, false to not.
+     * @return
+     */
+    public static String stringifyDate(Date date, boolean convertToEpoch, boolean displayYear)
+    {
+        if (convertToEpoch) date = new Date(date.getTime() * 1000);
+        String year = "";
+        if (displayYear) year = " yyyy" ;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        String dayNumberSuffix = getDayNumberSuffix(calendar.get(Calendar.DAY_OF_MONTH));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM d'" + dayNumberSuffix + "'" + year);
+        return dateFormat.format(calendar.getTime());
+    }
+
+
+    public static String getDayNumberSuffix(int day) {
+        if (day >= 11 && day <= 13) {
+            return "th";
+        }
+        switch (day % 10) {
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
+        }
+    }
+
+    public static int dpFromPx(int px, Context context) {
+        return Math.round(px / context.getResources().getDisplayMetrics().density);
+    }
+    public static int pxFromDp(final float dp, final Context context) {
+        return Math.round(dp * context.getResources().getDisplayMetrics().density);
+    }
 }
 class CustomAsyncTask extends AsyncTask<Object,Object,Object>
 {
