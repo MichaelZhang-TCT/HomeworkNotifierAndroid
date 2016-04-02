@@ -21,12 +21,15 @@
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/imageButton">
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_height="match_parent"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/calendar_view_pager"
             android:layout_width="match_parent"
-            android:id="@+id/task_RV"
-            />
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_calendar"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        </android.support.v4.view.ViewPager>
     </FrameLayout>
 
     <ImageButton
