@@ -3,7 +3,9 @@ package edu.byu.dtaylor.homeworknotifier;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
+import edu.byu.dtaylor.homeworknotifier.database.Database;
 import edu.byu.dtaylor.homeworknotifier.database.DatabaseHelper;
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
 
@@ -13,12 +15,14 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomTas
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        new CustomAsyncTask(this).execute("daviddt2","davidpaseo3");
+        if(MainActivity.database == null)
+            new CustomAsyncTask(this).execute(getIntent().getStringExtra("netID"),getIntent().getStringExtra("password"));
+        else
+            Log.e("SplashScreenActivity","Something wrong with database");
     }
 
     @Override
     public void onPostExecute(Object object) {
-        MainActivity.database = (GsonDatabase)object;
         Intent intent = new Intent(this, MainActivity.class);
         this.startActivity(intent);
         finish();
@@ -31,7 +35,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomTas
 
         GsonDatabase gsonDb = Utils.getAllInfo(this, netID, password);
         DatabaseHelper dbHelper = new DatabaseHelper(this);
-        dbHelper.updateDB(gsonDb);
+        dbHelper.setDBfromGson(gsonDb);
 
         return gsonDb;
     }

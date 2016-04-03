@@ -29,6 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import edu.byu.dtaylor.homeworknotifier.database.Database;
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
 import edu.byu.dtaylor.homeworknotifier.schedule.Schedule;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleFactory;
@@ -57,23 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     List<AbstractScheduleListItem> assignmentsRecyclerListItems;
     List<AbstractScheduleListItem> taskRecyclerListItems;
     Date dateBeingViewed = Calendar.getInstance().getTime(); //gets the current time.
-    public static GsonDatabase database;
-
-    //This will be replaced by what we pull from the server - ie real data
-    /*private String assignments = "[{\"Description\":\"GsonAssignment One\",\"Date\":\"2016-03-05\"}," +
-            "{\"Description\":\"GsonAssignment Two\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}]";*/
-
-    private String assignments = "[{\"Description\":\"GsonAssignment One\",\"Date\":\"2016-03-05\"}," +
-            "{\"Description\":\"GsonAssignment Two\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}]";
+    public static Database database;
 
 
     private int offset = 0;

@@ -75,7 +75,7 @@ public class ScheduleListItem extends AbstractScheduleListItem {
         return scheduleItem.isGraded();
     }
 
-    public int getPoints() {
+    public double getPoints() {
         return scheduleItem.getPoints();
     }
 

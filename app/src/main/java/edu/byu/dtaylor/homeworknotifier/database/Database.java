@@ -10,14 +10,20 @@ import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
  */
 public class Database {
     ArrayList<Course> courses = new ArrayList<>();
-    String userId;
 
     public Database(GsonDatabase db)
     {
-        userId = db.getUser().getId();
         for(GsonCourse course : db.getUser().getCourses())
         {
             courses.add(new Course(course));
         }
+    }
+
+    public Database(ArrayList<Course> courses) {
+        this.courses = courses;
+    }
+
+    public ArrayList<Course> getCourses() {
+        return courses;
     }
 }

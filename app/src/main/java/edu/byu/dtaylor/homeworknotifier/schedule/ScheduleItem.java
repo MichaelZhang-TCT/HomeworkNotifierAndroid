@@ -17,7 +17,7 @@ public class ScheduleItem {
     String category;
     String courseID;
     boolean graded;
-    int points;
+    double points;
     String url;
     double weight;
     String shortTitle;
@@ -39,7 +39,7 @@ public class ScheduleItem {
                         String title,
                         Date dueDate,
                         boolean graded,
-                        int points,
+                        double points,
                         String type,
                         String url,
                         double weight) {
@@ -195,7 +195,7 @@ public class ScheduleItem {
         return graded;
     }
 
-    public int getPoints() {
+    public double getPoints() {
         return points;
     }
 

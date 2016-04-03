@@ -13,6 +13,7 @@ public class Course {
     private String title;
     ArrayList<Task> tasks = new ArrayList<>();
     String courseId;;
+    private GsonAssignment[] assignments;
 
     public Course(GsonCourse course)
     {
@@ -23,5 +24,35 @@ public class Course {
         {
             tasks.add(new Task(assignment));
         }
+    }
+
+    public Course(String courseId, String courseTitle, String courseShortTitle) {
+        this.shortTitle = courseShortTitle;
+        this.courseId = courseId;
+        this.title = courseTitle;
+    }
+
+    public void setTasks(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public GsonAssignment[] getAssignments() {
+        return assignments;
+    }
+
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
+
+    public String getShortTitle() {
+        return shortTitle;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getCourseId() {
+        return courseId;
     }
 }
