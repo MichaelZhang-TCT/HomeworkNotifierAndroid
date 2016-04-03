@@ -101,7 +101,7 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 holder.line.setBackgroundColor(ContextCompat.getColor(context, R.color.lightGray));
             }
             Log.d(TAG, Utils.stringifyDate(header.getDate(), true, false));
-        } else if (type == AbstractScheduleListItem.ItemType.ASSIGNMENT){
+        } else {
             ScheduleListItem item = (ScheduleListItem) itemsShown.get(position);
             ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
             holder.itemName.setText(item.getName());
@@ -110,7 +110,7 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.description = item.getDescription();
             holder.itemDueTime.setText(Utils.stringifyTimeDue(item.getDueDate()));
             holder.itemCourse.setText(item.getShortTitle());
-            switch (item.getType()){
+            switch (item.getType()) {
                 case HOMEWORK:
                     holder.itemTypeImage.setImageResource(R.drawable.ic_book_minus_white_24dp);
                     break;
@@ -140,18 +140,6 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 default:
                     break;
             }
-
-
-            // your logic here
-        }
-        else {
-            ScheduleListItem item = (ScheduleListItem) itemsShown.get(position);
-            ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
-            holder.itemName.setText(item.getName());
-            holder.item_cv.setBackgroundColor(item.getColor());
-            holder.itemTypeImage.setImageAlpha(30);
-            holder.description = item.getDescription();
-
         }
 /*
             itemViewHolder.itemName.setText(itemsShown.get(i).getName());
@@ -190,12 +178,7 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //add activity if you want.
-                        /*Intent intent = new Intent(EventInfoActivity.this, ItemInfoActivity.class);
-                        intent.putExtra("itemId", itemId);
-                        EventInfoActivity.this.startActivity(intent);*/
-                        // Create an instance of the dialog fragment and show it
-                        DialogFragment dialog = new AssignmentDialogFragment();
+                    DialogFragment dialog = new AssignmentDialogFragment();
                     Bundle bundle = new Bundle();
                     bundle.putString("name",itemName.getText().toString());
                     bundle.putString("description",description);

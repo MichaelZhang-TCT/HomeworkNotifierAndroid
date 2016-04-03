@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                             assignmentsRecyclerListItems.get(position),
                                             ItemType.TASK);
                                     ((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).taskRecyclerListItems.add(newTask);
-                                    assignmentAdapter.notifyItemRemoved(position);
+                                    //assignmentAdapter.notifyItemRemoved(position);
                                     ((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).taskAdapter.notifyItemInserted(((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).taskRecyclerListItems.size() - 1);
                                 }
                                 assignmentAdapter.notifyDataSetChanged();
