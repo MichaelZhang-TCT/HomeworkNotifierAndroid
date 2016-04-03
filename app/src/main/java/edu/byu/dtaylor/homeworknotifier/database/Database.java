@@ -8,11 +8,11 @@ import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
  * Created by longl on 4/3/2016.
  */
 public class Database {
-    ArrayList<Task> tasks;
+    ArrayList<Course> courses;
     GsonDatabase db;
 
     public Database()
     {
-        tasks = new ArrayList<>();
+        courses = new ArrayList<>();
     }
 }
