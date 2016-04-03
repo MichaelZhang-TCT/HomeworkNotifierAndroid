@@ -11,8 +11,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import edu.byu.dtaylor.homeworknotifier.gsontools.Assignment;
-import edu.byu.dtaylor.homeworknotifier.gsontools.Course;
+import edu.byu.dtaylor.homeworknotifier.gsontools.GsonAssignment;
+import edu.byu.dtaylor.homeworknotifier.gsontools.GsonCourse;
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
 
 /**
@@ -65,9 +65,9 @@ public class ScheduleFactory {
         {
             return null;
         }
-        for(Course course : database.getUser().getCourses()){
+        for(GsonCourse course : database.getUser().getCourses()){
             int color = colors[current++];
-            for(Assignment assignment : course.getAssignments())
+            for(GsonAssignment assignment : course.getAssignments())
             {
                 String description = assignment.getDescription();
                 String name = assignment.getName();

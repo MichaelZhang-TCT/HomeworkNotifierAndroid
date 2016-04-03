@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Course {
+public class GsonCourse {
 
     @SerializedName("id")
     @Expose
@@ -24,7 +24,7 @@ public class Course {
     private String shortTitle;
     @SerializedName("assignments")
     @Expose
-    private List<Assignment> assignments = new ArrayList<Assignment>();
+    private List<GsonAssignment> assignments = new ArrayList<GsonAssignment>();
 
     /**
      * 
@@ -44,7 +44,7 @@ public class Course {
         this.id = id;
     }
 
-    public Course withId(String id) {
+    public GsonCourse withId(String id) {
         this.id = id;
         return this;
     }
@@ -67,7 +67,7 @@ public class Course {
         this.title = title;
     }
 
-    public Course withTitle(String title) {
+    public GsonCourse withTitle(String title) {
         this.title = title;
         return this;
     }
@@ -90,7 +90,7 @@ public class Course {
         this.shortTitle = shortTitle;
     }
 
-    public Course withShortTitle(String shortTitle) {
+    public GsonCourse withShortTitle(String shortTitle) {
         this.shortTitle = shortTitle;
         return this;
     }
@@ -100,7 +100,7 @@ public class Course {
      * @return
      *     The assignments
      */
-    public List<Assignment> getAssignments() {
+    public List<GsonAssignment> getAssignments() {
         return assignments;
     }
 
@@ -109,11 +109,11 @@ public class Course {
      * @param assignments
      *     The assignments
      */
-    public void setAssignments(List<Assignment> assignments) {
+    public void setAssignments(List<GsonAssignment> assignments) {
         this.assignments = assignments;
     }
 
-    public Course withAssignments(List<Assignment> assignments) {
+    public GsonCourse withAssignments(List<GsonAssignment> assignments) {
         this.assignments = assignments;
         return this;
     }
@@ -133,10 +133,10 @@ public class Course {
         if (other == this) {
             return true;
         }
-        if ((other instanceof Course) == false) {
+        if ((other instanceof GsonCourse) == false) {
             return false;
         }
-        Course rhs = ((Course) other);
+        GsonCourse rhs = ((GsonCourse) other);
         return new EqualsBuilder().append(id, rhs.id).append(title, rhs.title).append(shortTitle, rhs.shortTitle).append(assignments, rhs.assignments).isEquals();
     }
 

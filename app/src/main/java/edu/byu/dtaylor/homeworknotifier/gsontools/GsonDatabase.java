@@ -12,14 +12,14 @@ public class GsonDatabase {
 
     @SerializedName("user")
     @Expose
-    private User user;
+    private GsonUser user;
 
     /**
      * 
      * @return
      *     The user
      */
-    public User getUser() {
+    public GsonUser getUser() {
         return user;
     }
 
@@ -28,11 +28,11 @@ public class GsonDatabase {
      * @param user
      *     The user
      */
-    public void setUser(User user) {
+    public void setUser(GsonUser user) {
         this.user = user;
     }
 
-    public GsonDatabase withUser(User user) {
+    public GsonDatabase withUser(GsonUser user) {
         this.user = user;
         return this;
     }

@@ -8,7 +8,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-public class Assignment {
+public class GsonAssignment {
 
     @SerializedName("id")
     @Expose
@@ -65,7 +65,7 @@ public class Assignment {
         this.id = id;
     }
 
-    public Assignment withId(String id) {
+    public GsonAssignment withId(String id) {
         this.id = id;
         return this;
     }
@@ -88,7 +88,7 @@ public class Assignment {
         this.categoryID = categoryID;
     }
 
-    public Assignment withCategoryID(String categoryID) {
+    public GsonAssignment withCategoryID(String categoryID) {
         this.categoryID = categoryID;
         return this;
     }
@@ -111,7 +111,7 @@ public class Assignment {
         this.category = category;
     }
 
-    public Assignment withCategory(String category) {
+    public GsonAssignment withCategory(String category) {
         this.category = category;
         return this;
     }
@@ -134,7 +134,7 @@ public class Assignment {
         this.courseID = courseID;
     }
 
-    public Assignment withCourseID(String courseID) {
+    public GsonAssignment withCourseID(String courseID) {
         this.courseID = courseID;
         return this;
     }
@@ -157,7 +157,7 @@ public class Assignment {
         this.description = description;
     }
 
-    public Assignment withDescription(String description) {
+    public GsonAssignment withDescription(String description) {
         this.description = description;
         return this;
     }
@@ -180,7 +180,7 @@ public class Assignment {
         this.dueDate = dueDate;
     }
 
-    public Assignment withDueDate(Integer dueDate) {
+    public GsonAssignment withDueDate(Integer dueDate) {
         this.dueDate = dueDate;
         return this;
     }
@@ -203,7 +203,7 @@ public class Assignment {
         this.graded = graded;
     }
 
-    public Assignment withGraded(Boolean graded) {
+    public GsonAssignment withGraded(Boolean graded) {
         this.graded = graded;
         return this;
     }
@@ -226,7 +226,7 @@ public class Assignment {
         this.name = name;
     }
 
-    public Assignment withName(String name) {
+    public GsonAssignment withName(String name) {
         this.name = name;
         return this;
     }
@@ -249,7 +249,7 @@ public class Assignment {
         this.points = points;
     }
 
-    public Assignment withPoints(Integer points) {
+    public GsonAssignment withPoints(Integer points) {
         this.points = points;
         return this;
     }
@@ -272,7 +272,7 @@ public class Assignment {
         this.type = type;
     }
 
-    public Assignment withType(String type) {
+    public GsonAssignment withType(String type) {
         this.type = type;
         return this;
     }
@@ -295,7 +295,7 @@ public class Assignment {
         this.url = url;
     }
 
-    public Assignment withUrl(String url) {
+    public GsonAssignment withUrl(String url) {
         this.url = url;
         return this;
     }
@@ -318,7 +318,7 @@ public class Assignment {
         this.weight = weight;
     }
 
-    public Assignment withWeight(Double weight) {
+    public GsonAssignment withWeight(Double weight) {
         this.weight = weight;
         return this;
     }
@@ -338,10 +338,10 @@ public class Assignment {
         if (other == this) {
             return true;
         }
-        if ((other instanceof Assignment) == false) {
+        if ((other instanceof GsonAssignment) == false) {
             return false;
         }
-        Assignment rhs = ((Assignment) other);
+        GsonAssignment rhs = ((GsonAssignment) other);
         return new EqualsBuilder().append(id, rhs.id).append(categoryID, rhs.categoryID).append(category, rhs.category).append(courseID, rhs.courseID).append(description, rhs.description).append(dueDate, rhs.dueDate).append(graded, rhs.graded).append(name, rhs.name).append(points, rhs.points).append(type, rhs.type).append(url, rhs.url).append(weight, rhs.weight).isEquals();
     }
 
