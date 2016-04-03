@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItemType;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListHeader;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListItem;
@@ -79,23 +80,25 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     holder.date.setText("Today"); //only display "today" if it's literally today.
                 }
                 else holder.date.setText(Utils.stringifyDate(header.getDate(), true, false));
-                holder.date.setTypeface(null, Typeface.BOLD);
-                holder.date.setTextColor(Color.parseColor("#A7A7A7"));
+                //holder.date.setTypeface(null, Typeface.BOLD);
+                //holder.date.setTextColor(Color.parseColor("#A7A7A7"));
+
+                holder.date.setTextColor((ContextCompat.getColor(context, R.color.colorPrimaryMediumLight)));
 
                 holder.line.requestLayout();
-                holder.line.getLayoutParams().height = Utils.pxFromDp(2, context);
-                holder.line.setBackgroundColor(Color.parseColor("#A7A7A7"));
+                //holder.line.getLayoutParams().height = Utils.pxFromDp(2, context);
+                holder.line.setBackgroundColor((ContextCompat.getColor(context, R.color.colorPrimaryMediumLight)));
 
             }
             else
             {
                 holder.date.setText(Utils.stringifyDate(header.getDate(), true, false));
                 holder.date.setTypeface(null, Typeface.NORMAL);
-                holder.date.setTextColor(Color.parseColor("#B6B6B6"));
+                holder.date.setTextColor((ContextCompat.getColor(context, R.color.lightGray)));
                 holder.line.requestLayout();
-                holder.line.getLayoutParams().height = Utils.pxFromDp(1, context);
+                //holder.line.getLayoutParams().height = Utils.pxFromDp(1, context);
 
-                holder.line.setBackgroundColor(Color.parseColor("#B6B6B6"));
+                holder.line.setBackgroundColor(ContextCompat.getColor(context, R.color.lightGray));
             }
             Log.d(TAG, Utils.stringifyDate(header.getDate(), true, false));
         } else if (type == AbstractScheduleListItem.ItemType.ASSIGNMENT){
@@ -105,16 +108,35 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.item_cv.setBackgroundColor(item.getColor());
             holder.itemTypeImage.setImageAlpha(60);
             holder.description = item.getDescription();
-            switch ((new Random()).nextInt() % 3){
-                case 0:
+            holder.itemDueTime.setText(Utils.stringifyTimeDue(item.getDueDate()));
+            holder.itemCourse.setText(item.getShortTitle());
+            switch (item.getType()){
+                case HOMEWORK:
                     holder.itemTypeImage.setImageResource(R.drawable.ic_book_minus_white_24dp);
                     break;
-                case 1:
+                case TEST:
+                    holder.itemTypeImage.setImageResource(R.drawable.ic_school_white_24dp);
+                    holder.itemTypeImage.setImageResource(R.drawable.ic_sale_white_24dp);
+                    break;
+                case QUIZ:
+                    holder.itemTypeImage.setImageResource(R.drawable.ic_pen_white_24dp);
+                    holder.itemTypeImage.setImageResource(R.drawable.ic_sale_white_24dp);
+                    break;
+                case READING:
+                    holder.itemTypeImage.setImageResource(R.drawable.ic_library_white_24dp);
+                    break;
+                case CUSTOM:
                     holder.itemTypeImage.setImageResource(R.drawable.ic_flask_white_24dp);
                     break;
-                case 2:
-                    holder.itemTypeImage.setImageResource(R.drawable.ic_pen_white_24dp);
-                    break;
+                case OTHER:
+                    holder.itemTypeImage.setImageResource(R.drawable.ic_certificate_white_24dp);
+                    holder.itemTypeImage.setImageResource(R.drawable.ic_food_apple_white_24dp);
+                    holder.itemTypeImage.setImageResource(R.drawable.ic_rename_box_white_24dp);
+                    holder.itemTypeImage.setImageResource(R.drawable.ic_script_white_24dp);
+
+                    holder.itemTypeImage.setImageResource(R.drawable.ic_scale_balance_white_24dp);
+                    holder.itemTypeImage.setImageResource(R.drawable.ic_presentation_white_24dp);
+                    holder.itemTypeImage.setImageResource(R.drawable.ic_rename_box_white_24dp);
                 default:
                     break;
             }
@@ -154,12 +176,17 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public int currentItem;
         public String itemId;
         public String description;
+        TextView itemCourse;
+        TextView itemDueTime;
+        public String pointsPossible;
 
         ScheduleItemViewHolder(final View itemView) {
             super(itemView);
             item_cv = (CardView)itemView.findViewById(R.id.cv);
             itemName = (TextView)itemView.findViewById(R.id.item_name);
             itemTypeImage = (ImageView) itemView.findViewById(R.id.assignment_type_image);
+            itemCourse = (TextView) itemView.findViewById(R.id.assignment_course);
+            itemDueTime = (TextView) itemView.findViewById(R.id.assignment_due_time);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -172,7 +199,9 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     Bundle bundle = new Bundle();
                     bundle.putString("name",itemName.getText().toString());
                     bundle.putString("description",description);
-                    bundle.putString("dueDate","dueDate");
+                    bundle.putString("dueDate", itemDueTime.getText().toString());
+                    bundle.putString("points", pointsPossible);
+                    bundle.putString("course", itemCourse.getText().toString());
                     dialog.setArguments(bundle);
                     dialog.show(((MainActivity)context).getSupportFragmentManager(), "AssignmentDialogFragment");
                 }

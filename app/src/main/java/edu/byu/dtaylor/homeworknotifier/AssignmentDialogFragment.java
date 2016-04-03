@@ -23,17 +23,25 @@ public class AssignmentDialogFragment extends DialogFragment {
         String name = getArguments().getString("name");
         String desc = getArguments().getString("description");
         String dueDate = getArguments().getString("dueDate");
+        String pointsPossible = getArguments().getString("points");
+        String course = getArguments().getString("course");
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_assignment_dialog, null);
         TextView dialogTitle = (TextView)view.findViewById(R.id.dialog_title);
         TextView dialogDescription = (TextView)view.findViewById(R.id.dialog_description);
+        TextView dialogPoints = (TextView)view.findViewById(R.id.dialog_points);
+        TextView dialogCourse= (TextView)view.findViewById(R.id.dialog_course);
         if(name != null && desc != null && dueDate != null) {
             dialogDescription.setText(desc);
             dialogTitle.setText(name);
+            dialogPoints.setText(pointsPossible);
+            dialogCourse.setText(course);
         }
         else
         {
             dialogTitle.setText("ERROR");
             dialogDescription.setText("Invalid arguments");
+            dialogPoints.setText("9999999 points");
+            dialogCourse.setText("LIFE 101");
         }
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

@@ -111,6 +111,12 @@ public class Utils {
     public static int pxFromDp(final float dp, final Context context) {
         return Math.round(dp * context.getResources().getDisplayMetrics().density);
     }
+
+    public static String stringifyTimeDue(Date dueDate) {
+        Date time = new Date(dueDate.getTime() * 1000);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+        return dateFormat.format(time);
+    }
 }
 class CustomAsyncTask extends AsyncTask<Object,Object,Object>
 {

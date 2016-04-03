@@ -19,6 +19,25 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/dialog_title"
         android:textSize="16sp"
-        android:text="Dialog descirption" />
+        android:text="Dialog description" />
+
+    <TextView
+        android:id="@+id/dialog_points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Points possible"
+        android:layout_alignBaseline="@+id/dialog_description"
+        android:layout_alignBottom="@+id/dialog_description"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/dialog_course"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Course ID"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package edu.byu.dtaylor.homeworknotifier.schedule;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -10,12 +11,85 @@ import java.util.HashSet;
  */
 public class ScheduleItem {
 
+
+    private static final String TAG = "ScheduleItem";
+    Date dueDate;
+    String category;
+    String courseID;
+    boolean graded;
+    int points;
+    String url;
+    double weight;
+    String shortTitle;
+    String title;
+
     private String name;
     private String description;
     private ScheduleItemType type;
     private HashSet<Date> plannedDates; //this is plannedDates time to work on item TODO: refactor to datetime?
     private boolean completed;
     private int color;
+
+    public ScheduleItem(String name,
+                        String description,
+                        int color,
+                        String category,
+                        String courseID,
+                        String shortTitle,
+                        String title,
+                        Date dueDate,
+                        boolean graded,
+                        int points,
+                        String type,
+                        String url,
+                        double weight) {
+
+        this.name = name;
+        this.description = description;
+        this.color = color;
+        this.category = category;
+        this.courseID = courseID;
+        this.shortTitle = shortTitle;
+        this.title = title;
+        this.dueDate = dueDate;
+        this.graded = graded;
+        this.points = points;
+        //TODO: Deside whether to base off of category or type.
+        if (type.toLowerCase().matches(".*assignment.*"))
+        {
+            if (category.toLowerCase().matches(".*lab.*|.* project .*"))
+            {
+                this.type = ScheduleItemType.CUSTOM;
+            } else if (category.toLowerCase().matches(".*read.*"))
+            {
+                this.type = ScheduleItemType.READING;
+            }
+            else {
+                this.type = ScheduleItemType.HOMEWORK;
+            }
+
+        }
+        else if (type.toLowerCase().matches(".*test.*|.*exam.*"))
+        {
+            if (category.toLowerCase().matches(".*quiz.*"))
+            {
+                this.type = ScheduleItemType.QUIZ;
+            }
+            else this.type = ScheduleItemType.TEST;
+        }
+
+        else {
+            this.type = ScheduleItemType.OTHER;
+        }
+        Log.d(TAG, "Type was received as: " + type);
+        this.url = url;
+        this.weight = weight;
+
+        //our custom stuff;
+        plannedDates = new HashSet<>();
+        completed = false;
+    }
+
 
     public String getName() {
         return name;
@@ -107,5 +181,41 @@ public class ScheduleItem {
     @Override
     public String toString() {
         return "Description: " + description + "; Type: " + type.name() + "; Planned: " + plannedDates + "; Completed: " + completed;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getCourseID() {
+        return courseID;
+    }
+
+    public boolean isGraded() {
+        return graded;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public String getShortTitle() {
+        return shortTitle;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Date getDueDate() {
+        return dueDate;
     }
 }
