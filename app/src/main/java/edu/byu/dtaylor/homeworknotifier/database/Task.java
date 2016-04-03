@@ -1,5 +1,6 @@
 package edu.byu.dtaylor.homeworknotifier.database;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonAssignment;
@@ -9,13 +10,12 @@ import edu.byu.dtaylor.homeworknotifier.gsontools.GsonAssignment;
  */
 public class Task {
     GsonAssignment assignment;
-    Calendar dateAssigned;
+    ArrayList<Calendar> dateAssigned = new ArrayList<>();
     boolean complete;
 
-    public Task(GsonAssignment assignment, Calendar dateAssigned)
+    public Task(GsonAssignment assignment)
     {
         this.assignment = assignment;
-        this.dateAssigned = dateAssigned;
         this.complete = false;
     }
 }
