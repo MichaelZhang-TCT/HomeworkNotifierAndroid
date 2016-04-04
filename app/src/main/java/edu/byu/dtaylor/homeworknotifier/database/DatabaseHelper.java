@@ -84,12 +84,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         MainActivity.database = new Database(gsonDb);
     }
 
+    public void insertTask(Task task)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues courseValues = new ContentValues();
+        courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNMENT_ID,task.getAssignmentId());
+        courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_COURSE_ID, task.getCourseId());
+        courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_DUE_DATE, task.getDueDate());
+        courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNED_DATE, task.getAssignedDate());
+
+        long taskId = db.insert(HomeworkNotifierContract.Tasks.TABLE_NAME,null,courseValues);
+    }
+
     public Database getDatabaseFromSql()
     {
         ArrayList<Course> courses = getCourses();
-        if(courses != null)
-            return new Database(courses);
-        return null;
+        ArrayList<Task> tasks = getTasks();
+        if(courses != null && tasks != null)
+            return new Database(courses, tasks);
+        else
+        {
+            Log.e("DatabaseHelper","Failed to load database");
+            return null;
+        }
     }
 
     public ArrayList<Course> getCourses() {
@@ -128,16 +145,58 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
             courseQuery.close();
             for (Course course : courses) {
-                ArrayList<Task> tasks = getTasks(course);
-                if(tasks != null)
-                    course.setTasks(tasks);
+                ArrayList<Assignment> assignments = getAssignments(course);
+                if(assignments != null)
+                    course.setAssignments(assignments);
             }
             return courses;
         }
         return null;
     }
 
-    private ArrayList<Task> getTasks(Course course) {
+    private ArrayList<Task> getTasks()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNMENT_ID,
+                HomeworkNotifierContract.Tasks.COLUMN_NAME_COURSE_ID,
+                HomeworkNotifierContract.Tasks.COLUMN_NAME_DUE_DATE,
+                HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNED_DATE
+        };
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNED_DATE + " DESC";
+
+        Cursor tasksQuery = db.query(
+                HomeworkNotifierContract.Tasks.TABLE_NAME,  // The table to query
+                projection,                               // The columns to return
+                /*selection*/null,                                // The columns for the WHERE clause
+                /*selectionArgs*/null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+        ArrayList<Task> tasks = new ArrayList<>();
+        if(tasksQuery.getCount() != 0) {
+            tasksQuery.moveToFirst();
+            for (int i = 0; i < tasksQuery.getCount(); i++) {
+                String assignmentId = tasksQuery.getString(0);
+                String courseId = tasksQuery.getString(1);
+                String dueDate = tasksQuery.getString(2);
+                String assignedDate = tasksQuery.getString(3);
+                tasks.add(new Task(assignmentId, courseId, dueDate, assignedDate));
+                tasksQuery.moveToNext();
+            }
+            tasksQuery.close();
+            return tasks;
+        }
+        return null;
+    }
+
+    private ArrayList<Assignment> getAssignments(Course course) {
         SQLiteDatabase db = this.getReadableDatabase();
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
@@ -178,7 +237,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null,                                     // don't filter by row groups
                 sortOrder                                 // The sort order
         );
-        ArrayList<Task> tasks = new ArrayList<>();
+        ArrayList<Assignment> assignments = new ArrayList<>();
         if(assignmentsQuery.getCount() != 0) {
             assignmentsQuery.moveToFirst();
             for (int i = 0; i < assignmentsQuery.getCount(); i++) {
@@ -195,11 +254,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String weight = assignmentsQuery.getString(10);
                 String type = assignmentsQuery.getString(11);
                 String refUrl = assignmentsQuery.getString(12);
-                tasks.add(new Task(assignmentId, courseId, name, description, category, categoryId, dueDate, graded, points, weight, type, refUrl));
+                assignments.add(new Assignment(assignmentId, courseId, name, description, category, categoryId, dueDate, graded, points, weight, type, refUrl));
                 assignmentsQuery.moveToNext();
             }
             assignmentsQuery.close();
-            return tasks;
+            return assignments;
         }
         return null;
     }

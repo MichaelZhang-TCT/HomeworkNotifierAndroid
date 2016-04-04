@@ -11,7 +11,7 @@ import edu.byu.dtaylor.homeworknotifier.gsontools.GsonCourse;
 public class Course {
     private String shortTitle;
     private String title;
-    ArrayList<Task> tasks = new ArrayList<>();
+    ArrayList<Assignment> assignments = new ArrayList<>();
     String courseId;;
     private GsonAssignment[] assignments;
 
@@ -22,7 +22,7 @@ public class Course {
         title = course.getTitle();
         for(GsonAssignment assignment : course.getAssignments())
         {
-            tasks.add(new Task(assignment));
+            assignments.add(new Assignment(assignment));
         }
     }
 
@@ -32,16 +32,16 @@ public class Course {
         this.title = courseTitle;
     }
 
-    public void setTasks(ArrayList<Task> tasks) {
-        this.tasks = tasks;
+    public void setAssignments(ArrayList<Assignment> assignments) {
+        this.assignments = assignments;
     }
 
     public GsonAssignment[] getAssignments() {
         return assignments;
     }
 
-    public ArrayList<Task> getTasks() {
-        return tasks;
+    public ArrayList<Assignment> getAssignments() {
+        return assignments;
     }
 
     public String getShortTitle() {

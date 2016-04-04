@@ -10,6 +10,7 @@ import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
  */
 public class Database {
     ArrayList<Course> courses = new ArrayList<>();
+    ArrayList<Task> tasks = new ArrayList<>();
 
     public Database(GsonDatabase db)
     {
@@ -19,8 +20,9 @@ public class Database {
         }
     }
 
-    public Database(ArrayList<Course> courses) {
+    public Database(ArrayList<Course> courses, ArrayList<Task> tasks) {
         this.courses = courses;
+        this.tasks = tasks;
     }
 
     public ArrayList<Course> getCourses() {

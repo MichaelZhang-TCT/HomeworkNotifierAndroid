@@ -14,10 +14,7 @@ import java.util.Date;
 
 import edu.byu.dtaylor.homeworknotifier.database.Course;
 import edu.byu.dtaylor.homeworknotifier.database.Database;
-import edu.byu.dtaylor.homeworknotifier.database.Task;
-import edu.byu.dtaylor.homeworknotifier.gsontools.GsonAssignment;
-import edu.byu.dtaylor.homeworknotifier.gsontools.GsonCourse;
-import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
+import edu.byu.dtaylor.homeworknotifier.database.Assignment;
 
 /**
  * Created by Tanner on 3/9/2016.
@@ -73,18 +70,18 @@ public class ScheduleFactory {
         }
         for(Course course : courses){
             int color = colors[current == 6 ? current=0 : current++];
-            for(Task task : course.getTasks())
+            for(Assignment assignment : course.getAssignments())
             {
-                String description = task.getDescription();
-                String name = task.getName();
-                Date dueDate = new Date(task.getDueDate());
-                String category = task.getCategory();
-                String courseID = task.getCourseId();
-                boolean graded = task.isGraded();
-                double points = task.getPoints();
-                String type = task.getType();
-                String url = task.getRefUrl();
-                double weight = task.getWeight();
+                String description = assignment.getDescription();
+                String name = assignment.getName();
+                Date dueDate = new Date(assignment.getDueDate());
+                String category = assignment.getCategory();
+                String courseID = assignment.getCourseId();
+                boolean graded = assignment.isGraded();
+                double points = assignment.getPoints();
+                String type = assignment.getType();
+                String url = assignment.getRefUrl();
+                double weight = assignment.getWeight();
 
                 ScheduleItem item = new ScheduleItem(name, description, color, category, courseID, course.getShortTitle(), course.getTitle(), dueDate, graded, points, type, url, weight);
 
