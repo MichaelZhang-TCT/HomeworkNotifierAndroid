@@ -3,9 +3,9 @@ package edu.byu.dtaylor.homeworknotifier.database;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-import edu.byu.dtaylor.homeworknotifier.MainActivity;
-import edu.byu.dtaylor.homeworknotifier.gsontools.GsonCourse;
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
 
 /**
@@ -15,17 +15,42 @@ public class Database {
     ArrayList<Course> courses = new ArrayList<>();
     ArrayList<Task> tasks = new ArrayList<>();
 
+    HashMap<String,List<Task>> tasksByAssignment = new HashMap<>();
+    HashMap<String,Course> courseById = new HashMap<>();
+    HashMap<String,Assignment> assignmentById = new HashMap<>();
+
     public Database(GsonDatabase db)
     {
-        for(GsonCourse course : db.getUser().getCourses())
+        for(Course course : db.getUser().getCourses())
         {
-            courses.add(new Course(course));
+            courses.add(course);
+            courseById.put(course.getId(),course);
+            for(Assignment assignment : course.getAssignments())
+            {
+                assignmentById.put(assignment.getId(), assignment);
+            }
         }
     }
 
     public Database(ArrayList<Course> courses, ArrayList<Task> tasks) {
         this.courses = courses;
         this.tasks = tasks;
+        courseById.clear();
+        assignmentById.clear();
+        for(Course course : courses)
+        {
+            courseById.put(course.getId(), course);
+            for (Assignment assignment : course.getAssignments()) {
+                assignmentById.put(assignment.getId(), assignment);
+            }
+        }
+        tasksByAssignment.clear();
+        for(Task task : tasks)
+        {
+            if(!tasksByAssignment.containsKey(task.getAssignmentId()))
+                tasksByAssignment.put(task.getAssignmentId(), new ArrayList<Task>());
+            tasksByAssignment.get(task.getAssignmentId()).add(task);
+        }
     }
 
     public ArrayList<Course> getCourses() {
@@ -43,4 +68,21 @@ public class Database {
     public ArrayList<Task> getTasks() {
         return tasks;
     }
+
+    public List<Task> getTaskByAssignmentId(String assignmentId)
+    {
+        return tasksByAssignment.get(assignmentId);
+    }
+
+    public Course getCourseById(String courseId)
+    {
+        return courseById.get(courseId);
+    }
+
+    public Assignment getAssignmentById(String assignmentId)
+    {
+        return assignmentById.get(assignmentId);
+    }
+
+
 }

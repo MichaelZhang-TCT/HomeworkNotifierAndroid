@@ -2,6 +2,7 @@ package edu.byu.dtaylor.homeworknotifier;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -18,21 +19,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import edu.byu.dtaylor.homeworknotifier.database.Database;
-import edu.byu.dtaylor.homeworknotifier.database.DatabaseHelper;
 import edu.byu.dtaylor.homeworknotifier.database.Task;
-import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
 import edu.byu.dtaylor.homeworknotifier.schedule.Schedule;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleFactory;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItem;
@@ -75,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Calendar nextDay;
     private CalendarPageAdapter calendarPageAdapter;
     private ViewPager dayPage;
+    public static SharedPreferences settings;
     //END CALENDAR STUFF
 
     protected Fragment loadSchedule() {
@@ -106,7 +103,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //CALENDAR STUFF
         initializeCalendar();
         //END CALENDAR STUFF
-
+        settings = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        if(getIntent().getStringExtra("netID") != null && getIntent().getStringExtra("password") != null)
+        {
+            editor.putString("netID",getIntent().getStringExtra("netID"));
+            editor.putString("password",getIntent().getStringExtra("password"));
+            editor.commit();
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -210,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 // scroll to the right day
-                assignmentsLayoutManager.scrollToPositionWithOffset(getCurrentDayIndex(),0);
+                assignmentsLayoutManager.scrollToPositionWithOffset(getCurrentDayIndex(), 0);
             }
         });
 

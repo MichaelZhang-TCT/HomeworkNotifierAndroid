@@ -76,14 +76,14 @@ public class ScheduleFactory {
                 String name = assignment.getName();
                 Date dueDate = new Date(assignment.getDueDate());
                 String category = assignment.getCategory();
-                String courseID = assignment.getCourseId();
-                boolean graded = assignment.isGraded();
+                String courseID = assignment.getCourseID();
+                boolean graded = assignment.getGraded();
                 double points = assignment.getPoints();
                 String type = assignment.getType();
-                String url = assignment.getRefUrl();
+                String url = assignment.getUrl();
                 double weight = assignment.getWeight();
 
-                ScheduleItem item = new ScheduleItem(name, description, color, category, courseID, course.getShortTitle(), course.getTitle(), dueDate, graded, points, type, url, weight, assignment.getAssignmentId());
+                ScheduleItem item = new ScheduleItem(name, description, color, category, courseID, course.getShortTitle(), course.getTitle(), dueDate, graded, points, type, url, weight, assignment.getId());
 
                 s.add(item,dueDate);
             }

@@ -11,6 +11,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.byu.dtaylor.homeworknotifier.database.Course;
+
 public class GsonUser {
 
     @SerializedName("id")
@@ -18,7 +20,7 @@ public class GsonUser {
     private String id;
     @SerializedName("courses")
     @Expose
-    private List<GsonCourse> courses = new ArrayList<GsonCourse>();
+    private List<Course> courses = new ArrayList<Course>();
 
     /**
      * 
@@ -48,7 +50,7 @@ public class GsonUser {
      * @return
      *     The courses
      */
-    public List<GsonCourse> getCourses() {
+    public List<Course> getCourses() {
         return courses;
     }
 
@@ -57,11 +59,11 @@ public class GsonUser {
      * @param courses
      *     The courses
      */
-    public void setCourses(List<GsonCourse> courses) {
+    public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
 
-    public GsonUser withCourses(List<GsonCourse> courses) {
+    public GsonUser withCourses(List<Course> courses) {
         this.courses = courses;
         return this;
     }

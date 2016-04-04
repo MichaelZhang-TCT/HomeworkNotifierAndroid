@@ -23,7 +23,7 @@ public final class HomeworkNotifierContract {
         public static final String TABLE_NAME = "tasks";
         public static final String COLUMN_NAME_ASSIGNMENT_ID = "assignment_id";
         public static final String COLUMN_NAME_COURSE_ID = "course_id";
-        public static final String COLUMN_NAME_DUE_DATE = "due_date";
+        public static final String COLUMN_NAME_COMPLETED = "completed";
         public static final String COLUMN_NAME_ASSIGNED_DATE = "assigned_date";
         public static final String COLUMN_NAME_COLOR = "color";
     }
@@ -64,7 +64,7 @@ public final class HomeworkNotifierContract {
                     Tasks._ID + PRIMARY_KEY + COMMA_SEP +
                     Tasks.COLUMN_NAME_ASSIGNMENT_ID + TEXT_TYPE + COMMA_SEP +
                     Tasks.COLUMN_NAME_COURSE_ID + TEXT_TYPE + COMMA_SEP +
-                    Tasks.COLUMN_NAME_DUE_DATE + INTEGER_TYPE + COMMA_SEP +
+                    Tasks.COLUMN_NAME_COMPLETED + TEXT_TYPE + COMMA_SEP +
                     Tasks.COLUMN_NAME_ASSIGNED_DATE + INTEGER_TYPE + COMMA_SEP +
                     Tasks.COLUMN_NAME_COLOR + INTEGER_TYPE +
                     " )";

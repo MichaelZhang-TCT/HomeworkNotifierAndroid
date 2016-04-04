@@ -2,10 +2,8 @@ package edu.byu.dtaylor.homeworknotifier;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -15,8 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -71,7 +67,10 @@ public class CalendarActivityFragment extends Fragment {
                 {
                     @Override
                     protected GsonDatabase doInBackground(Void... params) {
-                        GsonDatabase gsonDb = Utils.getAllInfo(getActivity(), "daviddt2", "davidpaseo3");
+                        String netID = MainActivity.settings.getString("netID",null);
+                        String password = MainActivity.settings.getString("password",null);
+
+                        GsonDatabase gsonDb = Utils.getAllInfo(getActivity(), netID, password);
                         return gsonDb;
                     }
 
@@ -92,8 +91,8 @@ public class CalendarActivityFragment extends Fragment {
             day.setTimeInMillis(task.getAssignedDate());
             if(day.get(Calendar.DAY_OF_YEAR) == currentDay.get(Calendar.DAY_OF_YEAR))
             {
-                Assignment a = task.getAssignment();
-                taskRecyclerListItems.add(new ScheduleListItem(new ScheduleItem(a.getName(),a.getDescription(), task.getColor(), a.getCategory(), a.getCourseId(), "short title", "title", new Date(a.getDueDate()), a.isGraded(), a.getPoints(), a.getType(), a.getRefUrl(), a.getWeight(), a.getAssignmentId()), AbstractScheduleListItem.ItemType.TASK));
+                Assignment a = MainActivity.database.getAssignmentById(task.getAssignmentId());
+                taskRecyclerListItems.add(new ScheduleListItem(new ScheduleItem(a.getName(),a.getDescription(), task.getColor(), a.getCategory(), a.getCourseID(), "short title", "title", new Date(a.getDueDate()), a.getGraded(), a.getPoints(), a.getType(), a.getUrl(), a.getWeight(), a.getId()), AbstractScheduleListItem.ItemType.TASK));
             }
         }
         //add tasks that are already planned.

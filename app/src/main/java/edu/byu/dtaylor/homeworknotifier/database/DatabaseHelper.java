@@ -5,16 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.dtaylor.homeworknotifier.MainActivity;
-import edu.byu.dtaylor.homeworknotifier.Utils;
-import edu.byu.dtaylor.homeworknotifier.gsontools.GsonAssignment;
-import edu.byu.dtaylor.homeworknotifier.gsontools.GsonCourse;
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonUser;
 
@@ -51,17 +47,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         onUpgrade(db, -1, -1);
         GsonUser user = gsonDb.getUser();
-        List<GsonCourse> courses = user.getCourses();
+        List<Course> courses = user.getCourses();
 
-        for(GsonCourse c : courses) {
+        for(Course c : courses) {
             ContentValues courseValues = new ContentValues();
             courseValues.put(HomeworkNotifierContract.Classes.COLUMN_NAME_EXTERNAL_COURSE_ID,c.getId());
             courseValues.put(HomeworkNotifierContract.Classes.COLUMN_NAME_TITLE,c.getTitle());
             courseValues.put(HomeworkNotifierContract.Classes.COLUMN_NAME_SHORT_TITLE, c.getShortTitle());
 
             long classId = db.insert(HomeworkNotifierContract.Classes.TABLE_NAME,null,courseValues);
-            List<GsonAssignment> assignments = c.getAssignments();
-            for(GsonAssignment a : assignments) {
+            List<Assignment> assignments = c.getAssignments();
+            for(Assignment a : assignments) {
                 ContentValues assignmentValues = new ContentValues();
                 Log.d("Tanner", a.getName());
                 if(a.getId() == "?") {
@@ -94,7 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues courseValues = new ContentValues();
         courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNMENT_ID,task.getAssignmentId());
         courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_COURSE_ID, task.getCourseId());
-        courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_DUE_DATE, task.getDueDate());
+        courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_COMPLETED, task.isCompleted());
         courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNED_DATE, task.getAssignedDate());
         courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_COLOR, task.getColor());
 
@@ -119,17 +115,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         onUpgrade(db, -1, -1);
         GsonUser user = gsonDb.getUser();
-        List<GsonCourse> courses = user.getCourses();
+        List<Course> courses = user.getCourses();
 
-        for(GsonCourse c : courses) {
+        for(Course c : courses) {
             ContentValues courseValues = new ContentValues();
             courseValues.put(HomeworkNotifierContract.Classes.COLUMN_NAME_EXTERNAL_COURSE_ID,c.getId());
             courseValues.put(HomeworkNotifierContract.Classes.COLUMN_NAME_TITLE,c.getTitle());
             courseValues.put(HomeworkNotifierContract.Classes.COLUMN_NAME_SHORT_TITLE, c.getShortTitle());
 
             long classId = db.insert(HomeworkNotifierContract.Classes.TABLE_NAME,null,courseValues);
-            List<GsonAssignment> assignments = c.getAssignments();
-            for(GsonAssignment a : assignments) {
+            List<Assignment> assignments = c.getAssignments();
+            for(Assignment a : assignments) {
                 ContentValues assignmentValues = new ContentValues();
                 Log.d("Tanner", a.getName());
                 if(a.getId() == "?") {
@@ -222,7 +218,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String[] projection = {
                 HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNMENT_ID,
                 HomeworkNotifierContract.Tasks.COLUMN_NAME_COURSE_ID,
-                HomeworkNotifierContract.Tasks.COLUMN_NAME_DUE_DATE,
+                HomeworkNotifierContract.Tasks.COLUMN_NAME_COMPLETED,
                 HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNED_DATE,
                 HomeworkNotifierContract.Tasks.COLUMN_NAME_COLOR
         };
@@ -246,10 +242,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             for (int i = 0; i < tasksQuery.getCount(); i++) {
                 String assignmentId = tasksQuery.getString(0);
                 String courseId = tasksQuery.getString(1);
-                String dueDate = tasksQuery.getString(2);
+                String completed = tasksQuery.getString(2);
                 String assignedDate = tasksQuery.getString(3);
                 String color = tasksQuery.getString(4);
-                tasks.add(new Task(assignmentId, courseId, dueDate, assignedDate, color));
+                tasks.add(new Task(assignmentId, courseId, completed, assignedDate, color));
                 tasksQuery.moveToNext();
             }
             tasksQuery.close();
@@ -283,7 +279,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         };
 
         String[] selectionArgs = {
-                course.courseId
+                course.getId()
         };
 
         // How you want the results sorted in the resulting Cursor
@@ -291,13 +287,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 HomeworkNotifierContract.Assignments.COLUMN_NAME_DUE_DATE + " DESC";
 
         Cursor assignmentsQuery = db.query(
+                true,
                 HomeworkNotifierContract.Assignments.TABLE_NAME,  // The table to query
                 projection,                               // The columns to return
                 /*selection*/null,                                // The columns for the WHERE clause
                 /*selectionArgs*/null,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                sortOrder                                 // The sort order
+                sortOrder,                                 // The sort order
+                null
         );
         ArrayList<Assignment> assignments = new ArrayList<>();
         if(assignmentsQuery.getCount() != 0) {
