@@ -228,13 +228,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNED_DATE + " DESC";
 
         Cursor tasksQuery = db.query(
+                true,
                 HomeworkNotifierContract.Tasks.TABLE_NAME,  // The table to query
                 projection,                               // The columns to return
                 /*selection*/null,                                // The columns for the WHERE clause
                 /*selectionArgs*/null,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                sortOrder                                 // The sort order
+                sortOrder,                                 // The sort order
+                null
         );
         ArrayList<Task> tasks = new ArrayList<>();
         if(tasksQuery.getCount() != 0) {
