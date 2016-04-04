@@ -181,14 +181,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String sortOrder =
                 HomeworkNotifierContract.Classes.COLUMN_NAME_TITLE + " DESC";
 
+
         Cursor courseQuery = db.query(
+                true,
                 HomeworkNotifierContract.Classes.TABLE_NAME,  // The table to query
                 projection,                               // The columns to return
                 /*selection*/null,                                // The columns for the WHERE clause
                 /*selectionArgs*/null,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                sortOrder                                 // The sort order
+                sortOrder,
+                null// The sort order
         );
         ArrayList<Course> courses = new ArrayList<>();
         if(courseQuery.getCount() != 0) {
