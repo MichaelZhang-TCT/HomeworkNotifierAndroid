@@ -94,6 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_COURSE_ID, task.getCourseId());
         courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_DUE_DATE, task.getDueDate());
         courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNED_DATE, task.getAssignedDate());
+        courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_COLOR, task.getColor());
 
         long taskId = db.insert(HomeworkNotifierContract.Tasks.TABLE_NAME,null,courseValues);
     }

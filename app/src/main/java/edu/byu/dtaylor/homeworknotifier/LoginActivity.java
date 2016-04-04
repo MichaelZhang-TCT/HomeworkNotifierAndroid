@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         catch(Exception e)
         {
             dbHelper.onUpgrade(dbHelper.getWritableDatabase(), -1, -1);
+            Log.e("LoginActivity","Couldn't load database",e);
         }
         finally{
             dbHelper.close();
