@@ -52,7 +52,6 @@ public class ScheduleListItem extends AbstractScheduleListItem {
         scheduleItem.addPlannedDate(dateBeingViewed);
     }
 
-
     public String getName(){
         return scheduleItem.getName();
     }

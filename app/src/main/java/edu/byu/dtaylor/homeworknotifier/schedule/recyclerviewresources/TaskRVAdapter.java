@@ -1,66 +1,33 @@
-package edu.byu.dtaylor.homeworknotifier;
+package edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources;
 
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem;
-import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListHeader;
-import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListItem;
+import edu.byu.dtaylor.homeworknotifier.AssignmentDialogFragment;
+import edu.byu.dtaylor.homeworknotifier.MainActivity;
+import edu.byu.dtaylor.homeworknotifier.R;
+import edu.byu.dtaylor.homeworknotifier.Utils;
 
 /**
- * Created by dtaylor on 4/1/2016.
+ * Created by liukaichi on 4/4/2016.
  */
-class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TaskRVAdapter extends ScheduleRVAdapter {
+    private static final String TAG = "TaskRVAdapter";
 
-    private final Context context;
-    private static final String TAG = "ScheduleRVAdapter";
-    List<AbstractScheduleListItem> itemsShown;
-    int currentDayIndex = 0;
-    ScheduleRVAdapter(List<AbstractScheduleListItem> items, Context context){
-        this.itemsShown = items;
-        this.context = context;
-    }
-    @Override
-    public int getItemViewType(int position) {
-        return itemsShown.get(position).getItemType().ordinal();
-    }
+    public TaskRVAdapter(List<AbstractScheduleListItem> items, Context context) {
+        super(items, context);
 
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
     }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        AbstractScheduleListItem.ItemType itemType = AbstractScheduleListItem.ItemType.values()[viewType];
-        if (itemType == AbstractScheduleListItem.ItemType.HEADER) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_list_header, viewGroup, false);//$$$
-            return new ScheduleHeaderViewHolder(v);
-        } else if (itemType == AbstractScheduleListItem.ItemType.ASSIGNMENT){
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_list_item, viewGroup, false);//$$$
-            return new ScheduleItemViewHolder(v);
-        } else
-        {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.todo_list_item, viewGroup, false);//$$$
-            return new ScheduleItemViewHolder(v);
-        }
-    }
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         currentDayIndex = ((MainActivity) context).getCurrentDayIndex();
@@ -71,12 +38,10 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (position == currentDayIndex) //render differently if it is showing the current day.
             {
                 Calendar headerDate = Calendar.getInstance();
-                headerDate.setTime(new Date(header.getDate().getTime()));
-                if (headerDate.get(Calendar.DAY_OF_YEAR) == Calendar.getInstance().get(Calendar.DAY_OF_YEAR))
-                {
+                headerDate.setTime(new Date(header.getDate().getTime() * 1000));
+                if (headerDate.get(Calendar.DAY_OF_YEAR) == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
                     holder.date.setText("Today"); //only display "today" if it's literally today.
-                }
-                else holder.date.setText(Utils.stringifyDate(header.getDate(), false));
+                } else holder.date.setText(Utils.stringifyDate(header.getDate(), true, false));
                 //holder.date.setTypeface(null, Typeface.BOLD);
                 //holder.date.setTextColor(Color.parseColor("#A7A7A7"));
 
@@ -86,10 +51,8 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 //holder.line.getLayoutParams().height = Utils.pxFromDp(2, context);
                 holder.line.setBackgroundColor((ContextCompat.getColor(context, R.color.colorPrimaryMediumLight)));
 
-            }
-            else
-            {
-                holder.date.setText(Utils.stringifyDate(header.getDate(), false));
+            } else {
+                holder.date.setText(Utils.stringifyDate(header.getDate(), true, false));
                 holder.date.setTypeface(null, Typeface.NORMAL);
                 holder.date.setTextColor((ContextCompat.getColor(context, R.color.lightGray)));
                 holder.line.requestLayout();
@@ -97,7 +60,7 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 holder.line.setBackgroundColor(ContextCompat.getColor(context, R.color.lightGray));
             }
-            Log.d(TAG, Utils.stringifyDate(header.getDate(), false));
+            Log.d(TAG, Utils.stringifyDate(header.getDate(), true, false));
         } else {
             ScheduleListItem item = (ScheduleListItem) itemsShown.get(position);
             ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
@@ -145,64 +108,32 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             itemViewHolder.itemImage.setBackgroundResource(itemsShown.get(i).getImageId());
             itemViewHolder.currentItem = i;
             itemViewHolder.itemId = itemsShown.get(i).getId();*/
+
+
     }
 
-    @Override
-    public int getItemCount() {
-        return itemsShown.size();
-    }
+    public class TaskViewHolder extends ScheduleRVAdapter.ScheduleItemViewHolder
+    {
 
-
-
-    public class ScheduleItemViewHolder extends RecyclerView.ViewHolder {
-
-        CardView item_cv;
-        TextView itemName;
-        ImageView itemTypeImage;
-        //TextView itemLocation;
-        public int currentItem;
-        public String itemId;
-        public String description;
-        TextView itemCourse;
-        TextView itemDueTime;
-        public String pointsPossible;
-
-        ScheduleItemViewHolder(final View itemView) {
+        TaskViewHolder(View itemView) {
             super(itemView);
-            item_cv = (CardView)itemView.findViewById(R.id.cv);
-            itemName = (TextView)itemView.findViewById(R.id.item_name);
-            itemTypeImage = (ImageView) itemView.findViewById(R.id.assignment_type_image);
-            itemCourse = (TextView) itemView.findViewById(R.id.assignment_course);
-            itemDueTime = (TextView) itemView.findViewById(R.id.assignment_due_time);
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+
                 @Override
-                public void onClick(View v) {
+                public boolean onLongClick(View v) {
                     DialogFragment dialog = new AssignmentDialogFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putString("name",itemName.getText().toString());
-                    bundle.putString("description",description);
+                    bundle.putString("name", itemName.getText().toString());
+                    bundle.putString("description", description);
                     bundle.putString("dueDate", itemDueTime.getText().toString());
                     bundle.putString("points", pointsPossible);
                     bundle.putString("course", itemCourse.getText().toString());
                     dialog.setArguments(bundle);
-                    dialog.show(((MainActivity)context).getSupportFragmentManager(), "AssignmentDialogFragment");
+                    dialog.show(((MainActivity) context).getSupportFragmentManager(), "AssignmentDialogFragment");
+                    return true;
                 }
             });
 
-        }
-    }
-
-
-    public class ScheduleHeaderViewHolder extends RecyclerView.ViewHolder {
-
-        TextView date;
-        View line;
-
-        ScheduleHeaderViewHolder(final View itemView) {
-            super(itemView);
-
-            date = (TextView)itemView.findViewById(R.id.header_date_textview);
-            line = itemView.findViewById(R.id.line);
         }
     }
 }

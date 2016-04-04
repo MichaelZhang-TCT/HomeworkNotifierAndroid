@@ -25,7 +25,10 @@ import edu.byu.dtaylor.homeworknotifier.database.Task;
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItem;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem;
+import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AssignmentRVAdapter;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListItem;
+import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleRVAdapter;
+import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.TaskRVAdapter;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -36,7 +39,7 @@ public class CalendarActivityFragment extends Fragment {
     private Calendar currentDay;
     public RecyclerView taskRecyclerView;
     public List<AbstractScheduleListItem> taskRecyclerListItems;
-    public ScheduleRVAdapter taskAdapter;
+    public TaskRVAdapter taskAdapter;
 
     public CalendarActivityFragment()
     {
@@ -98,7 +101,7 @@ public class CalendarActivityFragment extends Fragment {
         //add tasks that are already planned.
         taskRecyclerView = (RecyclerView) view.findViewById(R.id.task_RV);
         taskRecyclerView.setHasFixedSize(true);
-        taskAdapter = new ScheduleRVAdapter(taskRecyclerListItems, getActivity());
+        taskAdapter = new TaskRVAdapter(taskRecyclerListItems, getActivity());
         taskRecyclerView.setAdapter(taskAdapter);
         RecyclerView.LayoutManager taskLayoutManager = new LinearLayoutManager(getActivity());
         taskRecyclerView.setLayoutManager(taskLayoutManager);
