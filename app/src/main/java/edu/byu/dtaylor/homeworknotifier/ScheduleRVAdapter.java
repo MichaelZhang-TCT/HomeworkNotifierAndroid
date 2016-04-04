@@ -155,6 +155,8 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return itemsShown.size();
     }
 
+
+
     public class ScheduleItemViewHolder extends RecyclerView.ViewHolder {
 
         CardView item_cv;

@@ -29,6 +29,7 @@ public class ScheduleItem {
     private HashSet<Date> plannedDates; //this is plannedDates time to work on item TODO: refactor to datetime?
     private boolean completed;
     private int color;
+    private String assignmentId;
 
     public ScheduleItem(String name,
                         String description,
@@ -42,7 +43,8 @@ public class ScheduleItem {
                         double points,
                         String type,
                         String url,
-                        double weight) {
+                        double weight,
+                        String assignmentId) {
 
         this.name = name;
         this.description = description;
@@ -54,6 +56,7 @@ public class ScheduleItem {
         this.dueDate = dueDate;
         this.graded = graded;
         this.points = points;
+        this.assignmentId = assignmentId;
         //TODO: Deside whether to base off of category or type.
         if (type.toLowerCase().matches(".*assignment.*"))
         {
@@ -217,5 +220,9 @@ public class ScheduleItem {
 
     public Date getDueDate() {
         return dueDate;
+    }
+
+    public String getAssignmentId() {
+        return assignmentId;
     }
 }

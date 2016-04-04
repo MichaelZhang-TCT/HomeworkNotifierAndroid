@@ -1,7 +1,10 @@
 package edu.byu.dtaylor.homeworknotifier.database;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 
+import edu.byu.dtaylor.homeworknotifier.MainActivity;
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonCourse;
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
 
@@ -27,5 +30,17 @@ public class Database {
 
     public ArrayList<Course> getCourses() {
         return courses;
+    }
+
+    public void addTask(Task task, Context context)
+    {
+        tasks.add(task);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
+        dbHelper.insertTask(task);
+        dbHelper.close();
+    }
+
+    public ArrayList<Task> getTasks() {
+        return tasks;
     }
 }

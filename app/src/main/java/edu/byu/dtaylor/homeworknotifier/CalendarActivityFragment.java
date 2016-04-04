@@ -2,6 +2,7 @@ package edu.byu.dtaylor.homeworknotifier;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -15,8 +16,12 @@ import android.view.ViewTreeObserver;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import edu.byu.dtaylor.homeworknotifier.database.Assignment;
+import edu.byu.dtaylor.homeworknotifier.database.Task;
+import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItem;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListItem;
 
@@ -52,54 +57,23 @@ public class CalendarActivityFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //initialize task list
         taskRecyclerListItems = new ArrayList<>();
+        for(Task task : MainActivity.database.getTasks())
+        {
+            Calendar day = Calendar.getInstance();
+            day.setTimeInMillis(task.getAssignedDate());
+            if(day.get(Calendar.DAY_OF_YEAR) == currentDay.get(Calendar.DAY_OF_YEAR))
+            {
+                Assignment a = task.getAssignment();
+                taskRecyclerListItems.add(new ScheduleListItem(new ScheduleItem(a.getName(),a.getDescription(), Color.RED, a.getCategory(), a.getCourseId(), "short title", "title", new Date(a.getDueDate()), a.isGraded(), a.getPoints(), a.getType(), a.getRefUrl(), a.getWeight(), a.getAssignmentId()), AbstractScheduleListItem.ItemType.TASK));
+            }
+        }
         //add tasks that are already planned.
         taskRecyclerView = (RecyclerView) view.findViewById(R.id.task_RV);
         taskRecyclerView.setHasFixedSize(true);
         taskAdapter = new ScheduleRVAdapter(taskRecyclerListItems, getActivity());
-        SwipeableRecyclerViewTouchListener swipeTouchListener =
-                new SwipeableRecyclerViewTouchListener(taskRecyclerView,
-                        new SwipeableRecyclerViewTouchListener.SwipeListener() {
-
-                            @Override
-                            public boolean canSwipeLeft(int position) {
-                                return true;
-                            }
-
-                            @Override
-                            public boolean canSwipeRight(int position) {
-                                return true;
-                            }
-
-                            @Override
-                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
-
-                                Snackbar.make(recyclerView,"scroll state changed",Snackbar.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
-
-                                Snackbar.make(recyclerView,"scroll state changed",Snackbar.LENGTH_SHORT).show();
-                            }
-                        });
-
-        taskRecyclerView.addOnItemTouchListener(swipeTouchListener);
         taskRecyclerView.setAdapter(taskAdapter);
         RecyclerView.LayoutManager taskLayoutManager = new LinearLayoutManager(getActivity());
         taskRecyclerView.setLayoutManager(taskLayoutManager);
-        taskRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                Snackbar.make(recyclerView,"scroll state changed",Snackbar.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                Snackbar.make(recyclerView,"scrolled",Snackbar.LENGTH_SHORT).show();
-            }
-        });
     }
 
     public void updateUI(Calendar calendar) {
@@ -108,8 +82,13 @@ public class CalendarActivityFragment extends Fragment {
         if (v == null)
             return;
         //setNewDataSource calcurate new List<String> date
+        currentDay = calendar;
         CalendarPageAdapter calendarViewAdapter = (CalendarPageAdapter)((ViewPager) ((MainActivity)parentActivity).findViewById(R.id.calendar_view_pager)).getAdapter();
         calendarViewAdapter.setNewDataSource(calendar);
         calendarViewAdapter.notifyDataSetChanged();
+    }
+
+    public Calendar getSelectedDay() {
+        return currentDay;
     }
 }

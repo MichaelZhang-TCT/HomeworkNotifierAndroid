@@ -31,12 +31,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(HomeworkNotifierContract.SQL_CREATE_CLASSES);
         db.execSQL(HomeworkNotifierContract.SQL_CREATE_ASSIGNMENTS);
+        db.execSQL(HomeworkNotifierContract.SQL_CREATE_TASKS);
     }
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
         db.execSQL(HomeworkNotifierContract.SQL_DELETE_CLASSES);
         db.execSQL(HomeworkNotifierContract.SQL_DELETE_ASSIGNMENTS);
+        db.execSQL(HomeworkNotifierContract.SQL_DELETE_TASKS);
         onCreate(db);
     }
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {

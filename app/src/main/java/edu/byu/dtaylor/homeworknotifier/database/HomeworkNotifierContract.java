@@ -87,6 +87,8 @@ public final class HomeworkNotifierContract {
 
     public static final String SQL_DELETE_CLASSES =
             "DROP TABLE IF EXISTS " + Classes.TABLE_NAME;
+    public static final String SQL_DELETE_TASKS =
+            "DROP TABLE IF EXISTS " + Tasks.TABLE_NAME;
     public static final String SQL_DELETE_ASSIGNMENTS =
             "DROP TABLE IF EXISTS " + Assignments.TABLE_NAME;
 }

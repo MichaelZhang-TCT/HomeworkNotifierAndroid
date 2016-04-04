@@ -1,5 +1,7 @@
 package edu.byu.dtaylor.homeworknotifier.database;
 
+import edu.byu.dtaylor.homeworknotifier.MainActivity;
+
 /**
  * Created by longl on 4/3/2016.
  */
@@ -7,7 +9,7 @@ public class Task {
     String assignmentId;
     String courseId;
     int dueDate;
-    int assignedDate;
+    long assignedDate;
 
     public Task(Assignment assignment, int assignedDate)
     {
@@ -21,7 +23,7 @@ public class Task {
         this.assignmentId = assignmentId;
         this.courseId = courseId;
         this.dueDate = Integer.parseInt(dueDate);
-        this.assignedDate = Integer.parseInt(assignedDate);
+        this.assignedDate = Long.parseLong(assignedDate);
     }
 
     public String getAssignmentId() {
@@ -36,7 +38,24 @@ public class Task {
         return dueDate;
     }
 
-    public int getAssignedDate() {
+    public long getAssignedDate() {
         return assignedDate;
+    }
+
+    public Assignment getAssignment() {
+        for(Course course : MainActivity.database.getCourses())
+        {
+            if(course.getCourseId().equals(courseId))
+            {
+                for(Assignment assignment : course.getAssignments())
+                {
+                    if(assignment.getAssignmentId().equals(assignmentId))
+                    {
+                        return assignment;
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

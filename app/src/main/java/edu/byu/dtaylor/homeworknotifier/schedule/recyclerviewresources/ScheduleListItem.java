@@ -2,6 +2,7 @@ package edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources;
 
 import java.util.Date;
 
+import edu.byu.dtaylor.homeworknotifier.database.DatabaseHelper;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItem;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItemType;
 
@@ -13,6 +14,7 @@ public class ScheduleListItem extends AbstractScheduleListItem {
     ScheduleItem scheduleItem;
     ItemType itemType = ItemType.ASSIGNMENT;
     private int color;
+    private String assignmentId;
 
     public ScheduleListItem(AbstractScheduleListItem abstractScheduleListItem, ItemType itemType) {
         this.scheduleItem = ((ScheduleListItem) abstractScheduleListItem).scheduleItem;
@@ -103,5 +105,9 @@ public class ScheduleListItem extends AbstractScheduleListItem {
     public ScheduleItemType getType()
     {
         return scheduleItem.getType();
+    }
+
+    public String getAssignmentId() {
+        return scheduleItem.getAssignmentId();
     }
 }

@@ -83,7 +83,7 @@ public class ScheduleFactory {
                 String url = assignment.getRefUrl();
                 double weight = assignment.getWeight();
 
-                ScheduleItem item = new ScheduleItem(name, description, color, category, courseID, course.getShortTitle(), course.getTitle(), dueDate, graded, points, type, url, weight);
+                ScheduleItem item = new ScheduleItem(name, description, color, category, courseID, course.getShortTitle(), course.getTitle(), dueDate, graded, points, type, url, weight, assignment.getAssignmentId());
 
                 s.add(item,dueDate);
             }

@@ -30,6 +30,8 @@ import java.util.Date;
 import java.util.List;
 
 import edu.byu.dtaylor.homeworknotifier.database.Database;
+import edu.byu.dtaylor.homeworknotifier.database.DatabaseHelper;
+import edu.byu.dtaylor.homeworknotifier.database.Task;
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
 import edu.byu.dtaylor.homeworknotifier.schedule.Schedule;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleFactory;
@@ -171,7 +173,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             @Override
                             public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
-                                    assignmentsRecyclerListItems.get(position).plan(dateBeingViewed);
+                                    ScheduleListItem item = ((ScheduleListItem)assignmentsRecyclerListItems.get(position));
+                                    item.plan(dateBeingViewed);
+                                    Calendar selectedDay = ((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).getSelectedDay();
+                                    database.addTask(new Task(item.getAssignmentId(), item.getCourseID(), String.valueOf(item.getDueDate().getTime()), String.valueOf(selectedDay.getTime().getTime())), MainActivity.this);
                                     ScheduleListItem newTask =  new ScheduleListItem(
                                             assignmentsRecyclerListItems.get(position),
                                             ItemType.TASK);
