@@ -27,7 +27,7 @@ public class Assignment {
     private String description;
     @SerializedName("dueDate")
     @Expose
-    private Integer dueDate;
+    private Long dueDate;
     @SerializedName("graded")
     @Expose
     private Boolean graded;
@@ -55,7 +55,7 @@ public class Assignment {
         this.description = description;
         this.category = category;
         this.categoryID = categoryId;
-        this.dueDate = Integer.parseInt(dueDate);
+        this.dueDate = Long.parseLong(dueDate);
         this.graded = Boolean.valueOf(graded);
         this.points = Integer.valueOf(points);
         this.weight = Double.valueOf(weight);
@@ -185,7 +185,7 @@ public class Assignment {
      * @return
      *     The dueDate
      */
-    public Integer getDueDate() {
+    public Long getDueDate() {
         return dueDate;
     }
 
@@ -194,11 +194,11 @@ public class Assignment {
      * @param dueDate
      *     The dueDate
      */
-    public void setDueDate(Integer dueDate) {
+    public void setDueDate(Long dueDate) {
         this.dueDate = dueDate;
     }
 
-    public Assignment withDueDate(Integer dueDate) {
+    public Assignment withDueDate(Long dueDate) {
         this.dueDate = dueDate;
         return this;
     }

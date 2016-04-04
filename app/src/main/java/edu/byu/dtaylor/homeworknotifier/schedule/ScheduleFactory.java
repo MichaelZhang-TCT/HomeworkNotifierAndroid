@@ -12,9 +12,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import edu.byu.dtaylor.homeworknotifier.database.Assignment;
 import edu.byu.dtaylor.homeworknotifier.database.Course;
 import edu.byu.dtaylor.homeworknotifier.database.Database;
-import edu.byu.dtaylor.homeworknotifier.database.Assignment;
 
 /**
  * Created by Tanner on 3/9/2016.
@@ -84,7 +84,6 @@ public class ScheduleFactory {
                 double weight = assignment.getWeight();
 
                 ScheduleItem item = new ScheduleItem(name, description, color, category, courseID, course.getShortTitle(), course.getTitle(), dueDate, graded, points, type, url, weight, assignment.getId());
-
                 s.add(item,dueDate);
             }
         }

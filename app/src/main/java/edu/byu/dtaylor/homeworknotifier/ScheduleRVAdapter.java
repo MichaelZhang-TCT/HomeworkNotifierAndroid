@@ -1,7 +1,6 @@
 package edu.byu.dtaylor.homeworknotifier;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -18,9 +17,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
-import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItemType;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListHeader;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListItem;
@@ -74,12 +71,12 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (position == currentDayIndex) //render differently if it is showing the current day.
             {
                 Calendar headerDate = Calendar.getInstance();
-                headerDate.setTime(new Date(header.getDate().getTime() * 1000));
+                headerDate.setTime(new Date(header.getDate().getTime()));
                 if (headerDate.get(Calendar.DAY_OF_YEAR) == Calendar.getInstance().get(Calendar.DAY_OF_YEAR))
                 {
                     holder.date.setText("Today"); //only display "today" if it's literally today.
                 }
-                else holder.date.setText(Utils.stringifyDate(header.getDate(), true, false));
+                else holder.date.setText(Utils.stringifyDate(header.getDate(), false));
                 //holder.date.setTypeface(null, Typeface.BOLD);
                 //holder.date.setTextColor(Color.parseColor("#A7A7A7"));
 
@@ -92,7 +89,7 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             else
             {
-                holder.date.setText(Utils.stringifyDate(header.getDate(), true, false));
+                holder.date.setText(Utils.stringifyDate(header.getDate(), false));
                 holder.date.setTypeface(null, Typeface.NORMAL);
                 holder.date.setTextColor((ContextCompat.getColor(context, R.color.lightGray)));
                 holder.line.requestLayout();
@@ -100,7 +97,7 @@ class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 holder.line.setBackgroundColor(ContextCompat.getColor(context, R.color.lightGray));
             }
-            Log.d(TAG, Utils.stringifyDate(header.getDate(), true, false));
+            Log.d(TAG, Utils.stringifyDate(header.getDate(), false));
         } else {
             ScheduleListItem item = (ScheduleListItem) itemsShown.get(position);
             ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;

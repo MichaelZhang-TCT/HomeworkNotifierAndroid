@@ -30,6 +30,18 @@ import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
  */
 public class Utils {
     private static String BASE_URL = "http://ec2-54-187-234-170.us-west-2.compute.amazonaws.com:3000/";
+
+    public static Date normalizeDate(Date date)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND,0);
+        cal.set(Calendar.MILLISECOND,0);
+        return cal.getTime();
+    }
+
     public static GsonDatabase getAllInfo(final Context context, String netID, String password)
     {
         HttpResponse response = null;
@@ -59,26 +71,14 @@ public class Utils {
         return null;
     }
 
-    public static String stringifyDate(Calendar calendar, boolean convertToEpoch, boolean displayYear)
-    {
-        if (convertToEpoch) calendar.setTime(new Date(calendar.getTime().getTime() * 1000));
-        String dayNumberSuffix = getDayNumberSuffix(calendar.get(Calendar.DAY_OF_MONTH));
-        String year = "";
-        if (displayYear) year = " yyyy" ;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d'" + dayNumberSuffix + "'" + year);
-        return dateFormat.format(calendar.getTime());
-    }
-
     /**
      *
      * @param date the date to stringify
-     * @param convertToEpoch needs conversion if it comes directly from java code.
      * @param displayYear true to display year, false to not.
      * @return
      */
-    public static String stringifyDate(Date date, boolean convertToEpoch, boolean displayYear)
+    public static String stringifyDate(Date date, boolean displayYear)
     {
-        if (convertToEpoch) date = new Date(date.getTime() * 1000);
         String year = "";
         if (displayYear) year = " yyyy" ;
         Calendar calendar = Calendar.getInstance();
@@ -113,7 +113,7 @@ public class Utils {
     }
 
     public static String stringifyTimeDue(Date dueDate) {
-        Date time = new Date(dueDate.getTime() * 1000);
+        Date time = new Date(dueDate.getTime());
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
         return dateFormat.format(time);
     }

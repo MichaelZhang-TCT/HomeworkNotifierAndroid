@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else
             {
-                strdate = Utils.stringifyDate(currentDay.getTime(), false, false);
+                strdate = Utils.stringifyDate(currentDay.getTime(), false);
             }
         }
         setTitle(strdate);
@@ -380,7 +380,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (item.getItemType() == ItemType.HEADER)
             {
                 ScheduleListHeader header = (ScheduleListHeader) item;
-                double difference = (header.getDate().getTime() * 1000) - currentDay.getTime().getTime();
+                double difference = (header.getDate().getTime()) - currentDay.getTime().getTime();
                 if (difference > 0) {
                     if (difference < minDifference)
                     {
