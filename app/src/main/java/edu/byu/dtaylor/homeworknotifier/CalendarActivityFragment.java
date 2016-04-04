@@ -64,7 +64,7 @@ public class CalendarActivityFragment extends Fragment {
             if(day.get(Calendar.DAY_OF_YEAR) == currentDay.get(Calendar.DAY_OF_YEAR))
             {
                 Assignment a = task.getAssignment();
-                taskRecyclerListItems.add(new ScheduleListItem(new ScheduleItem(a.getName(),a.getDescription(), Color.RED, a.getCategory(), a.getCourseId(), "short title", "title", new Date(a.getDueDate()), a.isGraded(), a.getPoints(), a.getType(), a.getRefUrl(), a.getWeight(), a.getAssignmentId()), AbstractScheduleListItem.ItemType.TASK));
+                taskRecyclerListItems.add(new ScheduleListItem(new ScheduleItem(a.getName(),a.getDescription(), task.getColor(), a.getCategory(), a.getCourseId(), "short title", "title", new Date(a.getDueDate()), a.isGraded(), a.getPoints(), a.getType(), a.getRefUrl(), a.getWeight(), a.getAssignmentId()), AbstractScheduleListItem.ItemType.TASK));
             }
         }
         //add tasks that are already planned.

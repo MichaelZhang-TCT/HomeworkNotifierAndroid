@@ -165,7 +165,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNMENT_ID,
                 HomeworkNotifierContract.Tasks.COLUMN_NAME_COURSE_ID,
                 HomeworkNotifierContract.Tasks.COLUMN_NAME_DUE_DATE,
-                HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNED_DATE
+                HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNED_DATE,
+                HomeworkNotifierContract.Tasks.COLUMN_NAME_COLOR
         };
 
         // How you want the results sorted in the resulting Cursor
@@ -189,7 +190,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String courseId = tasksQuery.getString(1);
                 String dueDate = tasksQuery.getString(2);
                 String assignedDate = tasksQuery.getString(3);
-                tasks.add(new Task(assignmentId, courseId, dueDate, assignedDate));
+                String color = tasksQuery.getString(4);
+                tasks.add(new Task(assignmentId, courseId, dueDate, assignedDate, color));
                 tasksQuery.moveToNext();
             }
             tasksQuery.close();

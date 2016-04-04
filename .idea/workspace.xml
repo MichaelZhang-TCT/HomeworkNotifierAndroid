@@ -30,18 +30,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2bd89a8-936d-4b34-b6ef-81e6fd797a20" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Assignment.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Assignment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/CalendarActivityFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/CalendarActivityFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Course.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Course.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Database.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Database.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/DatabaseHelper.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/DatabaseHelper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/HomeworkNotifierContract.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/HomeworkNotifierContract.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/LoginActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/LoginActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/schedule/ScheduleFactory.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/schedule/ScheduleFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/schedule/ScheduleItem.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/schedule/ScheduleItem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/schedule/recyclerviewresources/ScheduleListItem.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/schedule/recyclerviewresources/ScheduleListItem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/ScheduleRVAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/ScheduleRVAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Task.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Task.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -74,8 +66,8 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.068966">
-              <caret line="178" column="60" selection-start-line="178" selection-start-column="60" selection-end-line="178" selection-end-column="60" />
+            <state vertical-scroll-proportion="-10.24138">
+              <caret line="180" column="87" selection-start-line="180" selection-start-column="87" selection-end-line="180" selection-end-column="87" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -83,10 +75,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/LoginActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.71153843">
+            <state vertical-scroll-proportion="0.0">
               <caret line="49" column="71" selection-start-line="49" selection-start-column="71" selection-end-line="49" selection-end-column="71" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -105,14 +97,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CalendarActivityFragment.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CalendarActivityFragment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/CalendarActivityFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="59" column="15" selection-start-line="59" selection-start-column="15" selection-end-line="59" selection-end-column="15" />
+            <state vertical-scroll-proportion="0.73868775">
+              <caret line="66" column="112" selection-start-line="66" selection-start-column="112" selection-end-line="66" selection-end-column="112" />
               <folding>
-                <element signature="e#3747#3748#0" expanded="true" />
-                <element signature="e#3780#3781#0" expanded="true" />
+                <element signature="e#3753#3754#0" expanded="true" />
+                <element signature="e#3786#3787#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -122,7 +114,17 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/DatabaseHelper.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="138" column="0" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
+              <caret line="40" column="56" selection-start-line="40" selection-start-column="56" selection-end-line="40" selection-end-column="56" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HomeworkNotifierContract.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/HomeworkNotifierContract.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -145,10 +147,11 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Task.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+              <caret line="55" column="27" selection-start-line="55" selection-start-column="27" selection-end-line="55" selection-end-column="27" />
               <folding>
-                <element signature="e#1042#1043#0" expanded="true" />
-                <element signature="e#1077#1078#0" expanded="true" />
+                <element signature="e#849#850#0" expanded="true" />
+                <element signature="e#884#885#0" expanded="true" />
+                <element signature="e#1441#1442#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2203,14 +2206,14 @@
         <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/schedule/ScheduleItem.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/schedule/ScheduleFactory.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/ScheduleRVAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/DatabaseHelper.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/HomeworkNotifierContract.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Database.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Assignment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/DatabaseHelper.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/HomeworkNotifierContract.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/CalendarActivityFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Task.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/LoginActivity.java" />
       </list>
     </option>
   </component>
@@ -2589,7 +2592,13 @@
       <option name="project" value="LOCAL" />
       <updated>1459728695097</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="task reloading working">
+      <created>1459733475840</created>
+      <option name="number" value="00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1459733475840</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2603,7 +2612,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="2552" y="-8" width="2576" height="1416" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32803813" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
@@ -2655,7 +2664,8 @@
     <MESSAGE value="added more to database" />
     <MESSAGE value="loads local database first, if non existent loads from remote and saves local" />
     <MESSAGE value="added task to database" />
-    <option name="LAST_COMMIT_MESSAGE" value="added task to database" />
+    <MESSAGE value="task reloading working" />
+    <option name="LAST_COMMIT_MESSAGE" value="task reloading working" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2674,13 +2684,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Task.java</url>
-          <line>45</line>
+          <line>39</line>
           <properties />
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Task.java</url>
-          <line>47</line>
+          <line>41</line>
           <properties />
           <option name="timeStamp" value="22" />
         </line-breakpoint>
@@ -3031,14 +3041,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/HomeworkNotifierContract.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/ScheduleRVAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3072,14 +3074,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/DatabaseHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="138" column="0" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Database.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3110,16 +3104,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.068966">
-          <caret line="178" column="60" selection-start-line="178" selection-start-column="60" selection-end-line="178" selection-end-column="60" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Assignment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3138,13 +3122,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/CalendarActivityFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="59" column="15" selection-start-line="59" selection-start-column="15" selection-end-line="59" selection-end-column="15" />
+          <caret line="49" column="71" selection-start-line="49" selection-start-column="71" selection-end-line="49" selection-end-column="71" />
           <folding>
-            <element signature="e#3747#3748#0" expanded="true" />
-            <element signature="e#3780#3781#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/DatabaseHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="56" selection-start-line="40" selection-start-column="56" selection-end-line="40" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/HomeworkNotifierContract.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.24138">
+          <caret line="180" column="87" selection-start-line="180" selection-start-column="87" selection-end-line="180" selection-end-column="87" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3152,20 +3161,22 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/database/Task.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <caret line="55" column="27" selection-start-line="55" selection-start-column="27" selection-end-line="55" selection-end-column="27" />
           <folding>
-            <element signature="e#1042#1043#0" expanded="true" />
-            <element signature="e#1077#1078#0" expanded="true" />
+            <element signature="e#849#850#0" expanded="true" />
+            <element signature="e#884#885#0" expanded="true" />
+            <element signature="e#1441#1442#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/LoginActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/CalendarActivityFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.71153843">
-          <caret line="49" column="71" selection-start-line="49" selection-start-column="71" selection-end-line="49" selection-end-column="71" />
+        <state vertical-scroll-proportion="0.73868775">
+          <caret line="66" column="112" selection-start-line="66" selection-start-column="112" selection-end-line="66" selection-end-column="112" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#3753#3754#0" expanded="true" />
+            <element signature="e#3786#3787#0" expanded="true" />
           </folding>
         </state>
       </provider>

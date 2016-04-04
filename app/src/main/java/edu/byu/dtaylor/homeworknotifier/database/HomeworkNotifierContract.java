@@ -25,6 +25,7 @@ public final class HomeworkNotifierContract {
         public static final String COLUMN_NAME_COURSE_ID = "course_id";
         public static final String COLUMN_NAME_DUE_DATE = "due_date";
         public static final String COLUMN_NAME_ASSIGNED_DATE = "assigned_date";
+        public static final String COLUMN_NAME_COLOR = "color";
     }
 
     public static abstract class Assignments implements BaseColumns {
@@ -64,7 +65,8 @@ public final class HomeworkNotifierContract {
                     Tasks.COLUMN_NAME_ASSIGNMENT_ID + TEXT_TYPE + COMMA_SEP +
                     Tasks.COLUMN_NAME_COURSE_ID + TEXT_TYPE + COMMA_SEP +
                     Tasks.COLUMN_NAME_DUE_DATE + INTEGER_TYPE + COMMA_SEP +
-                    Tasks.COLUMN_NAME_ASSIGNED_DATE + INTEGER_TYPE +
+                    Tasks.COLUMN_NAME_ASSIGNED_DATE + INTEGER_TYPE + COMMA_SEP +
+                    Tasks.COLUMN_NAME_COLOR + INTEGER_TYPE +
                     " )";
 
     public static final String SQL_CREATE_ASSIGNMENTS =

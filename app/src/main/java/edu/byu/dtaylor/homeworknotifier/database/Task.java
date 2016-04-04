@@ -10,20 +10,14 @@ public class Task {
     String courseId;
     int dueDate;
     long assignedDate;
+    int color;
 
-    public Task(Assignment assignment, int assignedDate)
-    {
-        this.assignmentId = assignment.getAssignmentId();
-        this.courseId = assignment.getCourseId();
-        this.dueDate = assignment.getDueDate();
-        this.assignedDate = assignedDate;
-    }
-
-    public Task(String assignmentId, String courseId, String dueDate, String assignedDate) {
+    public Task(String assignmentId, String courseId, String dueDate, String assignedDate, String color) {
         this.assignmentId = assignmentId;
         this.courseId = courseId;
         this.dueDate = Integer.parseInt(dueDate);
         this.assignedDate = Long.parseLong(assignedDate);
+        this.color = Integer.parseInt(color);
     }
 
     public String getAssignmentId() {
@@ -57,5 +51,9 @@ public class Task {
             }
         }
         return null;
+    }
+
+    public int getColor() {
+        return color;
     }
 }

@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     ScheduleListItem item = ((ScheduleListItem)assignmentsRecyclerListItems.get(position));
                                     item.plan(dateBeingViewed);
                                     Calendar selectedDay = ((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).getSelectedDay();
-                                    database.addTask(new Task(item.getAssignmentId(), item.getCourseID(), String.valueOf(item.getDueDate().getTime()), String.valueOf(selectedDay.getTime().getTime())), MainActivity.this);
+                                    database.addTask(new Task(item.getAssignmentId(), item.getCourseID(), String.valueOf(item.getDueDate().getTime()), String.valueOf(selectedDay.getTime().getTime()), String.valueOf(item.getColor())), MainActivity.this);
                                     ScheduleListItem newTask =  new ScheduleListItem(
                                             assignmentsRecyclerListItems.get(position),
                                             ItemType.TASK);
