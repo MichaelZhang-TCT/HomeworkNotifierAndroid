@@ -98,7 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNED_DATE, task.getAssignedDate());
         courseValues.put(HomeworkNotifierContract.Tasks.COLUMN_NAME_COLOR, task.getColor());
 
-        long taskId = db.insert(HomeworkNotifierContract.Tasks.TABLE_NAME,null,courseValues);
+        long taskId = db.insert(HomeworkNotifierContract.Tasks.TABLE_NAME, null, courseValues);
     }
 
     public Database getDatabaseFromSql()
@@ -114,25 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void updateDatabaseAsync(final Context context)
-    {
-        new AsyncTask<Void,Void,GsonDatabase>()
-        {
-            @Override
-            protected GsonDatabase doInBackground(Void... params) {
-                GsonDatabase gsonDb = Utils.getAllInfo(context, "daviddt2", "davidpaseo3");
-                return gsonDb;
-            }
-
-            @Override
-            protected void onPostExecute(GsonDatabase db) {
-                DatabaseHelper dbHelper = new DatabaseHelper(context);
-                dbHelper.updateDatabase(db);
-            }
-        }.execute();
-    }
-
-    private boolean updateDatabase(GsonDatabase gsonDb) {
+    public boolean updateDatabase(GsonDatabase gsonDb) {
         ArrayList<Task> tasks = MainActivity.database.getTasks();
         SQLiteDatabase db = this.getWritableDatabase();
         onUpgrade(db, -1, -1);

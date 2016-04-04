@@ -3,16 +3,20 @@ package edu.byu.dtaylor.homeworknotifier;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,7 +24,9 @@ import java.util.Date;
 import java.util.List;
 
 import edu.byu.dtaylor.homeworknotifier.database.Assignment;
+import edu.byu.dtaylor.homeworknotifier.database.DatabaseHelper;
 import edu.byu.dtaylor.homeworknotifier.database.Task;
+import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItem;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListItem;
@@ -55,6 +61,29 @@ public class CalendarActivityFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        final View view2 = view;
+        final SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.calendar_swipe_refresh_layout);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Snackbar.make(view2,"refreshing",Snackbar.LENGTH_SHORT);
+                new AsyncTask<Void,Void,GsonDatabase>()
+                {
+                    @Override
+                    protected GsonDatabase doInBackground(Void... params) {
+                        GsonDatabase gsonDb = Utils.getAllInfo(getActivity(), "daviddt2", "davidpaseo3");
+                        return gsonDb;
+                    }
+
+                    @Override
+                    protected void onPostExecute(GsonDatabase db) {
+                        DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+                        dbHelper.updateDatabase(db);
+                        swipeLayout.setRefreshing(false);
+                    }
+                }.execute();
+            }
+        });
         //initialize task list
         taskRecyclerListItems = new ArrayList<>();
         for(Task task : MainActivity.database.getTasks())
