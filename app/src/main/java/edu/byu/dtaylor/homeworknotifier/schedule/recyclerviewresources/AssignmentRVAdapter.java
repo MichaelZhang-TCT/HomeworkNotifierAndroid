@@ -43,7 +43,7 @@ public class AssignmentRVAdapter extends ScheduleRVAdapter {
                 headerDate.setTime(new Date(header.getDate().getTime() * 1000));
                 if (headerDate.get(Calendar.DAY_OF_YEAR) == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
                     holder.date.setText("Today"); //only display "today" if it's literally today.
-                } else holder.date.setText(Utils.stringifyDate(header.getDate(), true, false));
+                } else holder.date.setText(Utils.stringifyDate(header.getDate(), true));
                 //holder.date.setTypeface(null, Typeface.BOLD);
                 //holder.date.setTextColor(Color.parseColor("#A7A7A7"));
 
@@ -54,7 +54,7 @@ public class AssignmentRVAdapter extends ScheduleRVAdapter {
                 holder.line.setBackgroundColor((ContextCompat.getColor(context, R.color.colorPrimaryMediumLight)));
 
             } else {
-                holder.date.setText(Utils.stringifyDate(header.getDate(), true, false));
+                holder.date.setText(Utils.stringifyDate(header.getDate(), true));
                 holder.date.setTypeface(null, Typeface.NORMAL);
                 holder.date.setTextColor((ContextCompat.getColor(context, R.color.lightGray)));
                 holder.line.requestLayout();
@@ -62,7 +62,7 @@ public class AssignmentRVAdapter extends ScheduleRVAdapter {
 
                 holder.line.setBackgroundColor(ContextCompat.getColor(context, R.color.lightGray));
             }
-            Log.d(TAG, Utils.stringifyDate(header.getDate(), true, false));
+            Log.d(TAG, Utils.stringifyDate(header.getDate(), true));
         } else {
             ScheduleListItem item = (ScheduleListItem) itemsShown.get(position);
             ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;

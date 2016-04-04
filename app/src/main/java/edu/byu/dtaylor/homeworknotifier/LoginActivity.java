@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
-        //dbHelper.onUpgrade(dbHelper.getWritableDatabase(), -1, -1);
+        dbHelper.onUpgrade(dbHelper.getWritableDatabase(), -1, -1);
         try {
             MainActivity.database = dbHelper.getDatabaseFromSql();
         }
