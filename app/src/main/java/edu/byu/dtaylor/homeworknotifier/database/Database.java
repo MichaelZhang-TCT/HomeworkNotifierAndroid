@@ -3,9 +3,11 @@ package edu.byu.dtaylor.homeworknotifier.database;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import edu.byu.dtaylor.homeworknotifier.Utils;
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
 
 /**
@@ -18,6 +20,7 @@ public class Database {
     HashMap<String,List<Task>> tasksByAssignment = new HashMap<>();
     HashMap<String,Course> courseById = new HashMap<>();
     HashMap<String,Assignment> assignmentById = new HashMap<>();
+    HashMap<Date,List<String>> assignmentIdsByDueDate = new HashMap<>();
 
     public Database(GsonDatabase db)
     {
@@ -28,6 +31,10 @@ public class Database {
             for(Assignment assignment : course.getAssignments())
             {
                 assignmentById.put(assignment.getId(), assignment);
+                Date dueDate = Utils.normalizeDate(new Date(assignment.getDueDate()));
+                if(!assignmentIdsByDueDate.containsKey(dueDate))
+                    assignmentIdsByDueDate.put(dueDate,new ArrayList<String>());
+                assignmentIdsByDueDate.get(dueDate).add(assignment.getId());
             }
         }
     }
@@ -82,6 +89,20 @@ public class Database {
     public Assignment getAssignmentById(String assignmentId)
     {
         return assignmentById.get(assignmentId);
+    }
+
+    public List<Assignment> getAssignmentsByDueDate(Date dueDate)
+    {
+        Date normalized = Utils.normalizeDate(dueDate);
+        List<String> ids = assignmentIdsByDueDate.get(normalized);
+        ArrayList<Assignment> assignments = new ArrayList<>();
+        for(String id : ids)
+        {
+            Assignment assignment = assignmentById.get(id);
+            if(assignment != null)
+                assignments.add(assignment);
+        }
+        return assignments;
     }
 
 

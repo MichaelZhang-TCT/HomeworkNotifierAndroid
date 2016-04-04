@@ -228,13 +228,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 HomeworkNotifierContract.Tasks.COLUMN_NAME_ASSIGNED_DATE + " DESC";
 
         Cursor tasksQuery = db.query(
+                true,
                 HomeworkNotifierContract.Tasks.TABLE_NAME,  // The table to query
                 projection,                               // The columns to return
                 /*selection*/null,                                // The columns for the WHERE clause
                 /*selectionArgs*/null,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                sortOrder                                 // The sort order
+                sortOrder,                                 // The sort order
+                null
         );
         ArrayList<Task> tasks = new ArrayList<>();
         if(tasksQuery.getCount() != 0) {
@@ -274,9 +276,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 HomeworkNotifierContract.Assignments.COLUMN_NAME_REF_URL
         };
 
-        String[] selection = {
-                HomeworkNotifierContract.Assignments.COLUMN_NAME_EXTERNAL_COURSE_ID
-        };
+        String selection =
+                HomeworkNotifierContract.Assignments.COLUMN_NAME_EXTERNAL_COURSE_ID+" = ?";
 
         String[] selectionArgs = {
                 course.getId()
@@ -290,8 +291,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 true,
                 HomeworkNotifierContract.Assignments.TABLE_NAME,  // The table to query
                 projection,                               // The columns to return
-                /*selection*/null,                                // The columns for the WHERE clause
-                /*selectionArgs*/null,                            // The values for the WHERE clause
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
                 sortOrder,                                 // The sort order

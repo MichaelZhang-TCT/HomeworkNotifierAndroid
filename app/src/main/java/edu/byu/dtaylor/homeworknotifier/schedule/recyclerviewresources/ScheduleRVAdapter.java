@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import edu.byu.dtaylor.homeworknotifier.AssignmentDialogFragment;
@@ -75,12 +74,13 @@ public class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             if (position == currentDayIndex) //render differently if it is showing the current day.
             {
                 Calendar headerDate = Calendar.getInstance();
-                headerDate.setTime(new Date(header.getDate().getTime()));
+                headerDate.setTime(header.getDate());
                 if (headerDate.get(Calendar.DAY_OF_YEAR) == Calendar.getInstance().get(Calendar.DAY_OF_YEAR))
                 {
                     holder.date.setText("Today"); //only display "today" if it's literally today.
                 }
-                else holder.date.setText(Utils.stringifyDate(header.getDate(), false));
+                else
+                    holder.date.setText(Utils.stringifyDate(header.getDate(), false));
                 //holder.date.setTypeface(null, Typeface.BOLD);
                 //holder.date.setTextColor(Color.parseColor("#A7A7A7"));
 
