@@ -21,9 +21,6 @@ import edu.byu.dtaylor.homeworknotifier.AssignmentDialogFragment;
 import edu.byu.dtaylor.homeworknotifier.MainActivity;
 import edu.byu.dtaylor.homeworknotifier.R;
 import edu.byu.dtaylor.homeworknotifier.Utils;
-import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem;
-import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListHeader;
-import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListItem;
 
 /**
  * Created by liukaichi on 4/4/2016.
@@ -176,7 +173,41 @@ public class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             itemTypeImage = (ImageView) itemView.findViewById(R.id.assignment_type_image);
             itemCourse = (TextView) itemView.findViewById(R.id.assignment_course);
             itemDueTime = (TextView) itemView.findViewById(R.id.assignment_due_time);
-
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    //add activity if you want.
+                        /*Intent intent = new Intent(EventInfoActivity.this, ItemInfoActivity.class);
+                        intent.putExtra("itemId", itemId);
+                        EventInfoActivity.this.startActivity(intent);*/
+                    // Create an instance of the dialog fragment and show it
+                    DialogFragment dialog = new AssignmentDialogFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("name",itemName.getText().toString());
+                    bundle.putString("description",description);
+                    bundle.putString("dueDate","dueDate");
+                    dialog.setArguments(bundle);
+                    dialog.show(((MainActivity)context).getSupportFragmentManager(), "AssignmentDialogFragment");
+                    return true;
+                }
+            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //add activity if you want.
+                        /*Intent intent = new Intent(EventInfoActivity.this, ItemInfoActivity.class);
+                        intent.putExtra("itemId", itemId);
+                        EventInfoActivity.this.startActivity(intent);*/
+                    // Create an instance of the dialog fragment and show it
+                    DialogFragment dialog = new AssignmentDialogFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("name",itemName.getText().toString());
+                    bundle.putString("description",description);
+                    bundle.putString("dueDate","dueDate");
+                    dialog.setArguments(bundle);
+                    dialog.show(((MainActivity)context).getSupportFragmentManager(), "AssignmentDialogFragment");
+                }
+            });
 
         }
     }
@@ -191,6 +222,7 @@ public class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             date = (TextView)itemView.findViewById(R.id.header_date_textview);
             line = itemView.findViewById(R.id.line);
+
         }
     }
 }

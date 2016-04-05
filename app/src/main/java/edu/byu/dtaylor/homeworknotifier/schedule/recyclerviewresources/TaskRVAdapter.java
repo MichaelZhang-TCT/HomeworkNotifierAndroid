@@ -5,9 +5,12 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -28,6 +31,13 @@ public class TaskRVAdapter extends ScheduleRVAdapter {
         super(items, context);
 
     }
+
+    /*@Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        *//*return super.onCreateViewHolder(viewGroup, viewType);*//*
+        return new TaskViewHolder(viewGroup);
+    }*/
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         currentDayIndex = ((MainActivity) context).getCurrentDayIndex();
@@ -111,12 +121,26 @@ public class TaskRVAdapter extends ScheduleRVAdapter {
 
 
     }
-
     public class TaskViewHolder extends ScheduleRVAdapter.ScheduleItemViewHolder
     {
+        CardView item_cv;
+        TextView itemName;
+        ImageView itemTypeImage;
+        //TextView itemLocation;
+        public int currentItem;
+        public String itemId;
+        public String description;
+        TextView itemCourse;
+        TextView itemDueTime;
+        public String pointsPossible;
 
-        TaskViewHolder(View itemView) {
+        TaskViewHolder(final View itemView) {
             super(itemView);
+            item_cv = (CardView)itemView.findViewById(R.id.cv);
+            itemName = (TextView)itemView.findViewById(R.id.item_name);
+            itemTypeImage = (ImageView) itemView.findViewById(R.id.assignment_type_image);
+            itemCourse = (TextView) itemView.findViewById(R.id.assignment_course);
+            itemDueTime = (TextView) itemView.findViewById(R.id.assignment_due_time);
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
 
                 @Override
@@ -133,6 +157,20 @@ public class TaskRVAdapter extends ScheduleRVAdapter {
                     return true;
                 }
             });
+
+        }
+
+    }
+    public class TaskHeaderViewHolder extends RecyclerView.ViewHolder {
+
+        TextView date;
+        View line;
+
+        TaskHeaderViewHolder(final View itemView) {
+            super(itemView);
+
+            date = (TextView)itemView.findViewById(R.id.header_date_textview);
+            line = itemView.findViewById(R.id.line);
 
         }
     }

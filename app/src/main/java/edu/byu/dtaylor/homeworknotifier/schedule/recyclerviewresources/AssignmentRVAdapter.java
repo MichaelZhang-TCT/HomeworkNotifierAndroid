@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -29,6 +30,11 @@ public class AssignmentRVAdapter extends ScheduleRVAdapter {
         super(items, context);
     }
 
+    /*@Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        //return super.onCreateViewHolder(viewGroup, viewType);
+        return new AssignmentViewHolder(viewGroup);
+    }*/
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
