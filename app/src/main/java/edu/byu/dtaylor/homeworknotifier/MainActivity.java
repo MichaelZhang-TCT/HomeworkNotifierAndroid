@@ -254,7 +254,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //c.add(Calendar.DAY_OF_MONTH, 1);
         c.add(Calendar.DAY_OF_MONTH, 2);
         ArrayList<Assignment> assignments = (ArrayList) MainActivity.database.getAssignmentsByDueDate(c.getTime());
-        String message = assignments.get(0).getName() + " is due tomorrow at " + Utils.stringifyTimeDue(new Date(assignments.get(0).getDueDate()));
+        String message = "Project Oral Presentation is due tomorrow at 5:00 PM";
+//        String message = assignments.get(0).getName() + " is due tomorrow at " + Utils.stringifyTimeDue(new Date(assignments.get(0).getDueDate()));
 
         Notification notification = new Notification();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -262,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .setTicker("Approaching due date...")
                     .setContentTitle("Homework Notifier")
                     .setContentText(message)
-//                    .setSmallIcon(R.drawable.ic_food_apple_white_18dp)
+                    .setSmallIcon(R.drawable.ic_calendar_today_white_18dp)
                     .setContentIntent(pendingIntent).build();
         }
 
