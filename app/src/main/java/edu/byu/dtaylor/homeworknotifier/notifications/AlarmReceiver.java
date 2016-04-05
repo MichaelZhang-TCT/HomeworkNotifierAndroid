@@ -25,10 +25,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         Notification notification = new Notification();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
             notification = new Notification.Builder(context)
-                    .setTicker("You have something due soon...")
-                    .setContentTitle("Homework Notificatitionizer")
+                    .setTicker("Approaching due date...")
+                    .setContentTitle("Homework Notifier")
                     .setContentText(generateMessage(intent))
-                    .setSmallIcon(R.drawable.ic_food_apple_white_18dp)
+//                    .setSmallIcon(R.drawable.ic_food_apple_white_18dp)
                     .setWhen(System.currentTimeMillis())
                     .setContentIntent(pendingIntent).build();
         }
