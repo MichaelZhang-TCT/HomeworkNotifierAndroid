@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         finally{
             dbHelper.close();
         }
+
         if(MainActivity.database != null)
         {
             Intent intent = new Intent(this, MainActivity.class);

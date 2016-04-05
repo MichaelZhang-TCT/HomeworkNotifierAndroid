@@ -27,7 +27,7 @@
             android:layout_margin="16dp"
             android:layout_height="wrap_content"
             android:id="@+id/imageButton"
-            android:src="@drawable/ic_menu_grey600_36dp"
+            android:src="@drawable/ic_log_out"
             android:layout_alignRight="@+id/scheduleFragmentContainer"
             android:layout_alignEnd="@+id/scheduleFragmentContainer" />
 
