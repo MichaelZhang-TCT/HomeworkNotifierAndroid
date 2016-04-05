@@ -92,9 +92,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
 
-                /*Log.d("debug", "settings clicked");
-                Intent intent = new Intent("edu.byu.dtaylor.homeworknotifier.SettingsActivity");
-                startActivity(intent);*/
+                /*MainActivity.settings.edit().remove("netID");
+                MainActivity.settings.edit().remove("password");*/
             }
         });
     }
