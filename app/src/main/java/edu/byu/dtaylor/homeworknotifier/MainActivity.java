@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ import java.util.List;
 import edu.byu.dtaylor.homeworknotifier.database.Assignment;
 import edu.byu.dtaylor.homeworknotifier.database.Database;
 import edu.byu.dtaylor.homeworknotifier.database.Task;
+import edu.byu.dtaylor.homeworknotifier.notifications.AlarmService;
 import edu.byu.dtaylor.homeworknotifier.schedule.Schedule;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleFactory;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItem;
@@ -225,7 +227,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 assignmentsLayoutManager.scrollToPositionWithOffset(getCurrentDayIndex(), 0);
 //                AlarmService alarm = new AlarmService(MainActivity.this);
 //                alarm.startAlarm();
-            setNotification(0);
+                AlarmService alarm = new AlarmService(MainActivity.this);
+                alarm.startAlarm();
+                setNotification(0);
             }
         });
 
@@ -253,10 +257,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), (int) System.currentTimeMillis(), new Intent(), 0);
 
         Calendar c = Calendar.getInstance();
-        //c.add(Calendar.DAY_OF_MONTH, 1);
-        c.add(Calendar.DAY_OF_MONTH, 2);
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        Log.d(TAG, c.getTime() + "");
+        Log.d(TAG, Utils.normalizeDate(c.getTime()) + "");
         ArrayList<Assignment> assignments = (ArrayList) MainActivity.database.getAssignmentsByDueDate(c.getTime());
-        String message = "Project Oral Presentation is due tomorrow at 5:00 PM";
+        String message = "";
+        Log.d(TAG,assignments.toString());
+        Log.d(TAG,assignments.size()+"");
+        if(assignments.size() > 0){
+            message = assignments.get(0).getName() + " is due tomorrow at " + Utils.stringifyTimeDue(new Date(assignments.get(0).getDueDate()));
+        } else {
+            message = "No homework due tomorrow.";
+        }
 //        String message = assignments.get(0).getName() + " is due tomorrow at " + Utils.stringifyTimeDue(new Date(assignments.get(0).getDueDate()));
 
         Notification notification = new Notification();
@@ -265,23 +277,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .setTicker("Approaching due date...")
                     .setContentTitle("Homework Notifier")
                     .setContentText(message)
-                    .setSmallIcon(R.drawable.ic_calendar_today_white_18dp)
+                    .setSmallIcon(R.mipmap.skoold_logo_circle)
                     .setContentIntent(pendingIntent).build();
         }
 
                 notification.defaults |= Notification.DEFAULT_SOUND;
         //use the above default or set custom valuse as below
 //                notification.sound = Uri.parse("file:///sdcard/notification/robo_da.mp3");
-                notification.defaults |= Notification.DEFAULT_VIBRATE;
+//                notification.defaults |= Notification.DEFAULT_VIBRATE;
         //use the above default or set custom valuse as below
-//                long[] vibrate = {0,200,100,200};
-//                notification.vibrate = vibrate;
-                notification.defaults |= Notification.DEFAULT_LIGHTS;
+                long[] vibrate = {0,200,100,200};
+                notification.vibrate = vibrate;
+//                notification.defaults |= Notification.DEFAULT_LIGHTS;
         //use the above default or set custom valuse as below
-//                notification.ledARGB = 0xffff0000;//red color
-//                notification.ledOnMS = 400;
-//                notification.ledOffMS = 500;
-//                notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+                notification.ledARGB = 0xff0000ff;
+                notification.ledOnMS = 400;
+                notification.ledOffMS = 500;
+                notification.flags |= Notification.FLAG_SHOW_LIGHTS;
 
         final int notificationIdentifier = 0; //a unique number set by developer to identify a notification, using this notification can be updated/replaced
         notificationManager.notify(notificationIdentifier, notification);
