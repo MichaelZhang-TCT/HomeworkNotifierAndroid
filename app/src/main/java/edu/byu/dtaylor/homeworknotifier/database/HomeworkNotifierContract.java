@@ -19,6 +19,15 @@ public final class HomeworkNotifierContract {
         public static final String COLUMN_NAME_SHORT_TITLE = "course_short_title";
     }
 
+    public static abstract class Tasks implements BaseColumns {
+        public static final String TABLE_NAME = "tasks";
+        public static final String COLUMN_NAME_ASSIGNMENT_ID = "assignment_id";
+        public static final String COLUMN_NAME_COURSE_ID = "course_id";
+        public static final String COLUMN_NAME_COMPLETED = "completed";
+        public static final String COLUMN_NAME_ASSIGNED_DATE = "assigned_date";
+        public static final String COLUMN_NAME_COLOR = "color";
+    }
+
     public static abstract class Assignments implements BaseColumns {
         public static final String TABLE_NAME = "assignments";
         public static final String COLUMN_NAME_CLASS_ID = "class_id";
@@ -50,6 +59,16 @@ public final class HomeworkNotifierContract {
                     Classes.COLUMN_NAME_SHORT_TITLE + TEXT_TYPE +
             " )";
 
+    public static final String SQL_CREATE_TASKS =
+            "CREATE TABLE " + Tasks.TABLE_NAME + " (" +
+                    Tasks._ID + PRIMARY_KEY + COMMA_SEP +
+                    Tasks.COLUMN_NAME_ASSIGNMENT_ID + TEXT_TYPE + COMMA_SEP +
+                    Tasks.COLUMN_NAME_COURSE_ID + TEXT_TYPE + COMMA_SEP +
+                    Tasks.COLUMN_NAME_COMPLETED + TEXT_TYPE + COMMA_SEP +
+                    Tasks.COLUMN_NAME_ASSIGNED_DATE + INTEGER_TYPE + COMMA_SEP +
+                    Tasks.COLUMN_NAME_COLOR + INTEGER_TYPE +
+                    " )";
+
     public static final String SQL_CREATE_ASSIGNMENTS =
             "CREATE TABLE " + Assignments.TABLE_NAME + " (" +
                     Assignments._ID + PRIMARY_KEY + COMMA_SEP +
@@ -70,6 +89,8 @@ public final class HomeworkNotifierContract {
 
     public static final String SQL_DELETE_CLASSES =
             "DROP TABLE IF EXISTS " + Classes.TABLE_NAME;
+    public static final String SQL_DELETE_TASKS =
+            "DROP TABLE IF EXISTS " + Tasks.TABLE_NAME;
     public static final String SQL_DELETE_ASSIGNMENTS =
             "DROP TABLE IF EXISTS " + Assignments.TABLE_NAME;
 }

@@ -1,5 +1,5 @@
 
-package edu.byu.dtaylor.homeworknotifier.gsontools;
+package edu.byu.dtaylor.homeworknotifier.database;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -25,6 +25,12 @@ public class Course {
     @SerializedName("assignments")
     @Expose
     private List<Assignment> assignments = new ArrayList<Assignment>();
+
+    public Course(String courseId, String courseTitle, String courseShortTitle) {
+        this.id = courseId;
+        this.title = courseTitle;
+        this.shortTitle = courseShortTitle;
+    }
 
     /**
      * 

@@ -1,5 +1,5 @@
 
-package edu.byu.dtaylor.homeworknotifier.gsontools;
+package edu.byu.dtaylor.homeworknotifier.database;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -27,7 +27,7 @@ public class Assignment {
     private String description;
     @SerializedName("dueDate")
     @Expose
-    private Integer dueDate;
+    private Long dueDate;
     @SerializedName("graded")
     @Expose
     private Boolean graded;
@@ -46,6 +46,24 @@ public class Assignment {
     @SerializedName("weight")
     @Expose
     private Double weight;
+
+    public Assignment(String assignmentId, String courseId, String name, String description, String category,
+                      String categoryId, String dueDate, String graded, String points, String weight, String type, String refUrl) {
+        this.id = assignmentId;
+        this.courseID = courseId;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.categoryID = categoryId;
+        this.dueDate = Long.parseLong(dueDate);
+        this.graded = Boolean.valueOf(graded);
+        this.points = Integer.valueOf(points);
+        this.weight = Double.valueOf(weight);
+        this.type = type;
+        this.url = refUrl;
+
+
+    }
 
     /**
      * 
@@ -167,7 +185,7 @@ public class Assignment {
      * @return
      *     The dueDate
      */
-    public Integer getDueDate() {
+    public Long getDueDate() {
         return dueDate;
     }
 
@@ -176,11 +194,11 @@ public class Assignment {
      * @param dueDate
      *     The dueDate
      */
-    public void setDueDate(Integer dueDate) {
+    public void setDueDate(Long dueDate) {
         this.dueDate = dueDate;
     }
 
-    public Assignment withDueDate(Integer dueDate) {
+    public Assignment withDueDate(Long dueDate) {
         this.dueDate = dueDate;
         return this;
     }
@@ -344,5 +362,6 @@ public class Assignment {
         Assignment rhs = ((Assignment) other);
         return new EqualsBuilder().append(id, rhs.id).append(categoryID, rhs.categoryID).append(category, rhs.category).append(courseID, rhs.courseID).append(description, rhs.description).append(dueDate, rhs.dueDate).append(graded, rhs.graded).append(name, rhs.name).append(points, rhs.points).append(type, rhs.type).append(url, rhs.url).append(weight, rhs.weight).isEquals();
     }
+
 
 }

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 
+import edu.byu.dtaylor.homeworknotifier.Utils;
+
 /**
  * Created by Tanner on 3/9/2016.
  */
@@ -17,7 +19,8 @@ public class Schedule {
         days = new TreeMap<Date,ScheduleDay>();
     }
 
-    public void add(ScheduleItem item, Date d) {
+    public void add(ScheduleItem item, Date date) {
+        Date d = Utils.normalizeDate(date);
         ScheduleDay sd = days.get(d);
         if(sd == null) {
             sd = new ScheduleDay(d);
@@ -28,7 +31,8 @@ public class Schedule {
     public Set<Date> getDates(){
         return days.keySet();
     }
-    public List<ScheduleItem> getItemsByDate(Date date){
+    public List<ScheduleItem> getItemsByDate(Date d){
+        Date date = Utils.normalizeDate(d);
         return days.get(date).getItems();
     }
 

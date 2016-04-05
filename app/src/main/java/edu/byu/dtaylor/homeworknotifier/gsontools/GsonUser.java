@@ -11,7 +11,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+import edu.byu.dtaylor.homeworknotifier.database.Course;
+
+public class GsonUser {
 
     @SerializedName("id")
     @Expose
@@ -38,7 +40,7 @@ public class User {
         this.id = id;
     }
 
-    public User withId(String id) {
+    public GsonUser withId(String id) {
         this.id = id;
         return this;
     }
@@ -61,7 +63,7 @@ public class User {
         this.courses = courses;
     }
 
-    public User withCourses(List<Course> courses) {
+    public GsonUser withCourses(List<Course> courses) {
         this.courses = courses;
         return this;
     }
@@ -81,10 +83,10 @@ public class User {
         if (other == this) {
             return true;
         }
-        if ((other instanceof User) == false) {
+        if ((other instanceof GsonUser) == false) {
             return false;
         }
-        User rhs = ((User) other);
+        GsonUser rhs = ((GsonUser) other);
         return new EqualsBuilder().append(id, rhs.id).append(courses, rhs.courses).isEquals();
     }
 

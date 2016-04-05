@@ -1,11 +1,15 @@
 package edu.byu.dtaylor.homeworknotifier;
 
 import android.app.Fragment;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -18,25 +22,26 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
+import edu.byu.dtaylor.homeworknotifier.database.Database;
+import edu.byu.dtaylor.homeworknotifier.database.Task;
+import edu.byu.dtaylor.homeworknotifier.notifications.AlarmService;
 import edu.byu.dtaylor.homeworknotifier.schedule.Schedule;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleFactory;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItem;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem.ItemType;
+import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AssignmentRVAdapter;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListHeader;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListItem;
+import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleRVAdapter;
 
 //import android.support.design.widget.FloatingActionButton;
 //import android.support.design.widget.Snackbar;
@@ -57,23 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     List<AbstractScheduleListItem> assignmentsRecyclerListItems;
     List<AbstractScheduleListItem> taskRecyclerListItems;
     Date dateBeingViewed = Calendar.getInstance().getTime(); //gets the current time.
-    public static GsonDatabase database;
-
-    //This will be replaced by what we pull from the server - ie real data
-    /*private String assignments = "[{\"Description\":\"GsonAssignment One\",\"Date\":\"2016-03-05\"}," +
-            "{\"Description\":\"GsonAssignment Two\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}]";*/
-
-    private String assignments = "[{\"Description\":\"GsonAssignment One\",\"Date\":\"2016-03-05\"}," +
-            "{\"Description\":\"GsonAssignment Two\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}," +
-            "{\"Description\":\"GsonAssignment Three\",\"Date\":\"2016-03-06\"}]";
+    public static Database database;
 
 
     private int offset = 0;
@@ -88,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Calendar nextDay;
     private CalendarPageAdapter calendarPageAdapter;
     private ViewPager dayPage;
+    public static SharedPreferences settings;
     //END CALENDAR STUFF
 
     protected Fragment loadSchedule() {
@@ -119,7 +109,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //CALENDAR STUFF
         initializeCalendar();
         //END CALENDAR STUFF
-
+        settings = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        if(getIntent().getStringExtra("netID") != null && getIntent().getStringExtra("password") != null)
+        {
+            editor.putString("netID",getIntent().getStringExtra("netID"));
+            editor.putString("password",getIntent().getStringExtra("password"));
+            editor.commit();
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -163,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         assignmentsRecyclerView.setHasFixedSize(true);
 
 
-        final ScheduleRVAdapter assignmentAdapter = new ScheduleRVAdapter(assignmentsRecyclerListItems, this);
+        final AssignmentRVAdapter assignmentAdapter = new AssignmentRVAdapter(assignmentsRecyclerListItems, this);
         assignmentsRecyclerView.setAdapter(assignmentAdapter);
 
         SwipeableRecyclerViewTouchListener swipeTouchListener =
@@ -186,12 +183,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             @Override
                             public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
-                                    assignmentsRecyclerListItems.get(position).plan(dateBeingViewed);
+                                    ScheduleListItem item = ((ScheduleListItem)assignmentsRecyclerListItems.get(position));
+                                    item.plan(dateBeingViewed);
+                                    Calendar selectedDay = ((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).getSelectedDay();
+                                    database.addTask(new Task(item.getAssignmentId(), item.getCourseID(), String.valueOf(item.getDueDate().getTime()), String.valueOf(selectedDay.getTime().getTime()), String.valueOf(item.getColor())), MainActivity.this);
                                     ScheduleListItem newTask =  new ScheduleListItem(
                                             assignmentsRecyclerListItems.get(position),
                                             ItemType.TASK);
                                     ((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).taskRecyclerListItems.add(newTask);
-                                    assignmentAdapter.notifyItemRemoved(position);
+                                    //assignmentAdapter.notifyItemRemoved(position);
                                     ((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).taskAdapter.notifyItemInserted(((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).taskRecyclerListItems.size() - 1);
                                 }
                                 assignmentAdapter.notifyDataSetChanged();
@@ -220,7 +220,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 // scroll to the right day
-                assignmentsLayoutManager.scrollToPositionWithOffset(getCurrentDayIndex(),0);
+                assignmentsLayoutManager.scrollToPositionWithOffset(getCurrentDayIndex(), 0);
+                AlarmService alarm = new AlarmService(MainActivity.this);
+                alarm.startAlarm();
+
             }
         });
 
@@ -235,6 +238,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        fragmentTransaction.add(R.id.scheduleFragmentContainer,new ScheduleFragment());
 //        fragmentTransaction.commit();
 
+    }
+
+    private void setNotification(long showTime){
+
+//                long showAt = System.currentTimeMillis();//immediately
+//                long showAt = System.currentTimeMillis()+30000;
+
+        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+//                Notification notification = new Notification(icon,title,showAt);
+        // use System.currentTimeMillis() to have a unique ID for the pending intent
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), (int) System.currentTimeMillis(), new Intent(), 0);
+        Notification notification = new Notification();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            notification = new Notification.Builder(MainActivity.this)
+                    .setTicker("Ticker text")
+                    .setContentTitle("Homework Notification")
+                    .setContentText("You have a homework assignment due at ...")
+                    .setSmallIcon(R.drawable.ic_food_apple_white_18dp)
+                    .setWhen(System.currentTimeMillis())
+                    .setContentIntent(pendingIntent).build();
+        }
+
+//                notification.defaults |= Notification.DEFAULT_SOUND;
+        //use the above default or set custom valuse as below
+//                notification.sound = Uri.parse("file:///sdcard/notification/robo_da.mp3");
+//                notification.defaults |= Notification.DEFAULT_VIBRATE;
+        //use the above default or set custom valuse as below
+//                long[] vibrate = {0,200,100,200};
+//                notification.vibrate = vibrate;
+//                notification.defaults |= Notification.DEFAULT_LIGHTS;
+        //use the above default or set custom valuse as below
+//                notification.ledARGB = 0xffff0000;//red color
+//                notification.ledOnMS = 400;
+//                notification.ledOffMS = 500;
+//                notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+
+        final int notificationIdentifier = 0; //a unique number set by developer to identify a notification, using this notification can be updated/replaced
+        notificationManager.notify(notificationIdentifier, notification);
     }
 
     private void initializeCalendar() {
@@ -261,14 +302,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-                Snackbar.make(findViewById(R.id.calendar_view_pager),"page scrolled",Snackbar.LENGTH_SHORT).show();
+                //Snackbar.make(findViewById(R.id.calendar_view_pager),"page scrolled",Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
             public void onPageSelected(int position) {
                 // TODO Auto-generated method stub
                 focusPage = position;
-                Snackbar.make(findViewById(R.id.calendar_view_pager),"page selected",Snackbar.LENGTH_SHORT).show();
+                //Snackbar.make(findViewById(R.id.calendar_view_pager),"page selected",Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
@@ -284,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     dayPage.setCurrentItem(1, false);
                     updateTitle();
                 }
-                Snackbar.make(findViewById(R.id.calendar_view_pager),"state changed",Snackbar.LENGTH_SHORT).show();
+                //Snackbar.make(findViewById(R.id.calendar_view_pager),"state changed",Snackbar.LENGTH_SHORT).show();
             }
         });
         dayPage.setCurrentItem(1, false);
@@ -311,7 +352,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else
             {
-                strdate = Utils.stringifyDate(currentDay.getTime(), false, false);
+                strdate = Utils.stringifyDate(currentDay.getTime(), false);
             }
         }
         setTitle(strdate);
@@ -386,7 +427,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (item.getItemType() == ItemType.HEADER)
             {
                 ScheduleListHeader header = (ScheduleListHeader) item;
-                double difference = (header.getDate().getTime() * 1000) - currentDay.getTime().getTime();
+                double difference = (header.getDate().getTime()) - currentDay.getTime().getTime();
                 if (difference > 0) {
                     if (difference < minDifference)
                     {

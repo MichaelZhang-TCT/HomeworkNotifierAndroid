@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import edu.byu.dtaylor.homeworknotifier.database.DatabaseHelper;
+
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
@@ -36,6 +38,26 @@ public class LoginActivity extends AppCompatActivity {
             });
             AlertDialog error = builder.create();
             error.show();
+        }
+
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        dbHelper.onUpgrade(dbHelper.getWritableDatabase(), -1, -1);
+        try {
+            MainActivity.database = dbHelper.getDatabaseFromSql();
+        }
+        catch(Exception e)
+        {
+            dbHelper.onUpgrade(dbHelper.getWritableDatabase(), -1, -1);
+            Log.e("LoginActivity","Couldn't load database",e);
+        }
+        finally{
+            dbHelper.close();
+        }
+        if(MainActivity.database != null)
+        {
+            Intent intent = new Intent(this, MainActivity.class);
+            this.startActivity(intent);
+            finish();
         }
     }
 
