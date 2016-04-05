@@ -30,7 +30,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2bd89a8-936d-4b34-b6ef-81e6fd797a20" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/LoginActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/LoginActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="HomeworkNotifier.iws" />
@@ -59,11 +59,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.3055553">
-              <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.48697394">
+              <caret line="97" column="45" selection-start-line="97" selection-start-column="45" selection-end-line="97" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -135,10 +135,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/LoginActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33271027">
+            <state vertical-scroll-proportion="0.0">
               <caret line="101" column="40" selection-start-line="101" selection-start-column="40" selection-end-line="101" selection-end-column="40" />
               <folding>
                 <element signature="e#3067#5391#0" expanded="true" />
@@ -1964,8 +1964,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/schedule/recyclerviewresources/AssignmentRVAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/CalendarActivityFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -2550,7 +2550,13 @@
       <option name="project" value="LOCAL" />
       <updated>1459835919668</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="logout working fully">
+      <created>1459836613786</created>
+      <option name="number" value="00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1459836613786</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2574,7 +2580,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3301887" sideWeight="0.5075594" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3301887" sideWeight="0.4924406" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3301887" sideWeight="0.4924406" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3278302" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3278302" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -2629,13 +2635,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java</url>
-          <line>389</line>
+          <line>390</line>
           <properties />
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java</url>
-          <line>97</line>
+          <line>98</line>
           <properties />
           <option name="timeStamp" value="28" />
         </line-breakpoint>
@@ -3075,23 +3081,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.3055553">
-          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33271027">
+        <state vertical-scroll-proportion="0.0">
           <caret line="101" column="40" selection-start-line="101" selection-start-column="40" selection-end-line="101" selection-end-column="40" />
           <folding>
             <element signature="e#3067#5391#0" expanded="true" />
             <element signature="e#5390#5391#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48697394">
+          <caret line="97" column="45" selection-start-line="97" selection-start-column="45" selection-end-line="97" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

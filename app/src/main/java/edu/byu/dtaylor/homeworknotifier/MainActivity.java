@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 editor.remove("netID");
                 editor.remove("password");
                 editor.commit();
+                MainActivity.database = null;
                 finish();
             }
         });
