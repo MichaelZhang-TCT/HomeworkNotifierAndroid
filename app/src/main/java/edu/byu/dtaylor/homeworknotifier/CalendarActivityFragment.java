@@ -67,8 +67,8 @@ public class CalendarActivityFragment extends Fragment {
                 {
                     @Override
                     protected GsonDatabase doInBackground(Void... params) {
-                        String netID = MainActivity.settings.getString("netID",null);
-                        String password = MainActivity.settings.getString("password",null);
+                        String netID = LoginActivity.settings.getString("netID",null);
+                        String password = LoginActivity.settings.getString("password",null);
 
                         GsonDatabase gsonDb = Utils.getAllInfo(getActivity(), netID, password);
                         return gsonDb;
