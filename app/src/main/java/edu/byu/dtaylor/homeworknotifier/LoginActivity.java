@@ -1,11 +1,11 @@
 package edu.byu.dtaylor.homeworknotifier;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -82,12 +82,17 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this,SplashScreenActivity.class);
                 if (netID.getText().toString().equals("")||password.getText().toString().equals(""))
                 {
-                    intent.putExtra("netID","daviddt2");
-                    intent.putExtra("password","davidpaseo3");
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("netID",intent.getStringExtra("netID"));
-                    editor.putString("password",intent.getStringExtra("password"));
-                    editor.commit();
+                    Log.e(TAG, "Error with username and password!");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setMessage("Please enter your netID and password");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    AlertDialog error = builder.create();
+                    error.show();
                 }
                 else
                 {
