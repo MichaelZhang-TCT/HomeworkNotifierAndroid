@@ -18,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -92,9 +91,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
 
-                Log.d("debug", "settings clicked");
+                /*Log.d("debug", "settings clicked");
                 Intent intent = new Intent("edu.byu.dtaylor.homeworknotifier.SettingsActivity");
-                startActivity(intent);
+                startActivity(intent);*/
             }
         });
     }
@@ -191,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                             ItemType.TASK);
                                     ((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).taskRecyclerListItems.add(newTask);
                                     //assignmentAdapter.notifyItemRemoved(position);
+                                    ((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).getView().findViewById(R.id.no_tasks_message).setVisibility(View.INVISIBLE);
                                     ((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).taskAdapter.notifyItemInserted(((CalendarActivityFragment)CalendarPageAdapter.getCurrentFragment()).taskRecyclerListItems.size() - 1);
                                 }
                                 assignmentAdapter.notifyDataSetChanged();
