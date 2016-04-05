@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HomeworkNotifier</string>
+    <string name="app_name">Homework Notifier</string>
     <string name="action_settings">Settings</string>
     <string name="mainTitle">BYU Homework Notifier</string>
     <string name="netID">Net ID</string>

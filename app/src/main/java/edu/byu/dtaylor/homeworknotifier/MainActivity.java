@@ -42,7 +42,6 @@ import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractS
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AssignmentRVAdapter;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListHeader;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListItem;
-import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleRVAdapter;
 
 //import android.support.design.widget.FloatingActionButton;
 //import android.support.design.widget.Snackbar;
