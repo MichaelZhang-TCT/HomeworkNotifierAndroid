@@ -96,11 +96,12 @@ public class Database {
         Date normalized = Utils.normalizeDate(dueDate);
         List<String> ids = assignmentIdsByDueDate.get(normalized);
         ArrayList<Assignment> assignments = new ArrayList<>();
-        for(String id : ids)
-        {
-            Assignment assignment = assignmentById.get(id);
-            if(assignment != null)
-                assignments.add(assignment);
+        if (ids != null) {
+            for (String id : ids) {
+                Assignment assignment = assignmentById.get(id);
+                if (assignment != null)
+                    assignments.add(assignment);
+            }
         }
         return assignments;
     }

@@ -32,13 +32,16 @@ import java.util.List;
 
 import edu.byu.dtaylor.homeworknotifier.database.Database;
 import edu.byu.dtaylor.homeworknotifier.database.Task;
+import edu.byu.dtaylor.homeworknotifier.notifications.AlarmService;
 import edu.byu.dtaylor.homeworknotifier.schedule.Schedule;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleFactory;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItem;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem.ItemType;
+import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AssignmentRVAdapter;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListHeader;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListItem;
+import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleRVAdapter;
 
 //import android.support.design.widget.FloatingActionButton;
 //import android.support.design.widget.Snackbar;
@@ -157,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         assignmentsRecyclerView.setHasFixedSize(true);
 
 
-        final ScheduleRVAdapter assignmentAdapter = new ScheduleRVAdapter(assignmentsRecyclerListItems, this);
+        final AssignmentRVAdapter assignmentAdapter = new AssignmentRVAdapter(assignmentsRecyclerListItems, this);
         assignmentsRecyclerView.setAdapter(assignmentAdapter);
 
         SwipeableRecyclerViewTouchListener swipeTouchListener =
@@ -218,6 +221,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 // scroll to the right day
                 assignmentsLayoutManager.scrollToPositionWithOffset(getCurrentDayIndex(), 0);
+                AlarmService alarm = new AlarmService(MainActivity.this);
+                alarm.startAlarm();
+
             }
         });
 

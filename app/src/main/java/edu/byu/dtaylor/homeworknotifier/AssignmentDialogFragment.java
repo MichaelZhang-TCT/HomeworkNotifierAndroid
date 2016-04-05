@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleRVAdapter;
+
 public class AssignmentDialogFragment extends DialogFragment {
 
     private NoticeDialogListener mListener;
@@ -52,13 +54,6 @@ public class AssignmentDialogFragment extends DialogFragment {
                         if(mListener != null)
                             mListener.onDialogPositiveClick(AssignmentDialogFragment.this);
                     }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(mListener != null)
-                            mListener.onDialogNegativeClick(AssignmentDialogFragment.this);
-                    }
                 });
         // Create the AlertDialog object and return it
         return builder.create();
@@ -74,4 +69,6 @@ public class AssignmentDialogFragment extends DialogFragment {
         public void onDialogPositiveClick(DialogFragment dialog);
         public void onDialogNegativeClick(DialogFragment dialog);
     }
+
+
 }

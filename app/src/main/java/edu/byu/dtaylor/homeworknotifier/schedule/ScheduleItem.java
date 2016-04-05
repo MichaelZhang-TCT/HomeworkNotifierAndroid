@@ -11,7 +11,6 @@ import java.util.HashSet;
  */
 public class ScheduleItem {
 
-
     private static final String TAG = "ScheduleItem";
     Date dueDate;
     String category;
