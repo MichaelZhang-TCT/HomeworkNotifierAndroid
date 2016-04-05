@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import edu.byu.dtaylor.homeworknotifier.MainActivity;
+import edu.byu.dtaylor.homeworknotifier.R;
 import edu.byu.dtaylor.homeworknotifier.Utils;
 import edu.byu.dtaylor.homeworknotifier.database.Assignment;
 
@@ -35,6 +36,7 @@ public class AlarmService {
             }
             mAlarmSender = PendingIntent.getBroadcast(context, 0, intent, 0);
         }
+
     }
 
     public void startAlarm(){

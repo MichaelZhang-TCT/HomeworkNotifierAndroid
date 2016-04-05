@@ -295,7 +295,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nextDay = Calendar.getInstance();
         nextDay.setTime(currentDay.getTime());
 
-
         CalendarActivityFragment[] fragList = new CalendarActivityFragment[3];
         fragList[0] = new CalendarActivityFragment(this, prevDay);
         fragList[1] = new CalendarActivityFragment(this, currentDay);
