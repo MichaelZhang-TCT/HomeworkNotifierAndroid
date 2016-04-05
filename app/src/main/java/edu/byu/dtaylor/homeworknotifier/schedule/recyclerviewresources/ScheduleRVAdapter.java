@@ -27,7 +27,8 @@ import edu.byu.dtaylor.homeworknotifier.Utils;
  */
 public class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "ScheduleRVAdapter";
-    protected final Context context;List<AbstractScheduleListItem> itemsShown;
+    protected final Context context;
+    List<AbstractScheduleListItem> itemsShown;
     int currentDayIndex = 0;
 
     public ScheduleRVAdapter(List<AbstractScheduleListItem> items, Context context) {

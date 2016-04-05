@@ -8,7 +8,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,19 +26,41 @@ import edu.byu.dtaylor.homeworknotifier.Utils;
 /**
  * Created by liukaichi on 4/4/2016.
  */
-public class TaskRVAdapter extends ScheduleRVAdapter {
+public class TaskRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "TaskRVAdapter";
+    protected final Context context;
+    List<AbstractScheduleListItem> itemsShown;
+    int currentDayIndex = 0;
 
     public TaskRVAdapter(List<AbstractScheduleListItem> items, Context context) {
-        super(items, context);
-
+        this.itemsShown = items;
+        this.context = context;
     }
 
-    /*@Override
+
+    @Override
+    public int getItemViewType(int position) {
+        return itemsShown.get(position).getItemType().ordinal();
+    }
+    public int getItemCount() {
+        return itemsShown.size();
+    }
+
+    @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        *//*return super.onCreateViewHolder(viewGroup, viewType);*//*
-        return new TaskViewHolder(viewGroup);
-    }*/
+        AbstractScheduleListItem.ItemType itemType = AbstractScheduleListItem.ItemType.values()[viewType];
+        if (itemType == AbstractScheduleListItem.ItemType.HEADER) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_list_header, viewGroup, false);//$$$
+            return new TaskHeaderViewHolder(v);
+        } else if (itemType == AbstractScheduleListItem.ItemType.ASSIGNMENT){
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_list_item, viewGroup, false);//$$$
+            return new TaskViewHolder(v);
+        } else
+        {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.todo_list_item, viewGroup, false);//$$$
+            return new TaskViewHolder(v);
+        }
+    }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
@@ -44,7 +68,7 @@ public class TaskRVAdapter extends ScheduleRVAdapter {
         AbstractScheduleListItem.ItemType type = AbstractScheduleListItem.ItemType.values()[getItemViewType(position)];
         if (type == AbstractScheduleListItem.ItemType.HEADER) {
             ScheduleListHeader header = (ScheduleListHeader) itemsShown.get(position);
-            ScheduleHeaderViewHolder holder = (ScheduleHeaderViewHolder) viewHolder;
+            TaskHeaderViewHolder holder = (TaskHeaderViewHolder) viewHolder;
             if (position == currentDayIndex) //render differently if it is showing the current day.
             {
                 Calendar headerDate = Calendar.getInstance();
@@ -73,7 +97,7 @@ public class TaskRVAdapter extends ScheduleRVAdapter {
             Log.d(TAG, Utils.stringifyDate(header.getDate(), true));
         } else {
             ScheduleListItem item = (ScheduleListItem) itemsShown.get(position);
-            ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
+            TaskViewHolder holder = (TaskViewHolder) viewHolder;
             holder.itemName.setText(item.getName());
             holder.item_cv.setBackgroundColor(item.getColor());
             holder.itemTypeImage.setImageAlpha(60);
@@ -121,7 +145,7 @@ public class TaskRVAdapter extends ScheduleRVAdapter {
 
 
     }
-    public class TaskViewHolder extends ScheduleRVAdapter.ScheduleItemViewHolder
+    public class TaskViewHolder extends RecyclerView.ViewHolder
     {
         CardView item_cv;
         TextView itemName;
