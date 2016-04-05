@@ -43,7 +43,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomTas
             Log.e("SplashScreenActivity", "Error with username and password!");
             AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenActivity.this);
             builder.setIcon(R.drawable.ic_dialog_alert);
-            builder.setMessage("netID or password invalid!");
+            builder.setMessage("INVALID NETID OR PASSWORD!");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
