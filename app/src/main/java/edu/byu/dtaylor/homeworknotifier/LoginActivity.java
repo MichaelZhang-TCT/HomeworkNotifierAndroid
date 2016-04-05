@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e(TAG, "Error with username and password!");
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                     builder.setMessage("Please enter your netID and password");
+                    builder.setIcon(R.drawable.ic_dialog_alert);
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
