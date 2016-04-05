@@ -24,9 +24,7 @@ import edu.byu.dtaylor.homeworknotifier.database.Task;
 import edu.byu.dtaylor.homeworknotifier.gsontools.GsonDatabase;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItem;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AbstractScheduleListItem;
-import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.AssignmentRVAdapter;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleListItem;
-import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.ScheduleRVAdapter;
 import edu.byu.dtaylor.homeworknotifier.schedule.recyclerviewresources.TaskRVAdapter;
 
 /**
@@ -93,6 +91,7 @@ public class CalendarActivityFragment extends Fragment {
             day.setTimeInMillis(task.getAssignedDate());
             if(day.get(Calendar.DAY_OF_YEAR) == currentDay.get(Calendar.DAY_OF_YEAR))
             {
+                view.findViewById(R.id.no_tasks_message).setVisibility(View.INVISIBLE);
                 Assignment a = MainActivity.database.getAssignmentById(task.getAssignmentId());
                 taskRecyclerListItems.add(new ScheduleListItem(new ScheduleItem(a.getName(),a.getDescription(), task.getColor(), a.getCategory(), a.getCourseID(), "short title", "title", new Date(a.getDueDate()), a.getGraded(), a.getPoints(), a.getType(), a.getUrl(), a.getWeight(), a.getId()), AbstractScheduleListItem.ItemType.TASK));
             }
