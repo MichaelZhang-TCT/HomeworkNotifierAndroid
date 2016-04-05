@@ -62,21 +62,8 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         }
-        catch(Exception e)
-        {
-            dbHelper.onUpgrade(dbHelper.getWritableDatabase(), -1, -1);
-            Log.e("LoginActivity","Couldn't load database",e);
-        }
-        finally{
-            dbHelper.close();
-        }
 
-        if(MainActivity.database != null)
-        {
-            Intent intent = new Intent(this, MainActivity.class);
-            this.startActivity(intent);
-            finish();
-        }
+
         //make things white!
         final EditText netID = ((EditText)findViewById(R.id.netID));
         final EditText password = ((EditText)findViewById(R.id.password));
@@ -91,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String lastLogin = settings.getString("lastlogin",null);
                 Intent intent = new Intent(LoginActivity.this,SplashScreenActivity.class);
                 if (netID.getText().toString().equals("")||password.getText().toString().equals(""))
                 {
@@ -108,16 +96,19 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("netID",intent.getStringExtra("netID"));
                     editor.putString("password",intent.getStringExtra("password"));
+                    editor.putString("lastlogin",intent.getStringExtra("netID"));
                     editor.commit();
                 }
-                DatabaseHelper dbHelper = new DatabaseHelper(LoginActivity.this);
-                try {
-                    MainActivity.database = dbHelper.getDatabaseFromSql();
-                } catch (Exception e) {
-                    dbHelper.onUpgrade(dbHelper.getWritableDatabase(), -1, -1);
-                    Log.e("LoginActivity", "Couldn't load database", e);
-                } finally {
-                    dbHelper.close();
+                if(lastLogin != null && lastLogin.equals(settings.getString("lastlogin",null))) {
+                    DatabaseHelper dbHelper = new DatabaseHelper(LoginActivity.this);
+                    try {
+                        MainActivity.database = dbHelper.getDatabaseFromSql();
+                    } catch (Exception e) {
+                        dbHelper.onUpgrade(dbHelper.getWritableDatabase(), -1, -1);
+                        Log.e("LoginActivity", "Couldn't load database", e);
+                    } finally {
+                        dbHelper.close();
+                    }
                 }
                 if(MainActivity.database == null)
                     startActivity(intent);
