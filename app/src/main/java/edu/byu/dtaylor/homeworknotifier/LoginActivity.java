@@ -3,6 +3,7 @@ package edu.byu.dtaylor.homeworknotifier;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -60,6 +61,14 @@ public class LoginActivity extends AppCompatActivity {
             this.startActivity(intent);
             finish();
         }
+
+
+
+        //make things white!
+        final EditText netID = ((EditText)findViewById(R.id.netID));
+        final EditText password = ((EditText)findViewById(R.id.password));
+        netID.getBackground().mutate().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+        password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
     }
 
     public void OnClickButtonListener() {
