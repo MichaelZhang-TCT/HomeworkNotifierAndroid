@@ -32,7 +32,6 @@ import java.util.List;
 import edu.byu.dtaylor.homeworknotifier.database.Assignment;
 import edu.byu.dtaylor.homeworknotifier.database.Database;
 import edu.byu.dtaylor.homeworknotifier.database.Task;
-import edu.byu.dtaylor.homeworknotifier.notifications.AlarmService;
 import edu.byu.dtaylor.homeworknotifier.schedule.Schedule;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleFactory;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleItem;
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Calendar nextDay;
     private CalendarPageAdapter calendarPageAdapter;
     private ViewPager dayPage;
-    public static SharedPreferences settings;
+    /*public static SharedPreferences settings;*/
     //END CALENDAR STUFF
 
     protected Fragment loadSchedule() {
@@ -92,8 +91,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
 
-                /*MainActivity.settings.edit().remove("netID");
-                MainActivity.settings.edit().remove("password");*/
+                SharedPreferences.Editor editor = LoginActivity.settings.edit();
+                editor.remove("netID");
+                editor.remove("password");
+                editor.commit();
+                finish();
             }
         });
     }
@@ -107,14 +109,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //CALENDAR STUFF
         initializeCalendar();
         //END CALENDAR STUFF
-        settings = getPreferences(MODE_PRIVATE);
+        /*settings = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         if(getIntent().getStringExtra("netID") != null && getIntent().getStringExtra("password") != null)
         {
             editor.putString("netID",getIntent().getStringExtra("netID"));
             editor.putString("password",getIntent().getStringExtra("password"));
             editor.commit();
-        }
+        }*/
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
