@@ -21,8 +21,8 @@ public class AlarmService {
     public AlarmService(Context context) {
         this.context = context;
         Calendar cal = Calendar.getInstance();
-        //cal.add(Calendar.DAY_OF_MONTH, 1);
-        cal.add(Calendar.DAY_OF_MONTH, 2);
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+//        cal.add(Calendar.DAY_OF_MONTH, 2);
         ArrayList<Assignment> assignments = (ArrayList) MainActivity.database.getAssignmentsByDueDate(cal.getTime());
         if (assignments.size() > 0) {
             Intent intent = new Intent(context, AlarmReceiver.class);

@@ -49,6 +49,10 @@ public class Database {
             courseById.put(course.getId(), course);
             for (Assignment assignment : course.getAssignments()) {
                 assignmentById.put(assignment.getId(), assignment);
+                Date dueDate = Utils.normalizeDate(new Date(assignment.getDueDate()));
+                if(!assignmentIdsByDueDate.containsKey(dueDate))
+                    assignmentIdsByDueDate.put(dueDate,new ArrayList<String>());
+                assignmentIdsByDueDate.get(dueDate).add(assignment.getId());
             }
         }
         tasksByAssignment.clear();
