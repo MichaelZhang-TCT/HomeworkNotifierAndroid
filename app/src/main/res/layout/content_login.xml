@@ -12,7 +12,7 @@
     tools:context=".LoginActivity"
     tools:showIn="@layout/activity_login">
 
-    <TextView
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -20,7 +20,7 @@
         android:id="@+id/mainTitle"
         android:layout_marginTop="53dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" />-->
 
     <LinearLayout
         android:orientation="vertical"
