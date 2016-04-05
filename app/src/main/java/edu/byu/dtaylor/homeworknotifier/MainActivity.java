@@ -254,7 +254,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 //                Notification notification = new Notification(icon,title,showAt);
         // use System.currentTimeMillis() to have a unique ID for the pending intent
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), (int) System.currentTimeMillis(), new Intent(), 0);
+        Intent intent = new Intent("edu.byu.dtaylor.homeworknotifier.MainActivity");
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), (int) System.currentTimeMillis(), intent, 0);
 
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DAY_OF_MONTH, 1);
