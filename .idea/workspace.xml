@@ -29,7 +29,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f2bd89a8-936d-4b34-b6ef-81e6fd797a20" name="Default" comment="added createNotification function, doesn't work yet">
+    <list default="true" id="f2bd89a8-936d-4b34-b6ef-81e6fd797a20" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -63,15 +63,15 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.46448088">
-              <caret line="224" column="38" selection-start-line="224" selection-start-column="38" selection-end-line="224" selection-end-column="38" />
+              <caret line="224" column="37" selection-start-line="224" selection-start-column="37" selection-end-line="224" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#3511#3816#0" expanded="true" />
                 <element signature="e#3815#3816#0" expanded="true" />
                 <element signature="e#4837#4868#0" expanded="true" />
                 <element signature="e#4870#4902#0" expanded="true" />
-                <element signature="e#9988#10388#0" expanded="true" />
-                <element signature="e#10387#10388#0" expanded="true" />
+                <element signature="e#9988#10387#0" expanded="true" />
+                <element signature="e#10386#10387#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2811,7 +2811,13 @@
       <option name="project" value="LOCAL" />
       <updated>1459798923010</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="simple notification">
+      <created>1459825738409</created>
+      <option name="number" value="00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1459825738409</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2881,7 +2887,8 @@
     <MESSAGE value="has background image. Test 2" />
     <MESSAGE value="merged in working page swipe (was working til justins commit)" />
     <MESSAGE value="added createNotification function, doesn't work yet" />
-    <option name="LAST_COMMIT_MESSAGE" value="added createNotification function, doesn't work yet" />
+    <MESSAGE value="simple notification" />
+    <option name="LAST_COMMIT_MESSAGE" value="simple notification" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3357,15 +3364,15 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/byu/dtaylor/homeworknotifier/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.46448088">
-          <caret line="224" column="38" selection-start-line="224" selection-start-column="38" selection-end-line="224" selection-end-column="38" />
+          <caret line="224" column="37" selection-start-line="224" selection-start-column="37" selection-end-line="224" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#3511#3816#0" expanded="true" />
             <element signature="e#3815#3816#0" expanded="true" />
             <element signature="e#4837#4868#0" expanded="true" />
             <element signature="e#4870#4902#0" expanded="true" />
-            <element signature="e#9988#10388#0" expanded="true" />
-            <element signature="e#10387#10388#0" expanded="true" />
+            <element signature="e#9988#10387#0" expanded="true" />
+            <element signature="e#10386#10387#0" expanded="true" />
           </folding>
         </state>
       </provider>
