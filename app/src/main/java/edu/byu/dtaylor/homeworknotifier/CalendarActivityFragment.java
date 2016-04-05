@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -62,7 +61,7 @@ public class CalendarActivityFragment extends Fragment {
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Snackbar.make(view2,"refreshing",Snackbar.LENGTH_SHORT);
+                //Snackbar.make(view2,"refreshing",Snackbar.LENGTH_SHORT);
                 new AsyncTask<Void,Void,GsonDatabase>()
                 {
                     @Override
