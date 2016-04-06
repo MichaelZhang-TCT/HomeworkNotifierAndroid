@@ -7,63 +7,82 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import edu.byu.dtaylor.homeworknotifier.MainActivity;
 import edu.byu.dtaylor.homeworknotifier.R;
+import edu.byu.dtaylor.homeworknotifier.Utils;
+import edu.byu.dtaylor.homeworknotifier.database.Assignment;
 
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+//        cal.add(Calendar.DAY_OF_MONTH, 2);
+        ArrayList<Assignment> assignments = (ArrayList) MainActivity.database.getAssignmentsByDueDate(cal.getTime());
+        if (assignments.size() > 0) {
 
+            String assignmentName = assignments.get(0).getName();
+            int others = 0;
+            String dueTime = "";
 
-        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-//                Notification notification = new Notification(icon,title,showAt);
-        // use System.currentTimeMillis() to have a unique ID for the pending intent
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), new Intent(context, MainActivity.class), 0);
-        Notification notification = new Notification();
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            notification = new Notification.Builder(context)
-                    .setTicker("Approaching due date...")
-                    .setContentTitle("Homework Notifier")
-                    .setContentText(generateMessage(intent))
-//                    .setSmallIcon(R.drawable.ic_food_apple_white_18dp)
-                    .setWhen(System.currentTimeMillis())
-                    .setContentIntent(pendingIntent).build();
-        }
+            if (assignments.size() > 1)
+            {
+                others = assignments.size() - 1;
+            }
+            else{
+                dueTime = Utils.stringifyTimeDue(new Date(assignments.get(0).getDueDate()));
+            }
 
-//                notification.defaults |= Notification.DEFAULT_SOUND;
-        //use the above default or set custom valuse as below
+            NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+            Intent newIntent = new Intent(context, MainActivity.class);
+            // use System.currentTimeMillis() to have a unique ID for the pending intent
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), newIntent, 0);
+            Notification notification = new Notification();
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                notification = new Notification.Builder(context)
+                        .setTicker("Approaching due date...")
+                        .setContentTitle("Homework Notifier")
+                        .setContentText(generateMessage(assignmentName,others,dueTime))
+                        .setSmallIcon(R.mipmap.skoold_logo_circle)
+                        .setContentIntent(pendingIntent)
+                        .setAutoCancel(true)
+                        .build();
+            }
+
+            notification.defaults |= Notification.DEFAULT_SOUND;
+            //use the above default or set custom values as below
 //                notification.sound = Uri.parse("file:///sdcard/notification/robo_da.mp3");
 //                notification.defaults |= Notification.DEFAULT_VIBRATE;
-        //use the above default or set custom valuse as below
-//                long[] vibrate = {0,200,100,200};
-//                notification.vibrate = vibrate;
+            //use the above default or set custom valuse as below
+            long[] vibrate = {0,200,100,200};
+            notification.vibrate = vibrate;
 //                notification.defaults |= Notification.DEFAULT_LIGHTS;
-        //use the above default or set custom valuse as below
-//                notification.ledARGB = 0xffff0000;//red color
-//                notification.ledOnMS = 400;
-//                notification.ledOffMS = 500;
-//                notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+            //use the above default or set custom valuse as below
+            notification.ledARGB = 0xff0000ff;//blue color
+            notification.ledOnMS = 400;
+            notification.ledOffMS = 2000;
+            notification.flags |= Notification.FLAG_SHOW_LIGHTS;
 
-        final int notificationIdentifier = 0; //a unique number set by developer to identify a notification, using this notification can be updated/replaced
-        notificationManager.notify(notificationIdentifier, notification);
+            final int notificationId = 101; //a unique number set by developer to identify a notification, using this notification can be updated/replaced
+            notificationManager.notify(notificationId, notification);
+        }
     }
 
-    private String generateMessage(Intent intent){
-        String result = intent.getStringExtra("name");
-        if (intent.hasExtra("others"))
+    private String generateMessage(String name, int others, String dueTime){
+        String result = name;
+        if (others > 0)
         {
-            result += "and " + intent.getStringExtra("others") + " other assignments are due tomorrow.";
+            result += "and " + others + " other assignments are due tomorrow.";
         }
         else{
-            result += " is due tomorrow at " + intent.getStringExtra("dueTime");
+            result += " is due tomorrow at " + dueTime;
         }
-
-
-
-                return result;
-
+        return result;
     }
 }

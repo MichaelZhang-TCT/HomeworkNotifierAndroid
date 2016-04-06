@@ -3,6 +3,8 @@
     package="edu.byu.dtaylor.homeworknotifier">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- permission required to use Alarm Manager -->
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
 
     <application
         android:allowBackup="true"
@@ -50,6 +52,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SplashScreenActivity" />
+        <!-- Register the Alarm Receiver -->
+        <receiver android:name=".notifications.AlarmReceiver"/>
     </application>
 
 </manifest>

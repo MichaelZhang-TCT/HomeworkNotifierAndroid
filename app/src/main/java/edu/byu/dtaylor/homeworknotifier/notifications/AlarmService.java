@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,37 +18,28 @@ import edu.byu.dtaylor.homeworknotifier.database.Assignment;
 
 public class AlarmService {
     private Context context;
-    private PendingIntent mAlarmSender;
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
+
     public AlarmService(Context context) {
+        Log.d("AlarmService", "In scheduleAlarm");
         this.context = context;
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH, 1);
-//        cal.add(Calendar.DAY_OF_MONTH, 2);
-        ArrayList<Assignment> assignments = (ArrayList) MainActivity.database.getAssignmentsByDueDate(cal.getTime());
-        if (assignments.size() > 0) {
-            Intent intent = new Intent(context, AlarmReceiver.class);
-            intent.putExtra("name", assignments.get(0).getName());
-            if (assignments.size() > 1)
-            {
-                intent.putExtra("others", String.valueOf(assignments.size() - 1));
-            }
-            else{
-                intent.putExtra("dueTime", Utils.stringifyTimeDue(new Date(assignments.get(0).getDueDate())));
-            }
-            mAlarmSender = PendingIntent.getBroadcast(context, 0, intent, 0);
-        }
+
+        alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
     }
 
-    public void startAlarm(){
-        //Set the alarm to 10 seconds from now
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.SECOND, 3);
+    public void scheduleAlarm(){
+        // Set the alarm to start at approximately 8:00 a.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
 
-        long firstTime = c.getTimeInMillis();
-        // Schedule the alarm!
-        AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP, firstTime, mAlarmSender);
-
+        // With setInexactRepeating(), you have to use one of the AlarmManager interval
+        // constants--in this case, AlarmManager.INTERVAL_DAY.
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, alarmIntent);
     }
 }

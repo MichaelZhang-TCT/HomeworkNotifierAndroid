@@ -225,14 +225,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 // scroll to the right day
                 assignmentsLayoutManager.scrollToPositionWithOffset(getCurrentDayIndex(), 0);
-//                AlarmService alarm = new AlarmService(MainActivity.this);
-//                alarm.startAlarm();
-                AlarmService alarm = new AlarmService(MainActivity.this);
-                alarm.startAlarm();
-                setNotification(0);
             }
         });
 
+        // Set the alarms
+        if(!getPreferences(MODE_PRIVATE).getBoolean("alarmsSet",false)) {
+            AlarmService as = new AlarmService(MainActivity.this);
+            as.scheduleAlarm();
+            getPreferences(MODE_PRIVATE).edit().putBoolean("alarmsSet",true).apply();
+        }
 
         //Item decoration
         //SpacesItemDecoration itemDecoration = new SpacesItemDecoration(-400);
@@ -244,60 +245,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        fragmentTransaction.add(R.id.scheduleFragmentContainer,new ScheduleFragment());
 //        fragmentTransaction.commit();
 
-    }
-
-    private void setNotification(long showTime){
-
-//                long showAt = System.currentTimeMillis();//immediately
-//                long showAt = System.currentTimeMillis()+30000;
-
-        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-//                Notification notification = new Notification(icon,title,showAt);
-        // use System.currentTimeMillis() to have a unique ID for the pending intent
-        Intent intent = new Intent("edu.byu.dtaylor.homeworknotifier.MainActivity");
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), (int) System.currentTimeMillis(), intent, 0);
-
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DAY_OF_MONTH, 1);
-        Log.d(TAG, c.getTime() + "");
-        Log.d(TAG, Utils.normalizeDate(c.getTime()) + "");
-        ArrayList<Assignment> assignments = (ArrayList) MainActivity.database.getAssignmentsByDueDate(c.getTime());
-        String message = "";
-        Log.d(TAG,assignments.toString());
-        Log.d(TAG,assignments.size()+"");
-        if(assignments.size() > 0){
-            message = assignments.get(0).getName() + " is due tomorrow at " + Utils.stringifyTimeDue(new Date(assignments.get(0).getDueDate()));
-        } else {
-            message = "No homework due tomorrow.";
-        }
-//        String message = assignments.get(0).getName() + " is due tomorrow at " + Utils.stringifyTimeDue(new Date(assignments.get(0).getDueDate()));
-
-        Notification notification = new Notification();
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            notification = new Notification.Builder(MainActivity.this)
-                    .setTicker("Approaching due date...")
-                    .setContentTitle("Homework Notifier")
-                    .setContentText(message)
-                    .setSmallIcon(R.mipmap.skoold_logo_circle)
-                    .setContentIntent(pendingIntent).build();
-        }
-
-                notification.defaults |= Notification.DEFAULT_SOUND;
-        //use the above default or set custom valuse as below
-//                notification.sound = Uri.parse("file:///sdcard/notification/robo_da.mp3");
-//                notification.defaults |= Notification.DEFAULT_VIBRATE;
-        //use the above default or set custom valuse as below
-                long[] vibrate = {0,200,100,200};
-                notification.vibrate = vibrate;
-//                notification.defaults |= Notification.DEFAULT_LIGHTS;
-        //use the above default or set custom valuse as below
-                notification.ledARGB = 0xff0000ff;
-                notification.ledOnMS = 400;
-                notification.ledOffMS = 500;
-                notification.flags |= Notification.FLAG_SHOW_LIGHTS;
-
-        final int notificationIdentifier = 0; //a unique number set by developer to identify a notification, using this notification can be updated/replaced
-        notificationManager.notify(notificationIdentifier, notification);
     }
 
     private void initializeCalendar() {
