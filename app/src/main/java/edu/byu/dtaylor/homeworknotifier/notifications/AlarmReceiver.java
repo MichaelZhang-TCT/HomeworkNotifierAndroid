@@ -23,7 +23,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
         cal.add(Calendar.DAY_OF_MONTH, 1);
-//        cal.add(Calendar.DAY_OF_MONTH, 2);
         ArrayList<Assignment> assignments = (ArrayList) MainActivity.database.getAssignmentsByDueDate(cal.getTime());
         if (assignments.size() > 0) {
 
@@ -38,40 +37,41 @@ public class AlarmReceiver extends BroadcastReceiver {
             else{
                 dueTime = Utils.stringifyTimeDue(new Date(assignments.get(0).getDueDate()));
             }
-
-            NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-            Intent newIntent = new Intent(context, MainActivity.class);
-            // use System.currentTimeMillis() to have a unique ID for the pending intent
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), newIntent, 0);
-            Notification notification = new Notification();
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                notification = new Notification.Builder(context)
-                        .setTicker("Approaching due date...")
-                        .setContentTitle("Homework Notifier")
-                        .setContentText(generateMessage(assignmentName,others,dueTime))
-                        .setSmallIcon(R.mipmap.skoold_logo_circle)
-                        .setContentIntent(pendingIntent)
-                        .setAutoCancel(true)
-                        .build();
-            }
-
-            notification.defaults |= Notification.DEFAULT_SOUND;
-            //use the above default or set custom values as below
-//                notification.sound = Uri.parse("file:///sdcard/notification/robo_da.mp3");
-//                notification.defaults |= Notification.DEFAULT_VIBRATE;
-            //use the above default or set custom valuse as below
-            long[] vibrate = {0,200,100,200};
-            notification.vibrate = vibrate;
-//                notification.defaults |= Notification.DEFAULT_LIGHTS;
-            //use the above default or set custom valuse as below
-            notification.ledARGB = 0xff0000ff;//blue color
-            notification.ledOnMS = 400;
-            notification.ledOffMS = 2000;
-            notification.flags |= Notification.FLAG_SHOW_LIGHTS;
-
-            final int notificationId = 101; //a unique number set by developer to identify a notification, using this notification can be updated/replaced
-            notificationManager.notify(notificationId, notification);
+            sendNotification(context,assignmentName,others,dueTime);
         }
+    }
+
+    private void sendNotification(Context context, String assignmentName, int others, String dueTime)
+    {
+        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Intent newIntent = new Intent(context, MainActivity.class);
+        // System.currentTimeMillis() gives a unique ID for the pending intent
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), newIntent, 0);
+        Notification notification = new Notification();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            notification = new Notification.Builder(context)
+                    .setTicker("Approaching due date...")
+                    .setContentTitle("Homework Notifier")
+                    .setContentText(generateMessage(assignmentName,others,dueTime))
+                    .setSmallIcon(R.mipmap.skoold_logo_circle)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .build();
+        }
+
+        notification.defaults |= Notification.DEFAULT_SOUND;
+//        notification.sound = Uri.parse("file:///sdcard/notification/robo_da.mp3");
+//        notification.defaults |= Notification.DEFAULT_VIBRATE;
+        long[] vibrate = {0,200,100,200};
+        notification.vibrate = vibrate;
+//        notification.defaults |= Notification.DEFAULT_LIGHTS;
+        notification.ledARGB = 0xff0000ff; //blue color
+        notification.ledOnMS = 400;
+        notification.ledOffMS = 2000;
+        notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+
+        final int notificationId = 101; //a unique number set to identify a notification, using this notification can be updated/replaced
+        notificationManager.notify(notificationId, notification);
     }
 
     private String generateMessage(String name, int others, String dueTime){

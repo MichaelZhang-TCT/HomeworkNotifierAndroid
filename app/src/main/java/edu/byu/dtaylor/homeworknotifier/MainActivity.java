@@ -33,6 +33,7 @@ import java.util.List;
 import edu.byu.dtaylor.homeworknotifier.database.Assignment;
 import edu.byu.dtaylor.homeworknotifier.database.Database;
 import edu.byu.dtaylor.homeworknotifier.database.Task;
+import edu.byu.dtaylor.homeworknotifier.notifications.AlarmReceiver;
 import edu.byu.dtaylor.homeworknotifier.notifications.AlarmService;
 import edu.byu.dtaylor.homeworknotifier.schedule.Schedule;
 import edu.byu.dtaylor.homeworknotifier.schedule.ScheduleFactory;
@@ -225,6 +226,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 // scroll to the right day
                 assignmentsLayoutManager.scrollToPositionWithOffset(getCurrentDayIndex(), 0);
+
+                AlarmReceiver ar = new AlarmReceiver();
+                ar.onReceive(MainActivity.this,null);
             }
         });
 

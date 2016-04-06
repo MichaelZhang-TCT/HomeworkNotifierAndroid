@@ -22,7 +22,6 @@ public class AlarmService {
     private PendingIntent alarmIntent;
 
     public AlarmService(Context context) {
-        Log.d("AlarmService", "In scheduleAlarm");
         this.context = context;
 
         alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
@@ -37,8 +36,7 @@ public class AlarmService {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 8);
 
-        // With setInexactRepeating(), you have to use one of the AlarmManager interval
-        // constants--in this case, AlarmManager.INTERVAL_DAY.
+        // Make it repeat everyday
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, alarmIntent);
     }
