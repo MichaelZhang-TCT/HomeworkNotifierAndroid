@@ -57,7 +57,7 @@ public class Utils {
             post.setEntity(new UrlEncodedFormEntity(postParameters));
             response = client.execute(post);
             String res = EntityUtils.toString(response.getEntity());
-            GsonDatabase database = new Gson().fromJson(res,GsonDatabase.class);
+            GsonDatabase database = new Gson().fromJson(res,GsonDatabase.class); //my program breaks here
             return database;
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -66,6 +66,8 @@ public class Utils {
             e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

@@ -94,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                     });
                     AlertDialog error = builder.create();
                     error.show();
+                    return;
                 }
                 else
                 {

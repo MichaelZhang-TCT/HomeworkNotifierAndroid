@@ -61,7 +61,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomTas
         String password = getIntent().getStringExtra("password");
 
         GsonDatabase gsonDb = Utils.getAllInfo(this, netID, password);
-        if(gsonDb.getUser() == null)
+        if(gsonDb == null || gsonDb.getUser() == null)
             return null;
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         dbHelper.setDBfromGson(gsonDb);
