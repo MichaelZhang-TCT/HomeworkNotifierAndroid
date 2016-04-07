@@ -28,6 +28,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         OnClickButtonListener();
 
+        getPreferences(MODE_PRIVATE).edit().putBoolean("alarmsSet",false).apply();
+
         if (getIntent().getStringExtra("error") != null)
         {
             Log.e(TAG, "We started with an error!");

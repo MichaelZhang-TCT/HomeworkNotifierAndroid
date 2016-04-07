@@ -39,6 +39,9 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
             sendNotification(context,assignmentName,others,dueTime);
         }
+//        else {
+//            sendNotification(context,"No Assignment",0,"No Time"); // For testing purposes
+//        }
     }
 
     private void sendNotification(Context context, String assignmentName, int others, String dueTime)
