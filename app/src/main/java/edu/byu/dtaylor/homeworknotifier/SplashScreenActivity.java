@@ -31,19 +31,11 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomTas
 
     @Override
     public void onPostExecute(Object object) {
-        if(object != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("netID", netID);
-            intent.putExtra("password", password);
-            this.startActivity(intent);
-            finish();
-        }
-        else
-        {
+        if(object == null){
             Log.e("SplashScreenActivity", "Error with username and password!");
             AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenActivity.this);
             builder.setIcon(R.drawable.ic_dialog_alert);
-            builder.setMessage("INVALID NETID OR PASSWORD!");
+            builder.setMessage("Error connecting to server!");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -52,6 +44,28 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomTas
             });
             AlertDialog error = builder.create();
             error.show();
+        } else if(object.getClass() == GsonDatabase.class){
+            GsonDatabase GsonDb = (GsonDatabase)object;
+            if(GsonDb.getUser() == null){
+                Log.e("SplashScreenActivity", "Error with username and password!");
+                AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenActivity.this);
+                builder.setIcon(R.drawable.ic_dialog_alert);
+                builder.setMessage("INVALID NETID OR PASSWORD!");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                AlertDialog error = builder.create();
+                error.show();
+            } else {
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra("netID", netID);
+                intent.putExtra("password", password);
+                this.startActivity(intent);
+                finish();
+            }
         }
     }
 
@@ -62,7 +76,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomTas
 
         GsonDatabase gsonDb = Utils.getAllInfo(this, netID, password);
         if(gsonDb == null || gsonDb.getUser() == null)
-            return null;
+            return gsonDb;
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         dbHelper.setDBfromGson(gsonDb);
 
