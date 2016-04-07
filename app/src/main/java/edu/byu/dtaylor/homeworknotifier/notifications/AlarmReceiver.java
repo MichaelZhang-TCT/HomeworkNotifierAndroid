@@ -49,14 +49,15 @@ public class AlarmReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), newIntent, 0);
         Notification notification = new Notification();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            notification = new Notification.Builder(context)
+            Notification.Builder builder = new Notification.Builder(context)
                     .setTicker("Approaching due date...")
                     .setContentTitle("Homework Notifier")
                     .setContentText(generateMessage(assignmentName,others,dueTime))
                     .setSmallIcon(R.mipmap.skoold_logo_circle)
                     .setContentIntent(pendingIntent)
-                    .setAutoCancel(true)
-                    .build();
+                    .setAutoCancel(true);
+            notification = new Notification.BigTextStyle(builder)
+                    .bigText(generateMessage(assignmentName,others,dueTime)).build();
         }
 
         notification.defaults |= Notification.DEFAULT_SOUND;
