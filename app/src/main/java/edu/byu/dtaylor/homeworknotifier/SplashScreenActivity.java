@@ -35,7 +35,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomTas
             Log.e("SplashScreenActivity", "Error with username and password!");
             AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenActivity.this);
             builder.setIcon(R.drawable.ic_dialog_alert);
-            builder.setMessage("Error connecting to server!");
+            builder.setMessage("Could not connect to server! (either you are not connected to the internet or the server is down");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
