@@ -104,7 +104,7 @@ public class ScheduleRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ScheduleListItem item = (ScheduleListItem) itemsShown.get(position);
             ScheduleItemViewHolder holder = (ScheduleItemViewHolder) viewHolder;
             holder.itemName.setText(item.getName());
-            holder.item_cv.setBackgroundColor(item.getColor());
+            holder.item_cv.setCardBackgroundColor(item.getColor());
             holder.itemTypeImage.setImageAlpha(60);
             holder.description = item.getDescription();
             holder.itemDueTime.setText(Utils.stringifyTimeDue(item.getDueDate()));

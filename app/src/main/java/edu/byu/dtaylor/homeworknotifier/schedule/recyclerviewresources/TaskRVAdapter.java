@@ -99,7 +99,7 @@ public class TaskRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ScheduleListItem item = (ScheduleListItem) itemsShown.get(position);
             TaskViewHolder holder = (TaskViewHolder) viewHolder;
             holder.itemName.setText(item.getName());
-            holder.item_cv.setBackgroundColor(item.getColor());
+            holder.item_cv.setCardBackgroundColor(item.getColor());
             holder.itemTypeImage.setImageAlpha(60);
             holder.description = item.getDescription();
             holder.itemDueTime.setText(Utils.stringifyTimeDue(item.getDueDate()));

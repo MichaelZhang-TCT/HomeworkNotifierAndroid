@@ -226,9 +226,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 // scroll to the right day
                 assignmentsLayoutManager.scrollToPositionWithOffset(getCurrentDayIndex(), 0);
-
-                AlarmReceiver ar = new AlarmReceiver();
-                ar.onReceive(MainActivity.this,null);
             }
         });
 

@@ -99,7 +99,7 @@ public class AssignmentRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ScheduleListItem item = (ScheduleListItem) itemsShown.get(position);
             AssignmentViewHolder holder = (AssignmentViewHolder) viewHolder;
             holder.itemName.setText(item.getName());
-            holder.item_cv.setBackgroundColor(item.getColor());
+            holder.item_cv.setCardBackgroundColor(item.getColor());
             holder.itemTypeImage.setImageAlpha(60);
             holder.description = item.getDescription();
             holder.itemDueTime.setText(Utils.stringifyTimeDue(item.getDueDate()));
